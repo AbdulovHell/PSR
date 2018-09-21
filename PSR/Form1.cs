@@ -14,5 +14,10 @@ namespace PSR
         {
             InitializeComponent();
         }
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
