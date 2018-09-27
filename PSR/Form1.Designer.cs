@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.mod11 = new MainModule.Mod1();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -37,7 +38,6 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mod11 = new MainModule.Mod1();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -53,7 +53,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(800, 398);
+            this.tabControl1.Size = new System.Drawing.Size(805, 455);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -62,10 +62,20 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(792, 372);
+            this.tabPage1.Size = new System.Drawing.Size(797, 429);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Модуляция 1";
+            this.tabPage1.Text = "Амплитудная модуляция";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // mod11
+            // 
+            this.mod11.AutoSize = true;
+            this.mod11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod11.Location = new System.Drawing.Point(3, 3);
+            this.mod11.Name = "mod11";
+            this.mod11.Size = new System.Drawing.Size(791, 423);
+            this.mod11.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -101,9 +111,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 481);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(805, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -120,7 +130,7 @@
             this.файлToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(805, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -130,21 +140,11 @@
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
-            // mod11
-            // 
-            this.mod11.AutoSize = true;
-            this.mod11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mod11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mod11.Location = new System.Drawing.Point(3, 3);
-            this.mod11.Name = "mod11";
-            this.mod11.Size = new System.Drawing.Size(786, 366);
-            this.mod11.TabIndex = 0;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(805, 503);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.tabControl1);
