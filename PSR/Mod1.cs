@@ -12,6 +12,8 @@ namespace MainModule
     {
         bool G1Set = false, G2Set = false;
         const double spacing = 0.0000005;
+        List<SimuMod.Harmonic> harmonics = new List<SimuMod.Harmonic>();
+        SimuMod.Harmonic Source=new SimuMod.Harmonic(0);
 
         public Mod1()
         {
@@ -20,106 +22,88 @@ namespace MainModule
 
         private void OscAtG1_Click(object sender, EventArgs e)
         {
+            if (!G1Set) return;
             Oscilloscope osc = new Oscilloscope();
-
-            var point = SimuMod.Signals.SineWave(50000, 20);
-            List<double> x, y;
-            x = new List<double>();
-            y = new List<double>();
-            for(int i = 0,j=0; i < point.Length*10; i++)
-            {
-                x.Add(i*spacing);
-                y.Add(point[j++]);
-                if (j > point.Length - 1) j = 0;
-            }
-            osc.Draw(x,y);
+            SimuMod.Harmonic harmonic = new SimuMod.Harmonic(50000.0);
+            osc.Draw(harmonic.Graphical());
             osc.Show();
         }
 
         private void OscAtG2_Click(object sender, EventArgs e)
         {
+            if (!G2Set) return;
             Oscilloscope osc = new Oscilloscope();
-
-            var point = SimuMod.Signals.SineWave(2000, 20);
-            List<double> x, y;
-            x = new List<double>();
-            y = new List<double>();
-            for (int i = 0, j = 0; i < point.Length * 10; i++)
-            {
-                x.Add(i * spacing);
-                y.Add(point[j++]);
-                if (j > point.Length - 1) j = 0;
-            }
-            osc.Draw(x, y);
+            SimuMod.Harmonic harmonic = new SimuMod.Harmonic(2000.0);
+            osc.Draw(harmonic.Graphical());
             osc.Show();
         }
 
         private void OscAtEnd_Click(object sender, EventArgs e)
         {
+            if (!G2Set || !G1Set) return;
             Oscilloscope osc = new Oscilloscope();
-
-            {
-                var point = SimuMod.Signals.SineWave(2000, 20);
-                List<double> x, y;
-                x = new List<double>();
-                y = new List<double>();
-                for (int i = 0, j = 0; i < point.Length * 5+1; i++)
-                {
-                    x.Add(i);
-                    y.Add(point[j++]);
-                    if (j > point.Length - 1) j = 0;
-                }
-                osc.Draw(x, y);
-            }
-            {
-                var point = SimuMod.Signals.SineWave(2000, 20,Math.PI);
-                List<double> x, y;
-                x = new List<double>();
-                y = new List<double>();
-                for (int i = 0, j = 0; i < point.Length * 5+1; i++)
-                {
-                    x.Add(i);
-                    y.Add(point[j++]);
-                    if (j > point.Length - 1) j = 0;
-                }
-                osc.Draw(x, y);
-            }
-
+            SimuMod.Harmonic harmonic = new SimuMod.Harmonic(2000.0);
+            osc.Draw(harmonic.Graphical());
+            SimuMod.Harmonic harmonicR = new SimuMod.Harmonic(2000.0, Math.PI);
+            osc.Draw(harmonicR.Graphical());
             osc.Show();
         }
 
-        double CalcM(int n)
+        double SpecPeriod(double t, List<SimuMod.Harmonic> harmonics)
         {
-            return 0.5 / 0;
+            double res = 0;
+            //средний уровень огибающей
+            double V0 = 0;
+            foreach (var h in harmonics)
+                V0 += h.Amp;
+            V0 /= harmonics.Count;
+
+            for (int i = 0; i < harmonics.Count; i++)
+            {
+                //коэффициент глубины модуляции
+                double Mn = harmonics[i].Amp / V0;
+                res += Mn * Math.Cos(harmonics[i].Freq * t + harmonics[i].StaPhase);
+            }
+
+            return (res + 1) * V0;
         }
 
-        List<double> Spectrum()
+        PSR.Form1.Pair<double[], double[]> Spectrum()
         {
-            double V0 = 0;
-            List<double> res = new List<double>();
-            for(int i = -50; i < 50; i++)
+            double[] x = new double[50];
+            double[] y = new double[50];
+            List<SimuMod.Harmonic> harmonics = new List<SimuMod.Harmonic>();
+            harmonics.Add(new SimuMod.Harmonic(2000.0));
+
+            for (int i = x.Length / -2; i < x.Length / 2; i++)
             {
-                if (i == 0)
-                {
-                    res.Add(V0);
-                }
-                else
-                {
-                    res.Add((CalcM(i) * V0) / 2.0);
-                }
+                x[i+x.Length/2] = i;
+                y[i+ x.Length / 2] = SpecPeriod(i, harmonics);
             }
-            return res;
+            return new PSR.Form1.Pair<double[], double[]>(x, y);
+        }
+
+        private void G2SettingsBtn_Click(object sender, EventArgs e)
+        {
+            HarmonicSettings harmonicSettings = new HarmonicSettings(ref harmonics);
+            harmonicSettings.ShowDialog();
+            if (harmonics.Count > 0) G2Set = true;
+        }
+
+        private void G1SettingsBtn_Click(object sender, EventArgs e)
+        {
+            SourceSet source = new SourceSet(ref Source);
+            source.ShowDialog();
+            if (Source != null && Source.Freq != 0) G1Set = true;
         }
 
         private void OscBtn_Click(object sender, EventArgs e)
         {
             Oscilloscope osc = new Oscilloscope();
-
-
-
+            osc.Draw(Spectrum());
             osc.Show();
         }
 
-        
+
     }
 }

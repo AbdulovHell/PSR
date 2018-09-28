@@ -35,6 +35,7 @@
             this.OscAtG1 = new System.Windows.Forms.Button();
             this.OscAtEnd = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,6 +59,7 @@
             this.G1SettingsBtn.TabIndex = 5;
             this.G1SettingsBtn.Text = "Генератор несущего колебания";
             this.G1SettingsBtn.UseVisualStyleBackColor = true;
+            this.G1SettingsBtn.Click += new System.EventHandler(this.G1SettingsBtn_Click);
             // 
             // G2SettingsBtn
             // 
@@ -68,6 +70,7 @@
             this.G2SettingsBtn.TabIndex = 6;
             this.G2SettingsBtn.Text = "Генератор модулирующего колебания";
             this.G2SettingsBtn.UseVisualStyleBackColor = true;
+            this.G2SettingsBtn.Click += new System.EventHandler(this.G2SettingsBtn_Click);
             // 
             // OscAtG2
             // 
@@ -110,12 +113,22 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(148, 72);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "label1";
+            // 
             // Mod1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.G2SettingsBtn);
             this.Controls.Add(this.G1SettingsBtn);
             this.Controls.Add(this.OscAtG2);
@@ -140,5 +153,6 @@
         private System.Windows.Forms.Button OscAtG2;
         private System.Windows.Forms.Button G1SettingsBtn;
         private System.Windows.Forms.Button G2SettingsBtn;
+        private System.Windows.Forms.Label label1;
     }
 }

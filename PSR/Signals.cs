@@ -6,30 +6,37 @@ using System.Threading;
 
 namespace SimuMod
 {
-    class Harmonic
+    public class Harmonic
     {
-        Harmonic(double Freq)
+        public Harmonic(double Frequency,double StartPhase=0,double Amplitude=1)
         {
-            this.Freq = Freq;
-            StaPhase = 0;
-            Amp = 1;
+            Freq = Frequency;
+            StaPhase = StartPhase;
+            Amp = Amplitude;
         }
 
         //Hertz
-        public double Freq { get => Freq; private set => Freq = value; }
+        public double Freq { get; private set; }
         //Radians
-        public double StaPhase { get => StaPhase; private set => StaPhase = value; }
+        public double StaPhase { get; private set; }
         //Volts
-        public double Amp { get => Amp; private set => Amp = value; }
+        public double Amp { get; private set; }
 
-        Pair<double[], double[]> Graphical()
+        public void Set(double Frequency, double StartPhase = 0, double Amplitude = 1)
+        {
+            Freq = Frequency;
+            StaPhase = StartPhase;
+            Amp = Amplitude;
+        }
+
+        public PSR.Form1.Pair<double[], double[]> Graphical()
         {
             //5 periods
-            const int Periods = 5;
+            const int Periods = 3;
             //18 point/period
-            const int PointInPeriod = 18;
-            double[] x = new double[Periods * PointInPeriod];
-            double[] y = new double[Periods * PointInPeriod];
+            const int PointInPeriod = 36;
+            double[] x = new double[Periods * PointInPeriod+1];
+            double[] y = new double[Periods * PointInPeriod+1];
             double step = (Math.PI * 2) / PointInPeriod;
             double arg = 0;
             double timestep = 1.0 / (PointInPeriod * Freq);
@@ -40,7 +47,7 @@ namespace SimuMod
                 arg += step;
             }
 
-            return new Pair<double[], double[]>(x, y);
+            return new PSR.Form1.Pair<double[], double[]>(x, y);
         }
     }
 
