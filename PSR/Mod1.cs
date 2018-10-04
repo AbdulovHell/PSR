@@ -13,7 +13,7 @@ namespace MainModule
         bool G1Set = false, G2Set = false;
         const double spacing = 0.0000005;
         List<SimuMod.Harmonic> harmonics = new List<SimuMod.Harmonic>();
-        SimuMod.Harmonic Source=new SimuMod.Harmonic(0);
+        SimuMod.Harmonic Source = new SimuMod.Harmonic(0);
 
         public Mod1()
         {
@@ -24,8 +24,7 @@ namespace MainModule
         {
             if (!G1Set) return;
             Oscilloscope osc = new Oscilloscope();
-            SimuMod.Harmonic harmonic = new SimuMod.Harmonic(50000.0);
-            osc.Draw(harmonic.Graphical());
+            osc.Draw(Source.Graphical());
             osc.Show();
         }
 
@@ -33,8 +32,8 @@ namespace MainModule
         {
             if (!G2Set) return;
             Oscilloscope osc = new Oscilloscope();
-            SimuMod.Harmonic harmonic = new SimuMod.Harmonic(2000.0);
-            osc.Draw(harmonic.Graphical());
+            //SimuMod.Harmonic harmonic = new SimuMod.Harmonic(2000.0);
+            osc.Draw(harmonics, Oscilloscope.DrawMode.Simple);
             osc.Show();
         }
 
@@ -42,30 +41,30 @@ namespace MainModule
         {
             if (!G2Set || !G1Set) return;
             Oscilloscope osc = new Oscilloscope();
-            SimuMod.Harmonic harmonic = new SimuMod.Harmonic(2000.0);
-            osc.Draw(harmonic.Graphical());
-            SimuMod.Harmonic harmonicR = new SimuMod.Harmonic(2000.0, Math.PI);
-            osc.Draw(harmonicR.Graphical());
+            osc.Draw(harmonics, Oscilloscope.DrawMode.Envelope);
             osc.Show();
         }
 
-        double SpecPeriod(double t, List<SimuMod.Harmonic> harmonics)
+        double HarmonicSpec()
         {
-            double res = 0;
-            //средний уровень огибающей
-            double V0 = 0;
-            foreach (var h in harmonics)
-                V0 += h.Amp;
-            V0 /= harmonics.Count;
+            return 1;
+        }
 
-            for (int i = 0; i < harmonics.Count; i++)
+        List<double> SpecPeriod(double t, List<SimuMod.Harmonic> harmonics)
+        {
+            List<double> y = new List<double>();
+            for (int i = -50; i < 51; i++)
             {
-                //коэффициент глубины модуляции
-                double Mn = harmonics[i].Amp / V0;
-                res += Mn * Math.Cos(harmonics[i].Freq * t + harmonics[i].StaPhase);
+                if (i == 0)
+                {
+                    y.Add(double.Parse(textBox1.Text));
+                }
+                else
+                {
+                    y.Add((double.Parse(textBox2.Text) * HarmonicSpec()) / 2);
+                }
             }
-
-            return (res + 1) * V0;
+            return y;
         }
 
         PSR.Form1.Pair<double[], double[]> Spectrum()
@@ -77,8 +76,8 @@ namespace MainModule
 
             for (int i = x.Length / -2; i < x.Length / 2; i++)
             {
-                x[i+x.Length/2] = i;
-                y[i+ x.Length / 2] = SpecPeriod(i, harmonics);
+                x[i + x.Length / 2] = i;
+                y[i + x.Length / 2] = SpecPeriod(i, harmonics)[0];
             }
             return new PSR.Form1.Pair<double[], double[]>(x, y);
         }

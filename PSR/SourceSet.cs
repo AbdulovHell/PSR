@@ -20,8 +20,11 @@ namespace MainModule
 
         public SourceSet(ref SimuMod.Harmonic harmonic)
         {
-            this.harmonic = harmonic;
             InitializeComponent();
+            this.harmonic = harmonic;
+            AmpEd.Text = harmonic.Amp.ToString();
+            FreqEd.Text = harmonic.Freq.ToString();
+            PhaseEd.Text = harmonic.StaPhase.ToString();
         }
 
         double ProceedInput(string num)
@@ -47,7 +50,7 @@ namespace MainModule
 
         void SaveHarmonic()
         {
-            harmonic.Set(ProceedInput(FreqEd.Text),ProceedInput(PhaseEd.Text),ProceedInput(AmpEd.Text));
+            harmonic.Set(ProceedInput(FreqEd.Text),ProceedInput(PhaseEd.Text) * (Math.PI / 180), ProceedInput(AmpEd.Text));
         }
 
         private void button1_Click(object sender, EventArgs e)
