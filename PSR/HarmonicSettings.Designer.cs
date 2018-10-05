@@ -35,14 +35,16 @@
             this.Freq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StaPhase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.SinTemplateBtn = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.MeasUnitsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.RadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HzMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button2 = new System.Windows.Forms.Button();
+            this.ResetBtn = new System.Windows.Forms.Button();
+            this.TriangleTemplateBtn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.SquareTemplateBtn = new System.Windows.Forms.Button();
+            this.SawTemplateBtn = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -52,8 +54,6 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -67,8 +67,10 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 24);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(504, 302);
+            this.dataGridView1.Size = new System.Drawing.Size(504, 348);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
+            this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
             // 
             // HarmonicNum
             // 
@@ -115,33 +117,15 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.ResetBtn);
+            this.splitContainer1.Panel2.Controls.Add(this.TriangleTemplateBtn);
             this.splitContainer1.Panel2.Controls.Add(this.button3);
-            this.splitContainer1.Panel2.Controls.Add(this.button2);
-            this.splitContainer1.Panel2.Controls.Add(this.SinTemplateBtn);
+            this.splitContainer1.Panel2.Controls.Add(this.SquareTemplateBtn);
+            this.splitContainer1.Panel2.Controls.Add(this.SawTemplateBtn);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
-            this.splitContainer1.Size = new System.Drawing.Size(504, 367);
-            this.splitContainer1.SplitterDistance = 326;
+            this.splitContainer1.Size = new System.Drawing.Size(504, 484);
+            this.splitContainer1.SplitterDistance = 372;
             this.splitContainer1.TabIndex = 1;
-            // 
-            // SinTemplateBtn
-            // 
-            this.SinTemplateBtn.Location = new System.Drawing.Point(3, 3);
-            this.SinTemplateBtn.Name = "SinTemplateBtn";
-            this.SinTemplateBtn.Size = new System.Drawing.Size(98, 30);
-            this.SinTemplateBtn.TabIndex = 1;
-            this.SinTemplateBtn.Text = "Пилообразный";
-            this.SinTemplateBtn.UseVisualStyleBackColor = true;
-            this.SinTemplateBtn.Click += new System.EventHandler(this.SinTemplateBtn_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(426, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 30);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Сохранить";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // menuStrip1
             // 
@@ -167,47 +151,86 @@
             this.RadMenuItem.Checked = true;
             this.RadMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.RadMenuItem.Name = "RadMenuItem";
-            this.RadMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.RadMenuItem.Size = new System.Drawing.Size(161, 22);
             this.RadMenuItem.Text = "рад/с ; радианы";
             this.RadMenuItem.Click += new System.EventHandler(this.RadMenuItem_Click);
             // 
             // HzMenuItem
             // 
             this.HzMenuItem.Name = "HzMenuItem";
-            this.HzMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.HzMenuItem.Size = new System.Drawing.Size(161, 22);
             this.HzMenuItem.Text = "Гц ; градусы";
             this.HzMenuItem.Click += new System.EventHandler(this.HzMenuItem_Click);
             // 
-            // button2
+            // ResetBtn
             // 
-            this.button2.Location = new System.Drawing.Point(107, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(98, 30);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Прямоугольный";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.ResetBtn.Location = new System.Drawing.Point(403, 75);
+            this.ResetBtn.Name = "ResetBtn";
+            this.ResetBtn.Size = new System.Drawing.Size(98, 30);
+            this.ResetBtn.TabIndex = 5;
+            this.ResetBtn.Text = "Сброс";
+            this.ResetBtn.UseVisualStyleBackColor = true;
+            this.ResetBtn.Click += new System.EventHandler(this.ResetBtn_Click);
+            // 
+            // TriangleTemplateBtn
+            // 
+            this.TriangleTemplateBtn.Location = new System.Drawing.Point(3, 75);
+            this.TriangleTemplateBtn.Name = "TriangleTemplateBtn";
+            this.TriangleTemplateBtn.Size = new System.Drawing.Size(98, 30);
+            this.TriangleTemplateBtn.TabIndex = 4;
+            this.TriangleTemplateBtn.Text = "Треугольный";
+            this.TriangleTemplateBtn.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(341, 3);
+            this.button3.Location = new System.Drawing.Point(403, 39);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(79, 30);
+            this.button3.Size = new System.Drawing.Size(98, 30);
             this.button3.TabIndex = 3;
             this.button3.Text = "Случайный";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // SquareTemplateBtn
+            // 
+            this.SquareTemplateBtn.Location = new System.Drawing.Point(3, 39);
+            this.SquareTemplateBtn.Name = "SquareTemplateBtn";
+            this.SquareTemplateBtn.Size = new System.Drawing.Size(98, 30);
+            this.SquareTemplateBtn.TabIndex = 2;
+            this.SquareTemplateBtn.Text = "Прямоугольный";
+            this.SquareTemplateBtn.UseVisualStyleBackColor = true;
+            this.SquareTemplateBtn.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // SawTemplateBtn
+            // 
+            this.SawTemplateBtn.Location = new System.Drawing.Point(3, 3);
+            this.SawTemplateBtn.Name = "SawTemplateBtn";
+            this.SawTemplateBtn.Size = new System.Drawing.Size(98, 30);
+            this.SawTemplateBtn.TabIndex = 1;
+            this.SawTemplateBtn.Text = "Пилообразный";
+            this.SawTemplateBtn.UseVisualStyleBackColor = true;
+            this.SawTemplateBtn.Click += new System.EventHandler(this.SinTemplateBtn_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(403, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(98, 30);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Сохранить";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // HarmonicSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 367);
+            this.ClientSize = new System.Drawing.Size(504, 484);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "HarmonicSettings";
-            this.Text = "HarmonicSettings";
+            this.Text = "Параметры ГНЧ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HarmonicSettings_FormClosing);
             this.Load += new System.EventHandler(this.HarmonicSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -225,7 +248,7 @@
 
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Button SinTemplateBtn;
+        private System.Windows.Forms.Button SawTemplateBtn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridViewTextBoxColumn HarmonicNum;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Status;
@@ -236,7 +259,9 @@
         private System.Windows.Forms.ToolStripMenuItem MeasUnitsMenu;
         private System.Windows.Forms.ToolStripMenuItem RadMenuItem;
         private System.Windows.Forms.ToolStripMenuItem HzMenuItem;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button SquareTemplateBtn;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button TriangleTemplateBtn;
+        private System.Windows.Forms.Button ResetBtn;
     }
 }

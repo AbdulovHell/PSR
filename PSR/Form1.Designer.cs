@@ -1,4 +1,4 @@
-﻿namespace PSR
+﻿namespace MainModule
 {
     partial class Form1
     {
@@ -82,7 +82,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(792, 372);
+            this.tabPage2.Size = new System.Drawing.Size(797, 429);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Модуляция 2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -92,7 +92,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(792, 372);
+            this.tabPage3.Size = new System.Drawing.Size(797, 429);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Модуляция 3";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -102,7 +102,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(792, 372);
+            this.tabPage4.Size = new System.Drawing.Size(797, 429);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Модуляция 4";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -151,7 +151,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Модуляции";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

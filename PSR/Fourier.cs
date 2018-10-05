@@ -2,7 +2,7 @@
 //using System.Numerics;
 using System.Collections.Generic;
 
-namespace Fourier
+namespace MainModule
 {
     //class ComplexFFT
     //{

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PSR
+namespace MainModule
 {
     public partial class Form1 : Form
     {
@@ -18,18 +18,6 @@ namespace PSR
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
 
-        }
-
-        public class Pair<T, U>
-        {
-            public Pair(T first, U second)
-            {
-                this.First = first;
-                this.Second = second;
-            }
-
-            public T First { get; set; }
-            public U Second { get; set; }
         }
     }
 }

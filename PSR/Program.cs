@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace PSR
+namespace MainModule
 {
     static class Program
     {

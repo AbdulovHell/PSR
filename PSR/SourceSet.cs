@@ -11,14 +11,14 @@ namespace MainModule
 {
     public partial class SourceSet : Form
     {
-        SimuMod.Harmonic harmonic;
+        MainModule.Harmonic harmonic;
 
         public SourceSet()
         {
             InitializeComponent();
         }
 
-        public SourceSet(ref SimuMod.Harmonic harmonic)
+        public SourceSet(ref MainModule.Harmonic harmonic)
         {
             InitializeComponent();
             this.harmonic = harmonic;
@@ -50,7 +50,7 @@ namespace MainModule
 
         void SaveHarmonic()
         {
-            harmonic.Set(ProceedInput(FreqEd.Text),ProceedInput(PhaseEd.Text) * (Math.PI / 180), ProceedInput(AmpEd.Text));
+            harmonic.Set(ProceedInput(FreqEd.Text), ProceedInput(PhaseEd.Text) * (Math.PI / 180), ProceedInput(AmpEd.Text));
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -62,6 +62,20 @@ namespace MainModule
         private void SourceSet_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveHarmonic();
+        }
+
+        private void isRadChk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (isRadChk.Checked)
+            {
+                label1.Text = "Частота, Рад/с";
+                label4.Text = "фаза, рад";
+            }
+            else
+            {
+                label1.Text = "Частота, Гц";
+                label4.Text = "фаза, град";
+            }
         }
     }
 }

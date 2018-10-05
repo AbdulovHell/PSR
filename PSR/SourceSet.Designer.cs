@@ -36,11 +36,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.isRadChk = new System.Windows.Forms.RadioButton();
+            this.isHzChk = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // OkBtn
             // 
-            this.OkBtn.Location = new System.Drawing.Point(125, 90);
+            this.OkBtn.Location = new System.Drawing.Point(125, 116);
             this.OkBtn.Name = "OkBtn";
             this.OkBtn.Size = new System.Drawing.Size(100, 23);
             this.OkBtn.TabIndex = 0;
@@ -50,7 +52,7 @@
             // 
             // FreqEd
             // 
-            this.FreqEd.Location = new System.Drawing.Point(125, 12);
+            this.FreqEd.Location = new System.Drawing.Point(125, 38);
             this.FreqEd.Name = "FreqEd";
             this.FreqEd.Size = new System.Drawing.Size(100, 20);
             this.FreqEd.TabIndex = 1;
@@ -58,7 +60,7 @@
             // 
             // AmpEd
             // 
-            this.AmpEd.Location = new System.Drawing.Point(125, 38);
+            this.AmpEd.Location = new System.Drawing.Point(125, 64);
             this.AmpEd.Name = "AmpEd";
             this.AmpEd.Size = new System.Drawing.Size(100, 20);
             this.AmpEd.TabIndex = 2;
@@ -66,7 +68,7 @@
             // 
             // PhaseEd
             // 
-            this.PhaseEd.Location = new System.Drawing.Point(125, 64);
+            this.PhaseEd.Location = new System.Drawing.Point(125, 90);
             this.PhaseEd.Name = "PhaseEd";
             this.PhaseEd.Size = new System.Drawing.Size(100, 20);
             this.PhaseEd.TabIndex = 3;
@@ -76,7 +78,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label1.Location = new System.Drawing.Point(12, 11);
+            this.label1.Location = new System.Drawing.Point(12, 37);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(90, 18);
             this.label1.TabIndex = 4;
@@ -86,7 +88,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label2.Location = new System.Drawing.Point(12, 37);
+            this.label2.Location = new System.Drawing.Point(12, 63);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(102, 18);
             this.label2.TabIndex = 5;
@@ -96,7 +98,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label3.Location = new System.Drawing.Point(18, 63);
+            this.label3.Location = new System.Drawing.Point(18, 89);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 18);
             this.label3.TabIndex = 6;
@@ -106,17 +108,42 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label4.Location = new System.Drawing.Point(18, 81);
+            this.label4.Location = new System.Drawing.Point(18, 107);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(84, 18);
             this.label4.TabIndex = 7;
             this.label4.Text = "фаза, град";
             // 
+            // isRadChk
+            // 
+            this.isRadChk.AutoSize = true;
+            this.isRadChk.Checked = true;
+            this.isRadChk.Location = new System.Drawing.Point(12, 12);
+            this.isRadChk.Name = "isRadChk";
+            this.isRadChk.Size = new System.Drawing.Size(108, 17);
+            this.isRadChk.TabIndex = 8;
+            this.isRadChk.TabStop = true;
+            this.isRadChk.Text = "Рад/с ; радианы";
+            this.isRadChk.UseVisualStyleBackColor = true;
+            this.isRadChk.CheckedChanged += new System.EventHandler(this.isRadChk_CheckedChanged);
+            // 
+            // isHzChk
+            // 
+            this.isHzChk.AutoSize = true;
+            this.isHzChk.Location = new System.Drawing.Point(132, 12);
+            this.isHzChk.Name = "isHzChk";
+            this.isHzChk.Size = new System.Drawing.Size(88, 17);
+            this.isHzChk.TabIndex = 8;
+            this.isHzChk.Text = "Гц ; градусы";
+            this.isHzChk.UseVisualStyleBackColor = true;
+            // 
             // SourceSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(232, 120);
+            this.ClientSize = new System.Drawing.Size(232, 145);
+            this.Controls.Add(this.isHzChk);
+            this.Controls.Add(this.isRadChk);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -125,8 +152,9 @@
             this.Controls.Add(this.AmpEd);
             this.Controls.Add(this.FreqEd);
             this.Controls.Add(this.OkBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SourceSet";
-            this.Text = "SourceSet";
+            this.Text = "Параметры ГВЧ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SourceSet_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -143,5 +171,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.RadioButton isRadChk;
+        private System.Windows.Forms.RadioButton isHzChk;
     }
 }

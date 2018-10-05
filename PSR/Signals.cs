@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace SimuMod
+namespace MainModule
 {
     public class Harmonic
     {
@@ -62,7 +62,7 @@ namespace SimuMod
             return time;
         }
 
-        public PSR.Form1.Pair<double[], double[]> Graphical()
+        public Pair<double[], double[]> Graphical()
         {
             //5 periods
             const int Periods = 3;
@@ -80,7 +80,7 @@ namespace SimuMod
                 arg += step;
             }
 
-            return new PSR.Form1.Pair<double[], double[]>(x, y);
+            return new Pair<double[], double[]>(x, y);
         }
     }
 

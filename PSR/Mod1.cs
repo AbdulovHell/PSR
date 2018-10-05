@@ -12,8 +12,8 @@ namespace MainModule
     {
         bool G1Set = false, G2Set = false;
         const double spacing = 0.0000005;
-        List<SimuMod.Harmonic> harmonics = new List<SimuMod.Harmonic>();
-        SimuMod.Harmonic Source = new SimuMod.Harmonic(0);
+        List<MainModule.Harmonic> harmonics = new List<MainModule.Harmonic>();
+        MainModule.Harmonic Source = new MainModule.Harmonic(0);
 
         public Mod1()
         {
@@ -24,7 +24,7 @@ namespace MainModule
         {
             if (!G1Set) return;
             Oscilloscope osc = new Oscilloscope();
-            osc.Draw(Source.Graphical());
+            osc.Draw(new Painter(Source));
             osc.Show();
         }
 
@@ -32,16 +32,43 @@ namespace MainModule
         {
             if (!G2Set) return;
             Oscilloscope osc = new Oscilloscope();
-            //SimuMod.Harmonic harmonic = new SimuMod.Harmonic(2000.0);
-            osc.Draw(harmonics, Oscilloscope.DrawMode.Simple);
+            osc.Draw(new Painter(harmonics));
             osc.Show();
+        }
+
+        double ProceedInput(object num)
+        {
+            if (num.GetType().Name == "Double") return (double)num;
+
+            string num_str = (string)num;
+
+            if (num_str == string.Empty) return 0;
+
+            double res = 0;
+            if (!double.TryParse(num_str, out res))
+            {
+                if (!double.TryParse((num_str).Replace('.', ','), out res))
+                {
+                    return 0;
+                }
+                else
+                {
+                    return res;
+                }
+            }
+            else
+            {
+                return res;
+            }
         }
 
         private void OscAtEnd_Click(object sender, EventArgs e)
         {
             if (!G2Set || !G1Set) return;
             Oscilloscope osc = new Oscilloscope();
-            osc.Draw(harmonics, Oscilloscope.DrawMode.Envelope);
+            var painter = new Painter(harmonics, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text));
+            osc.Draw(painter);
+            osc.Draw(painter, Oscilloscope.FuncType.Reversed);
             osc.Show();
         }
 
@@ -50,56 +77,66 @@ namespace MainModule
             return 1;
         }
 
-        List<double> SpecPeriod(double t, List<SimuMod.Harmonic> harmonics)
+        List<double> SpecPeriod(double t, List<MainModule.Harmonic> harmonics)
         {
             List<double> y = new List<double>();
             for (int i = -50; i < 51; i++)
             {
                 if (i == 0)
                 {
-                    y.Add(double.Parse(textBox1.Text));
+                    y.Add(double.Parse(V0Edit.Text));
                 }
                 else
                 {
-                    y.Add((double.Parse(textBox2.Text) * HarmonicSpec()) / 2);
+                    y.Add((double.Parse(KEdit.Text) * HarmonicSpec()) / 2);
                 }
             }
             return y;
         }
 
-        PSR.Form1.Pair<double[], double[]> Spectrum()
+        Pair<double[], double[]> Spectrum()
         {
             double[] x = new double[50];
             double[] y = new double[50];
-            List<SimuMod.Harmonic> harmonics = new List<SimuMod.Harmonic>();
-            harmonics.Add(new SimuMod.Harmonic(2000.0));
+            List<MainModule.Harmonic> harmonics = new List<MainModule.Harmonic>();
+            harmonics.Add(new MainModule.Harmonic(2000.0));
 
             for (int i = x.Length / -2; i < x.Length / 2; i++)
             {
                 x[i + x.Length / 2] = i;
                 y[i + x.Length / 2] = SpecPeriod(i, harmonics)[0];
             }
-            return new PSR.Form1.Pair<double[], double[]>(x, y);
+            return new Pair<double[], double[]>(x, y);
         }
 
         private void G2SettingsBtn_Click(object sender, EventArgs e)
         {
             HarmonicSettings harmonicSettings = new HarmonicSettings(ref harmonics);
             harmonicSettings.ShowDialog();
-            if (harmonics.Count > 0) G2Set = true;
+            if (harmonics != null)
+            {
+                HarmonicCountsLbl.Text = $"N = {harmonics.Count}";
+                if (harmonics.Count > 0) G2Set = true;
+            }
         }
 
         private void G1SettingsBtn_Click(object sender, EventArgs e)
         {
             SourceSet source = new SourceSet(ref Source);
             source.ShowDialog();
-            if (Source != null && Source.Freq != 0) G1Set = true;
+            if (Source != null)
+            {
+                label3.Text = $"Частота = {Source.Freq} Рад/с";
+                label4.Text = $"Амплитуда = {Source.Amp} V";
+                label5.Text = $"Начальная фаза = {Source.StaPhase} Рад";
+                if (Source.Freq != 0) G1Set = true;
+            }
         }
 
         private void OscBtn_Click(object sender, EventArgs e)
         {
             Oscilloscope osc = new Oscilloscope();
-            osc.Draw(Spectrum());
+            //osc.Draw(Spectrum());
             osc.Show();
         }
 
