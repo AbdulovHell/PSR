@@ -77,38 +77,6 @@ namespace MainModule
             return 1;
         }
 
-        List<double> SpecPeriod(double t, List<MainModule.Harmonic> harmonics)
-        {
-            List<double> y = new List<double>();
-            for (int i = -50; i < 51; i++)
-            {
-                if (i == 0)
-                {
-                    y.Add(double.Parse(V0Edit.Text));
-                }
-                else
-                {
-                    y.Add((double.Parse(KEdit.Text) * HarmonicSpec()) / 2);
-                }
-            }
-            return y;
-        }
-
-        Pair<double[], double[]> Spectrum()
-        {
-            double[] x = new double[50];
-            double[] y = new double[50];
-            List<MainModule.Harmonic> harmonics = new List<MainModule.Harmonic>();
-            harmonics.Add(new MainModule.Harmonic(2000.0));
-
-            for (int i = x.Length / -2; i < x.Length / 2; i++)
-            {
-                x[i + x.Length / 2] = i;
-                y[i + x.Length / 2] = SpecPeriod(i, harmonics)[0];
-            }
-            return new Pair<double[], double[]>(x, y);
-        }
-
         private void G2SettingsBtn_Click(object sender, EventArgs e)
         {
             HarmonicSettings harmonicSettings = new HarmonicSettings(ref harmonics);
@@ -133,10 +101,29 @@ namespace MainModule
             }
         }
 
+        Pair<List<double>,List<double>> Spec()
+        {
+            List<double> x = new List<double>();
+            List<double> y = new List<double>();
+            x.Add(Source.Freq);
+            y.Add(ProceedInput(V0Edit.Text));
+
+            for (int i = 0; i < harmonics.Count; i++)
+            {
+                x.Add(Source.Freq + harmonics[i].Freq);
+                x.Add(Source.Freq - harmonics[i].Freq);
+                y.Add(harmonics[i].Amp);
+                y.Add(harmonics[i].Amp);
+            }
+
+            return new Pair<List<double>, List<double>>(x, y);
+        }
+
         private void OscBtn_Click(object sender, EventArgs e)
         {
             Oscilloscope osc = new Oscilloscope();
             //osc.Draw(Spectrum());
+            osc.Draw(Spec());
             osc.Show();
         }
 

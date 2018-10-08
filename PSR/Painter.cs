@@ -41,7 +41,7 @@ namespace MainModule
 
             for (int i = 0; i < x.Length; i++)
             {
-                y[i] = V0+K*CalcPoint(ref harmonics, StartTime + i * step);
+                y[i] = V0 + K * CalcPoint(ref harmonics, StartTime + i * step);
                 x[i] = StartTime + i * step;
             }
             Type = SeriesChartType.Area;
@@ -59,9 +59,16 @@ namespace MainModule
 
         private void CalcSimpleSignal(List<Harmonic> harmonics)
         {
-            const int Points = 1000;
-            const double Time = 1;
-            const double StartTime = -0.5;
+            var tempList = harmonics.Where(h => h.Freq != 0).ToList();
+            double freq = 1;
+            if (tempList.Count > 0)
+            {
+                freq = tempList[0].Freq;
+            }
+            const int Points = 500 + 1;
+            const int Periods = 1;
+            double Time = (Periods * 2 * Math.PI) / freq;
+            double StartTime = -1 * Time / 2;
 
             x = new double[Points];
             y = new double[Points];

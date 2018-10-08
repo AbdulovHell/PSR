@@ -11,14 +11,14 @@ namespace MainModule
 {
     public partial class SourceSet : Form
     {
-        MainModule.Harmonic harmonic;
+        Harmonic harmonic;
 
         public SourceSet()
         {
             InitializeComponent();
         }
 
-        public SourceSet(ref MainModule.Harmonic harmonic)
+        public SourceSet(ref Harmonic harmonic)
         {
             InitializeComponent();
             this.harmonic = harmonic;
@@ -50,7 +50,9 @@ namespace MainModule
 
         void SaveHarmonic()
         {
-            harmonic.Set(ProceedInput(FreqEd.Text), ProceedInput(PhaseEd.Text) * (Math.PI / 180), ProceedInput(AmpEd.Text));
+            double Freq = ProceedInput(FreqEd.Text);
+            double Phase = ProceedInput(PhaseEd.Text);
+            harmonic.Set(isRadChk.Checked ? Freq : Freq * 2 * Math.PI, isRadChk.Checked ? Phase : Phase * (Math.PI / 180), ProceedInput(AmpEd.Text));
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -76,6 +78,11 @@ namespace MainModule
                 label1.Text = "Частота, Гц";
                 label4.Text = "фаза, град";
             }
+        }
+
+        private void SourceSet_Load(object sender, EventArgs e)
+        {
+            isRadChk_CheckedChanged(sender, e);
         }
     }
 }

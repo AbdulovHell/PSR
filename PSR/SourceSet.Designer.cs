@@ -156,6 +156,7 @@
             this.Name = "SourceSet";
             this.Text = "Параметры ГВЧ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SourceSet_FormClosing);
+            this.Load += new System.EventHandler(this.SourceSet_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
