@@ -12,8 +12,8 @@ namespace MainModule
     {
         bool G1Set = false, G2Set = false;
         const double spacing = 0.0000005;
-        List<MainModule.Harmonic> harmonics = new List<MainModule.Harmonic>();
-        MainModule.Harmonic Source = new MainModule.Harmonic(0);
+        List<Harmonic> harmonics = new List<Harmonic>();
+        Harmonic Source = new Harmonic(0);
 
         public Mod1()
         {
@@ -23,7 +23,7 @@ namespace MainModule
         private void OscAtG1_Click(object sender, EventArgs e)
         {
             if (!G1Set) return;
-            Oscilloscope osc = new Oscilloscope();
+            Oscilloscope osc = new Oscilloscope("ГВЧ");
             osc.Draw(new Painter(Source));
             osc.Show();
         }
@@ -31,7 +31,7 @@ namespace MainModule
         private void OscAtG2_Click(object sender, EventArgs e)
         {
             if (!G2Set) return;
-            Oscilloscope osc = new Oscilloscope();
+            Oscilloscope osc = new Oscilloscope("ГНЧ");
             osc.Draw(new Painter(harmonics));
             osc.Show();
         }
@@ -65,7 +65,7 @@ namespace MainModule
         private void OscAtEnd_Click(object sender, EventArgs e)
         {
             if (!G2Set || !G1Set) return;
-            Oscilloscope osc = new Oscilloscope();
+            Oscilloscope osc = new Oscilloscope("Модулированный сигнал");
             var painter = new Painter(harmonics, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text));
             osc.Draw(painter);
             osc.Draw(painter, Oscilloscope.FuncType.Reversed);
@@ -121,7 +121,7 @@ namespace MainModule
 
         private void OscBtn_Click(object sender, EventArgs e)
         {
-            Oscilloscope osc = new Oscilloscope();
+            Oscilloscope osc = new Oscilloscope("Спектр");
             //osc.Draw(Spectrum());
             osc.Draw(Spec());
             osc.Show();
