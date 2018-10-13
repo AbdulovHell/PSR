@@ -1,39 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MainModule
 {
-    public partial class Mod_AM : UserControl
+    public partial class Mod_BM : UserControl
     {
         bool G1Set = false, G2Set = false;
         const double spacing = 0.0000005;
         List<MainModule.Harmonic> harmonics = new List<MainModule.Harmonic>();
         MainModule.Harmonic Source = new MainModule.Harmonic(0);
 
-        public Mod_AM()
+        Oscilloscope OG1, OG2, OEnd, OSpec;
+
+        public Mod_BM()
         {
             InitializeComponent();
+            FilterKoefLbl.Text = $"Kпн = {FilterKoef.Value / 10.0}";
         }
 
         private void OscAtG1_Click(object sender, EventArgs e)
         {
             if (!G1Set) return;
-            Oscilloscope osc = new Oscilloscope();
-            osc.Draw(new Painter(Source));
-            osc.Show();
+            OG1 = new Oscilloscope();
+            OG1.Draw(new Painter(Source));
+            OG1.Show();
         }
 
         private void OscAtG2_Click(object sender, EventArgs e)
         {
             if (!G2Set) return;
-            Oscilloscope osc = new Oscilloscope();
-            osc.Draw(new Painter(harmonics));
-            osc.Show();
+            OG2 = new Oscilloscope();
+            OG2.Draw(new Painter(harmonics));
+            OG2.Show();
         }
 
         double ProceedInput(object num)
@@ -65,11 +65,11 @@ namespace MainModule
         private void OscAtEnd_Click(object sender, EventArgs e)
         {
             if (!G2Set || !G1Set) return;
-            Oscilloscope osc = new Oscilloscope();
-            var painter = new Painter(harmonics, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text));
-            osc.Draw(painter);
-            osc.Draw(painter, Oscilloscope.FuncType.Reversed);
-            osc.Show();
+            OEnd = new Oscilloscope();
+            var painter = new Painter(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
+            OEnd.Draw(painter);
+            OEnd.Draw(painter, Oscilloscope.FuncType.Reversed);
+            OEnd.Show();
         }
 
         double HarmonicSpec()
@@ -101,30 +101,67 @@ namespace MainModule
             }
         }
 
-        Pair<List<double>,List<double>> Spec()
+        Pair<List<double>, List<double>> Spec()
         {
             List<double> x = new List<double>();
             List<double> y = new List<double>();
             x.Add(Source.Freq);
-            y.Add(Source.Amp);
+            y.Add(Source.Amp * (FilterKoef.Value / 10.0));
 
             for (int i = 0; i < harmonics.Count; i++)
             {
                 x.Add(Source.Freq + harmonics[i].Freq);
                 x.Add(Source.Freq - harmonics[i].Freq);
-                y.Add(harmonics[i].Amp);
-                y.Add(harmonics[i].Amp);
+                double amp = (ProceedInput(KEdit.Text) * harmonics[i].Amp) / 2.0;
+                y.Add(amp);
+                y.Add(amp);
             }
 
             return new Pair<List<double>, List<double>>(x, y);
         }
 
+        private void FilterKoef_ValueChanged(object sender, EventArgs e)
+        {
+            FilterKoefLbl.Text = $"Kпн = {FilterKoef.Value / 10.0}";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OscAtG1_Click(sender, e);
+            OscAtG2_Click(sender, e);
+            OscAtEnd_Click(sender, e);
+            OscBtn_Click(sender, e);
+            Size resolution = Screen.PrimaryScreen.Bounds.Size;
+            Size wndSize = new Size(resolution.Width / 2, resolution.Height / 2);
+            if (OG1 != null)
+            {
+                OG1.Location = new Point(0, 0);
+                OG1.Size = wndSize;
+            }
+            if (OG2 != null)
+            {
+                OG2.Location = new Point(0, resolution.Height / 2);
+                OG2.Size = wndSize;
+            }
+            if (OEnd != null)
+            {
+                OEnd.Location = new Point(resolution.Width / 2, 0);
+                OEnd.Size = wndSize;
+            }
+            if (OSpec != null)
+            {
+                OSpec.Location = new Point(resolution.Width / 2, resolution.Height / 2);
+                OSpec.Size = wndSize;
+            }
+        }
+
         private void OscBtn_Click(object sender, EventArgs e)
         {
-            Oscilloscope osc = new Oscilloscope();
+            if (!G2Set || !G1Set) return;
+            OSpec = new Oscilloscope();
             //osc.Draw(Spectrum());
-            osc.Draw(Spec());
-            osc.Show();
+            OSpec.Draw(Spec());
+            OSpec.Show();
         }
 
 

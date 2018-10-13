@@ -62,6 +62,12 @@
     <Compile Include="HarmonicSettings.Designer.cs">
       <DependentUpon>HarmonicSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mod_BM.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Mod_BM.Designer.cs">
+      <DependentUpon>Mod_BM.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mod_AM.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -95,6 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HarmonicSettings.resx">
       <DependentUpon>HarmonicSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mod_BM.resx">
+      <DependentUpon>Mod_BM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Mod_AM.resx">
       <DependentUpon>Mod_AM.cs</DependentUpon>
@@ -137,6 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\graph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BM1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

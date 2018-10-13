@@ -47,6 +47,28 @@ namespace MainModule
             Type = SeriesChartType.Area;
         }
 
+
+
+        //Modulated balanced (Envelope)
+        public Painter(List<Harmonic> harmonics, Harmonic carrier, double K, double V0, double Kp)
+        {
+            const int Points = 1000;
+            const double Time = 1;
+            const double StartTime = -0.5;
+
+            x = new double[Points];
+            y = new double[Points];
+            double step = Time / Points;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                x[i] = StartTime + i * step;
+                double U0 = carrier.Amp*Math.Cos(carrier.Freq*x[i]+carrier.StaPhase);
+                y[i] = Kp*U0 + ((K * CalcPoint(ref harmonics, StartTime + i * step))/V0)*U0;
+            }
+            Type = SeriesChartType.Area;
+        }
+
         private double CalcPoint(ref List<Harmonic> harmonics, double t, double StartPhase = 0)
         {
             double res = 0;
