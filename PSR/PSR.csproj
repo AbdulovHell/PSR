@@ -62,11 +62,11 @@
     <Compile Include="HarmonicSettings.Designer.cs">
       <DependentUpon>HarmonicSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mod1.cs">
+    <Compile Include="Mod_AM.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Mod1.Designer.cs">
-      <DependentUpon>Mod1.cs</DependentUpon>
+    <Compile Include="Mod_AM.Designer.cs">
+      <DependentUpon>Mod_AM.cs</DependentUpon>
     </Compile>
     <Compile Include="Oscilloscope.cs">
       <SubType>Form</SubType>
@@ -96,8 +96,8 @@
     <EmbeddedResource Include="HarmonicSettings.resx">
       <DependentUpon>HarmonicSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Mod1.resx">
-      <DependentUpon>Mod1.cs</DependentUpon>
+    <EmbeddedResource Include="Mod_AM.resx">
+      <DependentUpon>Mod_AM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
