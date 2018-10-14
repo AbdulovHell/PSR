@@ -22,7 +22,13 @@ namespace MainModule
 
         private void OscAtG1_Click(object sender, EventArgs e)
         {
-            if (!G1Set) return;
+            if (!G1Set)
+            {
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.AddError("Настройки ГВЧ не заданы");
+                errorWindow.ShowDialog();
+                return;
+            }
             OG1 = new Oscilloscope();
             OG1.Draw(new Painter(Source));
             OG1.Show();
@@ -30,7 +36,13 @@ namespace MainModule
 
         private void OscAtG2_Click(object sender, EventArgs e)
         {
-            if (!G2Set) return;
+            if (!G2Set)
+            {
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.AddError("Настройки ГНЧ не заданы");
+                errorWindow.ShowDialog();
+                return;
+            }
             OG2 = new Oscilloscope();
             OG2.Draw(new Painter(harmonics));
             OG2.Show();
@@ -64,7 +76,14 @@ namespace MainModule
 
         private void OscAtEnd_Click(object sender, EventArgs e)
         {
-            if (!G2Set || !G1Set) return;
+            if (!G2Set || !G1Set)
+            {
+                ErrorWindow errorWindow = new ErrorWindow();
+                if (!G1Set) errorWindow.AddError("Настройки ГНЧ не заданы");
+                if (!G2Set) errorWindow.AddError("Настройки ГВЧ не заданы");
+                errorWindow.ShowDialog();
+                return;
+            }
             OEnd = new Oscilloscope();
             var painter = new Painter(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
             OEnd.Draw(painter);
@@ -157,7 +176,14 @@ namespace MainModule
 
         private void OscBtn_Click(object sender, EventArgs e)
         {
-            if (!G2Set || !G1Set) return;
+            if (!G2Set || !G1Set)
+            {
+                ErrorWindow errorWindow = new ErrorWindow();
+                if (!G1Set) errorWindow.AddError("Настройки ГНЧ не заданы");
+                if (!G2Set) errorWindow.AddError("Настройки ГВЧ не заданы");
+                errorWindow.ShowDialog();
+                return;
+            }
             OSpec = new Oscilloscope();
             //osc.Draw(Spectrum());
             OSpec.Draw(Spec());

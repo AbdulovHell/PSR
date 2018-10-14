@@ -30,7 +30,6 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.mod11 = new MainModule.Mod_AM();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -38,6 +37,8 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CurSchemeToFileBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.mod11 = new MainModule.Mod_AM();
             this.mod_BM1 = new MainModule.Mod_BM();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -68,16 +69,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Амплитудная модуляция";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // mod11
-            // 
-            this.mod11.AutoSize = true;
-            this.mod11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mod11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mod11.Location = new System.Drawing.Point(3, 3);
-            this.mod11.Name = "mod11";
-            this.mod11.Size = new System.Drawing.Size(791, 423);
-            this.mod11.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -125,7 +116,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(43, 17);
             this.toolStripStatusLabel1.Text = "Статус";
-            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
             // menuStrip1
             // 
@@ -139,9 +129,30 @@
             // 
             // файлToolStripMenuItem
             // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CurSchemeToFileBtn});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // CurSchemeToFileBtn
+            // 
+            this.CurSchemeToFileBtn.Name = "CurSchemeToFileBtn";
+            this.CurSchemeToFileBtn.ShortcutKeyDisplayString = "Ctrl + S";
+            this.CurSchemeToFileBtn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.CurSchemeToFileBtn.Size = new System.Drawing.Size(322, 22);
+            this.CurSchemeToFileBtn.Text = "Сохранить схему установки в файл...";
+            this.CurSchemeToFileBtn.Click += new System.EventHandler(this.CurSchemeToFileBtn_Click);
+            // 
+            // mod11
+            // 
+            this.mod11.AutoSize = true;
+            this.mod11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod11.Location = new System.Drawing.Point(3, 3);
+            this.mod11.Name = "mod11";
+            this.mod11.Size = new System.Drawing.Size(791, 423);
+            this.mod11.TabIndex = 0;
             // 
             // mod_BM1
             // 
@@ -192,6 +203,7 @@
         private System.Windows.Forms.TabPage tabPage4;
         private MainModule.Mod_AM mod11;
         private Mod_BM mod_BM1;
+        private System.Windows.Forms.ToolStripMenuItem CurSchemeToFileBtn;
     }
 }
 
