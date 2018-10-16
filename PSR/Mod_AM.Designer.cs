@@ -1,6 +1,6 @@
 ﻿namespace MainModule
 {
-    partial class Mod1
+    partial class Mod_AM
     {
         /// <summary> 
         /// Обязательная переменная конструктора.

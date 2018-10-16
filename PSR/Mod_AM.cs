@@ -8,14 +8,14 @@ using System.Windows.Forms;
 
 namespace MainModule
 {
-    public partial class Mod1 : UserControl
+    public partial class Mod_AM : UserControl
     {
         bool G1Set = false, G2Set = false;
         const double spacing = 0.0000005;
         List<Harmonic> harmonics = new List<Harmonic>();
         Harmonic Source = new Harmonic(0);
 
-        public Mod1()
+        public Mod_AM()
         {
             InitializeComponent();
         }
@@ -106,7 +106,7 @@ namespace MainModule
             List<double> x = new List<double>();
             List<double> y = new List<double>();
             x.Add(Source.Freq);
-            y.Add(ProceedInput(V0Edit.Text));
+            y.Add(Source.Amp);
 
             for (int i = 0; i < harmonics.Count; i++)
             {
