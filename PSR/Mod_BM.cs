@@ -29,7 +29,7 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            OG1 = new Oscilloscope();
+            OG1 = new Oscilloscope("ГВЧ");
             OG1.Draw(new Painter(Source));
             OG1.Show();
         }
@@ -43,7 +43,7 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            OG2 = new Oscilloscope();
+            OG2 = new Oscilloscope("ГНЧ");
             OG2.Draw(new Painter(harmonics));
             OG2.Show();
         }
@@ -84,7 +84,7 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            OEnd = new Oscilloscope();
+            OEnd = new Oscilloscope("АМ сигнал");
             var painter = new Painter(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
             OEnd.Draw(painter);
             OEnd.Draw(painter, Oscilloscope.FuncType.Reversed);
@@ -184,7 +184,7 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            OSpec = new Oscilloscope();
+            OSpec = new Oscilloscope("Спектр АМ сигнала");
             //osc.Draw(Spectrum());
             OSpec.Draw(Spec());
             OSpec.Show();
