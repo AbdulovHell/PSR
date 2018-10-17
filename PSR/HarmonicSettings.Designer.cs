@@ -35,10 +35,6 @@
             this.Freq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StaPhase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.MeasUnitsMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.RadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.HzMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ResetBtn = new System.Windows.Forms.Button();
             this.TriangleTemplateBtn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -49,7 +45,6 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -64,10 +59,10 @@
             this.Freq,
             this.StaPhase});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 24);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(504, 348);
+            this.dataGridView1.Size = new System.Drawing.Size(504, 372);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
@@ -113,7 +108,6 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.dataGridView1);
-            this.splitContainer1.Panel1.Controls.Add(this.menuStrip1);
             // 
             // splitContainer1.Panel2
             // 
@@ -126,41 +120,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(504, 484);
             this.splitContainer1.SplitterDistance = 372;
             this.splitContainer1.TabIndex = 1;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MeasUnitsMenu});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(504, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // MeasUnitsMenu
-            // 
-            this.MeasUnitsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.RadMenuItem,
-            this.HzMenuItem});
-            this.MeasUnitsMenu.Name = "MeasUnitsMenu";
-            this.MeasUnitsMenu.Size = new System.Drawing.Size(130, 20);
-            this.MeasUnitsMenu.Text = "Еденицы измерения";
-            // 
-            // RadMenuItem
-            // 
-            this.RadMenuItem.Checked = true;
-            this.RadMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.RadMenuItem.Name = "RadMenuItem";
-            this.RadMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.RadMenuItem.Text = "рад/с ; радианы";
-            this.RadMenuItem.Click += new System.EventHandler(this.RadMenuItem_Click);
-            // 
-            // HzMenuItem
-            // 
-            this.HzMenuItem.Name = "HzMenuItem";
-            this.HzMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.HzMenuItem.Text = "Гц ; градусы";
-            this.HzMenuItem.Click += new System.EventHandler(this.HzMenuItem_Click);
             // 
             // ResetBtn
             // 
@@ -228,18 +187,14 @@
             this.ClientSize = new System.Drawing.Size(504, 484);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "HarmonicSettings";
             this.Text = "Параметры ГНЧ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HarmonicSettings_FormClosing);
             this.Load += new System.EventHandler(this.HarmonicSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -255,10 +210,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Amplitude;
         private System.Windows.Forms.DataGridViewTextBoxColumn Freq;
         private System.Windows.Forms.DataGridViewTextBoxColumn StaPhase;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem MeasUnitsMenu;
-        private System.Windows.Forms.ToolStripMenuItem RadMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem HzMenuItem;
         private System.Windows.Forms.Button SquareTemplateBtn;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button TriangleTemplateBtn;

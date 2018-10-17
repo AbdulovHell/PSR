@@ -38,6 +38,12 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurSchemeToFileBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.еденицыИзмеренияПоУмолчаниюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SetHzRadUnitsBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.SetRadianUnitsBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.EnableCursors = new System.Windows.Forms.ToolStripMenuItem();
             this.mod11 = new MainModule.Mod_AM();
             this.mod_BM1 = new MainModule.Mod_BM();
             this.tabControl1.SuspendLayout();
@@ -120,7 +126,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.файлToolStripMenuItem});
+            this.файлToolStripMenuItem,
+            this.настройкиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(805, 24);
@@ -143,6 +150,59 @@
             this.CurSchemeToFileBtn.Size = new System.Drawing.Size(322, 22);
             this.CurSchemeToFileBtn.Text = "Сохранить схему установки в файл...";
             this.CurSchemeToFileBtn.Click += new System.EventHandler(this.CurSchemeToFileBtn_Click);
+            // 
+            // настройкиToolStripMenuItem
+            // 
+            this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.еденицыИзмеренияПоУмолчаниюToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.EnableCursors});
+            this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
+            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.настройкиToolStripMenuItem.Text = "Настройки";
+            // 
+            // еденицыИзмеренияПоУмолчаниюToolStripMenuItem
+            // 
+            this.еденицыИзмеренияПоУмолчаниюToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SetHzRadUnitsBtn,
+            this.SetRadianUnitsBtn});
+            this.еденицыИзмеренияПоУмолчаниюToolStripMenuItem.Name = "еденицыИзмеренияПоУмолчаниюToolStripMenuItem";
+            this.еденицыИзмеренияПоУмолчаниюToolStripMenuItem.Size = new System.Drawing.Size(271, 22);
+            this.еденицыИзмеренияПоУмолчаниюToolStripMenuItem.Text = "Еденицы измерения по умолчанию";
+            // 
+            // SetHzRadUnitsBtn
+            // 
+            this.SetHzRadUnitsBtn.Checked = true;
+            this.SetHzRadUnitsBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.SetHzRadUnitsBtn.Name = "SetHzRadUnitsBtn";
+            this.SetHzRadUnitsBtn.ShowShortcutKeys = false;
+            this.SetHzRadUnitsBtn.Size = new System.Drawing.Size(154, 22);
+            this.SetHzRadUnitsBtn.Text = "Герцы, Градусы";
+            this.SetHzRadUnitsBtn.Click += new System.EventHandler(this.SetHzRadUnitsBtn_Click);
+            // 
+            // SetRadianUnitsBtn
+            // 
+            this.SetRadianUnitsBtn.Name = "SetRadianUnitsBtn";
+            this.SetRadianUnitsBtn.ShowShortcutKeys = false;
+            this.SetRadianUnitsBtn.Size = new System.Drawing.Size(154, 22);
+            this.SetRadianUnitsBtn.Text = "Радианы";
+            this.SetRadianUnitsBtn.Click += new System.EventHandler(this.SetRadianUnitsBtn_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(268, 6);
+            // 
+            // EnableCursors
+            // 
+            this.EnableCursors.Checked = true;
+            this.EnableCursors.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.EnableCursors.Name = "EnableCursors";
+            this.EnableCursors.ShowShortcutKeys = false;
+            this.EnableCursors.Size = new System.Drawing.Size(271, 22);
+            this.EnableCursors.Text = "Курсоры на графиках";
+            this.EnableCursors.CheckedChanged += new System.EventHandler(this.EnableCursors_CheckedChanged);
+            this.EnableCursors.Click += new System.EventHandler(this.EnableCursors_Click);
             // 
             // mod11
             // 
@@ -204,6 +264,12 @@
         private MainModule.Mod_AM mod11;
         private Mod_BM mod_BM1;
         private System.Windows.Forms.ToolStripMenuItem CurSchemeToFileBtn;
+        private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem еденицыИзмеренияПоУмолчаниюToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SetHzRadUnitsBtn;
+        private System.Windows.Forms.ToolStripMenuItem SetRadianUnitsBtn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem EnableCursors;
     }
 }
 

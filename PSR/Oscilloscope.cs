@@ -35,12 +35,12 @@ namespace MainModule
 
             chart.ChartAreas[0].CursorX.IntervalType = DateTimeIntervalType.Auto;
             chart.ChartAreas[0].CursorX.Interval = 0.00001;
-            chart.ChartAreas[0].CursorX.IsUserEnabled = true;
+            if (Form1.EnCursors) chart.ChartAreas[0].CursorX.IsUserEnabled = true;
             chart.ChartAreas[0].CursorX.AutoScroll = true;
 
             chart.ChartAreas[0].CursorY.IntervalType = DateTimeIntervalType.Auto;
             chart.ChartAreas[0].CursorY.Interval = 0.00001;
-            chart.ChartAreas[0].CursorY.IsUserEnabled = true;
+            if (Form1.EnCursors) chart.ChartAreas[0].CursorY.IsUserEnabled = true;
             chart.ChartAreas[0].CursorY.AutoScroll = true;
 
             chart.Visible = true;
@@ -56,8 +56,11 @@ namespace MainModule
 
         private void Chart_MouseMove(object sender, MouseEventArgs e)
         {
+            if (!Form1.EnCursors) return;
             chart.ChartAreas[0].CursorX.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
             chart.ChartAreas[0].CursorY.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
+            chart.ChartAreas[0].AxisX.Title = chart.ChartAreas[0].CursorX.Position.ToString();
+            chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString();
         }
 
         public void Draw(Painter painter, FuncType funcType = FuncType.Normal)

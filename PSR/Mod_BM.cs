@@ -9,14 +9,15 @@ namespace MainModule
     {
         bool G1Set = false, G2Set = false;
         const double spacing = 0.0000005;
-        List<MainModule.Harmonic> harmonics = new List<MainModule.Harmonic>();
-        MainModule.Harmonic Source = new MainModule.Harmonic(0);
+        List<Harmonic> harmonics = new List<Harmonic>();
+        Harmonic Source = new Harmonic(0);
 
         Oscilloscope OG1, OG2, OEnd, OSpec;
 
         public Mod_BM()
         {
             InitializeComponent();
+            UpdateG1Info();
             FilterKoefLbl.Text = $"Kпн = {FilterKoef.Value / 10.0}";
         }
 
@@ -107,15 +108,21 @@ namespace MainModule
             }
         }
 
+        private void UpdateG1Info()
+        {
+            label3.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Частота = {Source.Freq} Рад/с" : $"Частота = {Source.Freq / (2 * Math.PI)} Гц";
+            label4.Text = $"Амплитуда = {Source.Amp} V";
+            label5.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Начальная фаза = {Source.StaPhase} Рад" : $"Начальная фаза = {Source.StaPhase * (180 / Math.PI)} °";
+
+        }
+
         private void G1SettingsBtn_Click(object sender, EventArgs e)
         {
             SourceSet source = new SourceSet(ref Source);
             source.ShowDialog();
             if (Source != null)
             {
-                label3.Text = $"Частота = {Source.Freq} Рад/с";
-                label4.Text = $"Амплитуда = {Source.Amp} V";
-                label5.Text = $"Начальная фаза = {Source.StaPhase} Рад";
+                UpdateG1Info();
                 if (Source.Freq != 0) G1Set = true;
             }
         }

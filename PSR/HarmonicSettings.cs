@@ -13,8 +13,7 @@ namespace MainModule
 {
     public partial class HarmonicSettings : Form
     {
-        List<MainModule.Harmonic> harmonics;
-        bool isRad = true;
+        List<Harmonic> harmonics;
         Chart PreviewChart = new Chart();
 
         public HarmonicSettings()
@@ -28,7 +27,7 @@ namespace MainModule
             }
         }
 
-        public HarmonicSettings(ref List<MainModule.Harmonic> harmonics)
+        public HarmonicSettings(ref List<Harmonic> harmonics)
         {
             InitializeComponent();
             InitChart();
@@ -98,9 +97,9 @@ namespace MainModule
                         double amp = ProceedInput(dataGridView1.Rows[i].Cells[2].Value);
                         double freq = ProceedInput(dataGridView1.Rows[i].Cells[3].Value);
                         double phase = ProceedInput(dataGridView1.Rows[i].Cells[4].Value);
-                        harmonics.Add(new MainModule.Harmonic(
-                            isRad ? freq : freq * 2 * Math.PI,
-                            isRad ? phase : phase * (Math.PI / 180),
+                        harmonics.Add(new Harmonic(
+                            Form1.unitsType==Form1.UnitsType.Radian ? freq : freq * 2 * Math.PI,
+                            Form1.unitsType == Form1.UnitsType.Radian ? phase : phase * (Math.PI / 180),
                             amp));
                     }
                 }
@@ -120,11 +119,16 @@ namespace MainModule
 
         private void SinTemplateBtn_Click(object sender, EventArgs e)
         {
-            RadMenuItem_Click(sender, e);
             dataGridView1.Rows.Clear();
             double[] amps = { 0, 0.405, 0.318, 0.045, 0.159, 0.016, 0.106, 0.0083, 0.08, 0.005 };
             double[] freqs = { 0, 6.28319, 12.5664, 18.8496, 25.1328, 31.416, 37.6991, 43.9823, 50.2655, 56.5487 };
             double[] phases = { -1.5708, -1.5708, -1.5708, 1.5708, 1.5708, -1.5708, -1.5708, 1.5708, 1.5708, -1.5708 };
+            if (Form1.unitsType == Form1.UnitsType.HzGrad)
+                for (int i = 0; i < freqs.Length; i++)
+                {
+                    freqs[i] /= 2 * Math.PI;
+                    phases[i] *= 180 / Math.PI;
+                }
             for (int i = 0; i < 10; i++)
                 dataGridView1.Rows.Add($"{i}", true, amps[i], freqs[i], phases[i]);
 
@@ -133,35 +137,22 @@ namespace MainModule
 
         private void ChangeCap()
         {
-            dataGridView1.Columns[3].HeaderText = isRad ? "Частота, рад/с" : "Частота, Гц";
-            dataGridView1.Columns[4].HeaderText = isRad ? "Начальная фаза, рад" : "Начальная фаза, °";
-        }
-
-        private void RadMenuItem_Click(object sender, EventArgs e)
-        {
-            if (RadMenuItem.Checked) return;
-            isRad = true;
-            HzMenuItem.Checked = false;
-            RadMenuItem.Checked = true;
-            ChangeCap();
-        }
-
-        private void HzMenuItem_Click(object sender, EventArgs e)
-        {
-            if (HzMenuItem.Checked) return;
-            isRad = false;
-            HzMenuItem.Checked = true;
-            RadMenuItem.Checked = false;
-            ChangeCap();
+            dataGridView1.Columns[3].HeaderText = Form1.unitsType == Form1.UnitsType.Radian ? "Частота, рад/с" : "Частота, Гц";
+            dataGridView1.Columns[4].HeaderText = Form1.unitsType == Form1.UnitsType.Radian ? "Начальная фаза, рад" : "Начальная фаза, °";
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            RadMenuItem_Click(sender, e);
             dataGridView1.Rows.Clear();
             double[] amps = { 0.5, 0.637, 0, 0.212, 0, 0.127, 0, 0.091, 0, 0.071 };
             double[] freqs = { 0, 6.28319, 12.5664, 18.8496, 25.1328, 31.416, 37.6991, 43.9823, 50.2655, 56.5487 };
             double[] phases = { 0, 0, 0, 3.14159, 3.14159, 0, 0, 3.14159, 3.14159, 0 };
+            if (Form1.unitsType == Form1.UnitsType.HzGrad)
+                for (int i = 0; i < freqs.Length; i++)
+                {
+                    freqs[i] /= 2 * Math.PI;
+                    phases[i] *= 180 / Math.PI;
+                }
             for (int i = 0; i < 10; i++)
                 dataGridView1.Rows.Add($"{i}", true, amps[i], freqs[i], phases[i]);
 
@@ -170,7 +161,6 @@ namespace MainModule
 
         private void button3_Click(object sender, EventArgs e)
         {
-            RadMenuItem_Click(sender, e);
             dataGridView1.Rows.Clear();
             double[] amps = new double[10];
             double[] freqs = { 0, 6.28319, 12.5664, 18.8496, 25.1328, 31.416, 37.6991, 43.9823, 50.2655, 56.5487 };
@@ -181,7 +171,12 @@ namespace MainModule
                 amps[i] = rnd.NextDouble() * 10;
                 phases[i] = (rnd.NextDouble() * 2 - 1.0) * Math.PI;
             }
-
+            if (Form1.unitsType == Form1.UnitsType.HzGrad)
+                for (int i = 0; i < freqs.Length; i++)
+                {
+                    freqs[i] /= 2 * Math.PI;
+                    phases[i] *= 180 / Math.PI;
+                }
             for (int i = 0; i < 10; i++)
                 dataGridView1.Rows.Add($"{i}", true, amps[i], freqs[i], phases[i]);
 
@@ -222,8 +217,8 @@ namespace MainModule
                     double freq = ProceedInput(dataGridView1.Rows[i].Cells[3].Value);
                     double phase = ProceedInput(dataGridView1.Rows[i].Cells[4].Value);
                     temp.Add(new Harmonic(
-                            isRad ? freq : freq * 2 * Math.PI,
-                            isRad ? phase : phase * (Math.PI / 180),
+                            Form1.unitsType == Form1.UnitsType.Radian ? freq : freq * 2 * Math.PI,
+                            Form1.unitsType == Form1.UnitsType.Radian ? phase : phase * (Math.PI / 180),
                             amp));
                 }
             }

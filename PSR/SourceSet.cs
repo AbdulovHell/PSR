@@ -13,11 +13,6 @@ namespace MainModule
     {
         Harmonic harmonic;
 
-        public SourceSet()
-        {
-            InitializeComponent();
-        }
-
         public SourceSet(ref Harmonic harmonic)
         {
             InitializeComponent();
@@ -25,6 +20,17 @@ namespace MainModule
             AmpEd.Text = harmonic.Amp.ToString();
             FreqEd.Text = harmonic.Freq.ToString();
             PhaseEd.Text = harmonic.StaPhase.ToString();
+
+            if (Form1.unitsType == Form1.UnitsType.Radian)
+            {
+                label1.Text = "Частота, Рад/с";
+                label4.Text = "фаза, рад";
+            }
+            else
+            {
+                label1.Text = "Частота, Гц";
+                label4.Text = "фаза, град";
+            }
         }
 
         double ProceedInput(string num)
@@ -48,41 +54,35 @@ namespace MainModule
             }
         }
 
-        void SaveHarmonic()
+        bool SaveHarmonic()
         {
             double Freq = ProceedInput(FreqEd.Text);
             double Phase = ProceedInput(PhaseEd.Text);
-            harmonic.Set(isRadChk.Checked ? Freq : Freq * 2 * Math.PI, isRadChk.Checked ? Phase : Phase * (Math.PI / 180), ProceedInput(AmpEd.Text));
+            if (Freq <= 0e1 || Freq > 1e9)
+            {
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.AddError("Ошибка задания частоты, она должна находится в пределах 0 < Freq <= 1e9");
+                errorWindow.ShowDialog();
+                return false;
+            }
+            else
+            {
+                harmonic.Set(Form1.unitsType == Form1.UnitsType.Radian ? Freq : Freq * 2 * Math.PI,
+                    Form1.unitsType == Form1.UnitsType.Radian ? Phase : Phase * (Math.PI / 180),
+                    ProceedInput(AmpEd.Text));
+                return true;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //SaveHarmonic();
-            this.Close();
+            if (SaveHarmonic())
+                this.Close();
         }
 
         private void SourceSet_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveHarmonic();
-        }
-
-        private void isRadChk_CheckedChanged(object sender, EventArgs e)
-        {
-            if (isRadChk.Checked)
-            {
-                label1.Text = "Частота, Рад/с";
-                label4.Text = "фаза, рад";
-            }
-            else
-            {
-                label1.Text = "Частота, Гц";
-                label4.Text = "фаза, град";
-            }
-        }
-
-        private void SourceSet_Load(object sender, EventArgs e)
-        {
-            isRadChk_CheckedChanged(sender, e);
+            //SaveHarmonic();
         }
     }
 }

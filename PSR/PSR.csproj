@@ -48,7 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CDF.cs" />
+    <Compile Include="Math\CDF.cs" />
     <Compile Include="ErrorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,7 +61,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Fourier.cs" />
+    <Compile Include="Math\Fourier.cs" />
     <Compile Include="HarmonicSettings.cs">
       <SubType>Form</SubType>
     </Compile>

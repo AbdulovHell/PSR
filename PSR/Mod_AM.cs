@@ -18,6 +18,7 @@ namespace MainModule
         public Mod_AM()
         {
             InitializeComponent();
+            UpdateG1Info();
         }
 
         private void OscAtG1_Click(object sender, EventArgs e)
@@ -88,15 +89,20 @@ namespace MainModule
             }
         }
 
+        private void UpdateG1Info()
+        {
+            label3.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Частота = {Source.Freq} Рад/с" : $"Частота = {Source.Freq / (2 * Math.PI)} Гц";
+            label4.Text = $"Амплитуда = {Source.Amp} V";
+            label5.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Начальная фаза = {Source.StaPhase} Рад" : $"Начальная фаза = {Source.StaPhase * (180 / Math.PI)} °";
+        }
+
         private void G1SettingsBtn_Click(object sender, EventArgs e)
         {
             SourceSet source = new SourceSet(ref Source);
             source.ShowDialog();
             if (Source != null)
             {
-                label3.Text = $"Частота = {Source.Freq} Рад/с";
-                label4.Text = $"Амплитуда = {Source.Amp} V";
-                label5.Text = $"Начальная фаза = {Source.StaPhase} Рад";
+                UpdateG1Info();
                 if (Source.Freq != 0) G1Set = true;
             }
         }
