@@ -15,7 +15,7 @@ namespace MainModule
             Amp = Amplitude;
         }
 
-        //Hertz
+        //Rad/s
         public double Freq { get; private set; }
         //Radians
         public double StaPhase { get; private set; }

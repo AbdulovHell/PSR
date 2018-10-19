@@ -35,7 +35,9 @@ namespace MainModule
             dataGridView1.Rows.Clear();
             for (int i = 0; i < harmonics.Count; i++)
             {
-                dataGridView1.Rows.Add($"{i}", true, harmonics[i].Amp.ToString(), harmonics[i].Freq.ToString(), harmonics[i].StaPhase.ToString());
+                dataGridView1.Rows.Add($"{i}", true, harmonics[i].Amp.ToString(),
+                    (Form1.unitsType == Form1.UnitsType.Radian ? harmonics[i].Freq : harmonics[i].Freq / (2 * Math.PI)).ToString(),
+                    (Form1.unitsType == Form1.UnitsType.Radian ? harmonics[i].StaPhase : harmonics[i].StaPhase * (180 / Math.PI)).ToString());
             }
             for (int i = dataGridView1.Rows.Count; i < 10; i++)
             {
@@ -98,7 +100,7 @@ namespace MainModule
                         double freq = ProceedInput(dataGridView1.Rows[i].Cells[3].Value);
                         double phase = ProceedInput(dataGridView1.Rows[i].Cells[4].Value);
                         harmonics.Add(new Harmonic(
-                            Form1.unitsType==Form1.UnitsType.Radian ? freq : freq * 2 * Math.PI,
+                            Form1.unitsType == Form1.UnitsType.Radian ? freq : freq * 2 * Math.PI,
                             Form1.unitsType == Form1.UnitsType.Radian ? phase : phase * (Math.PI / 180),
                             amp));
                     }

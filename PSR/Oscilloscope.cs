@@ -18,6 +18,7 @@ namespace MainModule
         }
 
         Chart chart = new Chart();
+        string Units = "";
 
         public Oscilloscope(string caption)
         {
@@ -59,8 +60,44 @@ namespace MainModule
             if (!Form1.EnCursors) return;
             chart.ChartAreas[0].CursorX.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
             chart.ChartAreas[0].CursorY.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
-            chart.ChartAreas[0].AxisX.Title = chart.ChartAreas[0].CursorX.Position.ToString();
-            chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString();
+            chart.ChartAreas[0].AxisX.Title = chart.ChartAreas[0].CursorX.Position.ToString() + " " + Units;
+            chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " В";
+        }
+
+        private Pair<double, int> ReduceUnits(double number)
+        {
+            int Reduces = 0;
+            bool isBelowZero = number < 0;
+            if (isBelowZero) number = Math.Abs(number);
+            int units = 0;
+            while (number < 0.1 && number != 0)
+            {
+                number *= 1000;
+                Reduces++;
+            }
+
+            units = Reduces * 3;
+
+            return new Pair<double, int>(number * (isBelowZero ? -1 : 1), units);
+        }
+
+        private double ReduceUnits(double number, int units)
+        {
+            int Reduces = 0;
+            bool isBelowZero = number < 0;
+            if (isBelowZero) number = Math.Abs(number);
+            while (number < 0.1 && number != 0)
+            {
+                number *= 1000;
+                Reduces++;
+                if (Reduces * 3 >= units) break;
+            }
+            return number * (isBelowZero ? -1 : 1);
+        }
+
+        double Trim(double num, int order = 5)
+        {
+            return ((int)(num * Math.Pow(10, order))) / Math.Pow(10, order);
         }
 
         public void Draw(Painter painter, FuncType funcType = FuncType.Normal)
@@ -72,6 +109,48 @@ namespace MainModule
 
             var Points = painter.Draw();
 
+            {
+                int index = 0;
+                for (int i = 0; i < Points.First.Length; i++)
+                {
+                    if (Points.First[i] != 0 && Points.Second[i] != 0)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
+                var Xunits = ReduceUnits(Points.First[index]).Second;
+                //var Yunits = ReduceUnits(Points.Second[index]).Second;
+                switch (Xunits / 3)
+                {
+                    case 0:
+                        Units = "с";
+                        break;
+                    case 1:
+                        Units = "мс";
+                        break;
+                    case 2:
+                        Units = "мкс";
+                        break;
+                    case 3:
+                        Units = "нс";
+                        break;
+                    case 4:
+                        Units = "пс";
+                        break;
+                    default:
+                        Units = "с";
+                        break;
+                }
+
+                for (int i = 0; i < Points.First.Length; i++)
+                {
+                    Points.First[i] = Trim(Points.First[i] * Math.Pow(1000, Xunits / 3));
+                    //Points.Second[i] *= Math.Pow(1000, Yunits / 3);
+                }
+            }
+
             for (int i = 0; i < Points.First.Length; i++)
             {
                 if (funcType == FuncType.Normal)
@@ -79,16 +158,20 @@ namespace MainModule
                 else
                     chart.Series[chart.Series.Count - 1].Points.AddXY(Points.First[i], Points.Second[i] * -1);
             }
-            
+
             List<double> temp = new List<double>(Points.First);
             temp.Sort();
             double min = temp[0], max = temp[temp.Count - 1];
-            
+
             chart.ChartAreas[0].AxisX.Interval = Math.Abs(min - max) / 10;
             //chart.ChartAreas[0].AxisX.ScaleView.Position = -0.5;
             //chart.ChartAreas[0].AxisX.ScaleView.Size = 1;
         }
-
+        /// <summary>
+        /// Сортировка по времени
+        /// </summary>
+        /// <param name="pair">Массив пар X Y</param>
+        /// <returns>Сортированный массив</returns>
         Pair<List<double>, List<double>> Sort(Pair<List<double>, List<double>> pair)
         {
             List<double> x = new List<double>();
@@ -117,7 +200,10 @@ namespace MainModule
             }
             return new Pair<List<double>, List<double>>(x, y);
         }
-
+        /// <summary>
+        /// Удаление (или складывать?) низших кармоник, накладывающихся по времени друг на друга
+        /// </summary>
+        /// <param name="pair">Массив пар X Y</param>
         void DelDupli(ref Pair<List<double>, List<double>> pair)
         {
             bool duplicate = false;

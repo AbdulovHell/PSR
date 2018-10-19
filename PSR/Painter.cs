@@ -87,7 +87,7 @@ namespace MainModule
             {
                 freq = tempList[0].Freq;
             }
-            const int Points = 500 + 1;
+            const int Points = 100 + 1;
             const int Periods = 1;
             double Time = (Periods * 2 * Math.PI) / freq;
             double StartTime = -1 * Time / 2;

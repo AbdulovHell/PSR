@@ -17,19 +17,22 @@ namespace MainModule
         {
             InitializeComponent();
             this.harmonic = harmonic;
-            AmpEd.Text = harmonic.Amp.ToString();
-            FreqEd.Text = harmonic.Freq.ToString();
-            PhaseEd.Text = harmonic.StaPhase.ToString();
-
+            
             if (Form1.unitsType == Form1.UnitsType.Radian)
             {
                 label1.Text = "Частота, Рад/с";
                 label4.Text = "фаза, рад";
+                AmpEd.Text = harmonic.Amp.ToString();
+                FreqEd.Text = harmonic.Freq.ToString();
+                PhaseEd.Text = harmonic.StaPhase.ToString();
             }
             else
             {
                 label1.Text = "Частота, Гц";
                 label4.Text = "фаза, град";
+                AmpEd.Text = harmonic.Amp.ToString();
+                FreqEd.Text = (harmonic.Freq/(2*Math.PI)).ToString();
+                PhaseEd.Text = (harmonic.StaPhase*(180/Math.PI)).ToString();
             }
         }
 
