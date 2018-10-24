@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace MainModule
 {
@@ -62,6 +63,11 @@ namespace MainModule
         private void EnableCursors_Click(object sender, EventArgs e)
         {
             EnableCursors.Checked = !EnableCursors.Checked;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

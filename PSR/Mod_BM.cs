@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MainModule.Signals;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -30,8 +31,9 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            OG1 = new Oscilloscope("ГВЧ");
-            OG1.Draw(new Painter(Source));
+            var signal = new SingleToneSignal(Source);
+            OG1 = new Oscilloscope("ГВЧ", signal);
+            OG1.DrawOsc();
             OG1.Show();
         }
 
@@ -44,9 +46,10 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            OG2 = new Oscilloscope("ГНЧ");
-            OG2.Draw(new Painter(harmonics));
-            OG2.Show();
+            //var calc = new Calculator(harmonics);
+            //OG2 = new Oscilloscope("ГНЧ", calc, calc, calc);
+            //OG2.Draw(calc);
+            //OG2.Show();
         }
 
         double ProceedInput(object num)
@@ -85,11 +88,11 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            OEnd = new Oscilloscope("АМ сигнал");
-            var painter = new Painter(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
-            OEnd.Draw(painter);
-            OEnd.Draw(painter, Oscilloscope.FuncType.Reversed);
-            OEnd.Show();
+            //var painter = new Calculator(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
+            //OEnd = new Oscilloscope("АМ сигнал", painter, painter, painter);
+            //OEnd.Draw(painter);
+            //OEnd.Draw(painter, Oscilloscope.FuncType.Reversed);
+            //OEnd.Show();
         }
 
         double HarmonicSpec()
@@ -183,18 +186,18 @@ namespace MainModule
 
         private void OscBtn_Click(object sender, EventArgs e)
         {
-            if (!G2Set || !G1Set)
-            {
-                ErrorWindow errorWindow = new ErrorWindow();
-                if (!G1Set) errorWindow.AddError("Настройки ГНЧ не заданы");
-                if (!G2Set) errorWindow.AddError("Настройки ГВЧ не заданы");
-                errorWindow.ShowDialog();
-                return;
-            }
-            OSpec = new Oscilloscope("Спектр АМ сигнала");
-            //osc.Draw(Spectrum());
-            OSpec.Draw(Spec());
-            OSpec.Show();
+            //if (!G2Set || !G1Set)
+            //{
+            //    ErrorWindow errorWindow = new ErrorWindow();
+            //    if (!G1Set) errorWindow.AddError("Настройки ГНЧ не заданы");
+            //    if (!G2Set) errorWindow.AddError("Настройки ГВЧ не заданы");
+            //    errorWindow.ShowDialog();
+            //    return;
+            //}
+            //OSpec = new Oscilloscope("Спектр АМ сигнала");
+            ////osc.Draw(Spectrum());
+            //OSpec.Draw(Spec());
+            //OSpec.Show();
         }
 
 

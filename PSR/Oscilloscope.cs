@@ -17,51 +17,66 @@ namespace MainModule
             Reversed
         }
 
-        Chart chart = new Chart();
+        Chart[] Charts = new Chart[3];
+        Signals.ISignal signal;
         string Units = "";
 
-        public Oscilloscope(string caption)
+        void InitCharts()
         {
-            InitializeComponent();
+            for (int i = 0; i < 3; i++)
+            {
+                Charts[i] = new Chart();
+                Charts[i].Dock = DockStyle.Fill;
+                Charts[i].MouseMove += Chart_MouseMove;
+                Charts[i].Cursor = Cursors.Cross;
+                Charts[i].ChartAreas.Add("area1");
 
-            Text = caption;
+                Charts[i].ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
+                Charts[i].ChartAreas[0].AxisY.IntervalAutoMode = IntervalAutoMode.VariableCount;
 
-            chart.Dock = DockStyle.Fill;
-            chart.MouseMove += Chart_MouseMove;
-            chart.Cursor = Cursors.Cross;
-            chart.ChartAreas.Add("area1");
+                Charts[i].ChartAreas[0].CursorX.Interval = 0.00001;
+                if (Form1.EnCursors) Charts[i].ChartAreas[0].CursorX.IsUserEnabled = true;
+                Charts[i].ChartAreas[0].CursorX.AutoScroll = true;
 
-            chart.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
-            chart.ChartAreas[0].AxisY.IntervalAutoMode = IntervalAutoMode.VariableCount;
+                Charts[i].ChartAreas[0].CursorY.Interval = 0.00001;
+                if (Form1.EnCursors) Charts[i].ChartAreas[0].CursorY.IsUserEnabled = true;
+                Charts[i].ChartAreas[0].CursorY.AutoScroll = true;
 
-            chart.ChartAreas[0].CursorX.IntervalType = DateTimeIntervalType.Auto;
-            chart.ChartAreas[0].CursorX.Interval = 0.00001;
-            if (Form1.EnCursors) chart.ChartAreas[0].CursorX.IsUserEnabled = true;
-            chart.ChartAreas[0].CursorX.AutoScroll = true;
-
-            chart.ChartAreas[0].CursorY.IntervalType = DateTimeIntervalType.Auto;
-            chart.ChartAreas[0].CursorY.Interval = 0.00001;
-            if (Form1.EnCursors) chart.ChartAreas[0].CursorY.IsUserEnabled = true;
-            chart.ChartAreas[0].CursorY.AutoScroll = true;
-
-            chart.Visible = true;
-
-            //chart.Series[0].Points.AddXY(25, 44);
-            //chart.Series[0].Points.AddXY(55, 60);
-            //sinx/x
-            //for (int x = -100; x <= 100; x++)
-            //    chart.Series[0].Points.AddXY(x, SimuMod.Signals.Sinc(x));
-
-            this.Controls.Add(chart);
+                Charts[i].Visible = true;
+            }
+            splitContainer1.Panel1.Controls.Add(Charts[0]);
+            splitContainer2.Panel1.Controls.Add(Charts[1]);
+            splitContainer3.Panel1.Controls.Add(Charts[2]);
         }
 
         private void Chart_MouseMove(object sender, MouseEventArgs e)
         {
             if (!Form1.EnCursors) return;
+            if (sender.GetType().ToString() != "System.Windows.Forms.DataVisualization.Charting.Chart") return;
+            Chart chart = (Chart)sender;
             chart.ChartAreas[0].CursorX.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
             chart.ChartAreas[0].CursorY.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
             chart.ChartAreas[0].AxisX.Title = chart.ChartAreas[0].CursorX.Position.ToString() + " " + Units;
-            chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " В";
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " В";
+                    break;
+                case 1:
+                    chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " дБ?";
+                    break;
+                case 2:
+                    chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " град";
+                    break;
+            }
+        }
+
+        public Oscilloscope(string caption, Signals.ISignal signal)
+        {
+            InitializeComponent();
+            Text = caption;
+            InitCharts();
+            this.signal = signal;
         }
 
         private Pair<double, int> ReduceUnits(double number)
@@ -100,28 +115,29 @@ namespace MainModule
             return ((int)(num * Math.Pow(10, order))) / Math.Pow(10, order);
         }
 
-        public void Draw(Painter painter, FuncType funcType = FuncType.Normal)
+        public void DrawOsc(FuncType funcType = FuncType.Normal)
         {
-            chart.Series.Add($"Ser{chart.Series.Count}");
-            chart.Series[chart.Series.Count - 1].ChartType = painter.Type;
-            chart.Series[chart.Series.Count - 1].BorderWidth = 1;
-            chart.Series[chart.Series.Count - 1].Color = Color.Blue;
+            Charts[0].Series.Add($"Ser{Charts[0].Series.Count}");
+            Charts[0].Series[Charts[0].Series.Count - 1].ChartType = signal.OscType();
+            Charts[0].Series[Charts[0].Series.Count - 1].BorderWidth = 1;
+            Charts[0].Series[Charts[0].Series.Count - 1].Color = Color.Blue;
 
-            var Points = painter.Draw();
+            signal.SetPeriods(int.Parse(PeriodsText.Text));
+            var Points = signal.DrawOsc();
 
             {
                 int index = 0;
-                for (int i = 0; i < Points.First.Length; i++)
+                for (int i = 0; i < Points.X.Count; i++)
                 {
-                    if (Points.First[i] != 0 && Points.Second[i] != 0)
+                    if (Points.X[i] != 0 && Points.Y[i] != 0)
                     {
                         index = i;
                         break;
                     }
                 }
 
-                var Xunits = ReduceUnits(Points.First[index]).Second;
-                //var Yunits = ReduceUnits(Points.Second[index]).Second;
+                var Xunits = ReduceUnits(Points.X[index]).Second;
+                //var Yunits = ReduceUnits(Points.Y[index]).Y;
                 switch (Xunits / 3)
                 {
                     case 0:
@@ -144,26 +160,26 @@ namespace MainModule
                         break;
                 }
 
-                for (int i = 0; i < Points.First.Length; i++)
+                for (int i = 0; i < Points.X.Count; i++)
                 {
-                    Points.First[i] = Trim(Points.First[i] * Math.Pow(1000, Xunits / 3));
-                    //Points.Second[i] *= Math.Pow(1000, Yunits / 3);
+                    Points.X[i] = Trim(Points.X[i] * Math.Pow(1000, Xunits / 3));
+                    //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
                 }
             }
 
-            for (int i = 0; i < Points.First.Length; i++)
+            for (int i = 0; i < Points.X.Count; i++)
             {
                 if (funcType == FuncType.Normal)
-                    chart.Series[chart.Series.Count - 1].Points.AddXY(Points.First[i], Points.Second[i]);
+                    Charts[0].Series[Charts[0].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
                 else
-                    chart.Series[chart.Series.Count - 1].Points.AddXY(Points.First[i], Points.Second[i] * -1);
+                    Charts[0].Series[Charts[0].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i] * -1);
             }
 
-            List<double> temp = new List<double>(Points.First);
+            List<double> temp = new List<double>(Points.X);
             temp.Sort();
             double min = temp[0], max = temp[temp.Count - 1];
 
-            chart.ChartAreas[0].AxisX.Interval = Math.Abs(min - max) / 10;
+            Charts[0].ChartAreas[0].AxisX.Interval = Math.Abs(min - max) / 10;
             //chart.ChartAreas[0].AxisX.ScaleView.Position = -0.5;
             //chart.ChartAreas[0].AxisX.ScaleView.Size = 1;
         }
@@ -172,70 +188,144 @@ namespace MainModule
         /// </summary>
         /// <param name="pair">Массив пар X Y</param>
         /// <returns>Сортированный массив</returns>
-        Pair<List<double>, List<double>> Sort(Pair<List<double>, List<double>> pair)
+        Signals.CoordPair Sort(Signals.CoordPair pair)
         {
             List<double> x = new List<double>();
             List<double> y = new List<double>();
-            while (pair.First.Count > 0)
+            while (pair.X.Count > 0)
             {
                 double min = double.PositiveInfinity;
                 int index = -1;
-                for (int i = 0; i < pair.First.Count; i++)
+                for (int i = 0; i < pair.X.Count; i++)
                 {
-                    if (min > pair.First[i])
+                    if (min > pair.X[i])
                     {
-                        min = pair.First[i];
+                        min = pair.X[i];
                         index = i;
                     }
                 }
                 if (index != -1)
                 {
-                    x.Add(pair.First[index]);
-                    y.Add(pair.Second[index]);
-                    pair.First.RemoveAt(index);
-                    pair.Second.RemoveAt(index);
+                    x.Add(pair.X[index]);
+                    y.Add(pair.Y[index]);
+                    pair.X.RemoveAt(index);
+                    pair.Y.RemoveAt(index);
                 }
                 else
                     break;
             }
-            return new Pair<List<double>, List<double>>(x, y);
+            return new Signals.CoordPair(x, y);
         }
         /// <summary>
         /// Удаление (или складывать?) низших кармоник, накладывающихся по времени друг на друга
         /// </summary>
         /// <param name="pair">Массив пар X Y</param>
-        void DelDupli(ref Pair<List<double>, List<double>> pair)
+        void DelDupli(ref Signals.CoordPair pair)
         {
             bool duplicate = false;
             do
             {
                 duplicate = false;
-                for (int i = 0; i < pair.First.Count - 1; i++)
+                for (int i = 0; i < pair.X.Count - 1; i++)
                 {
-                    if (pair.First[i] == pair.First[i + 1])
+                    if (pair.X[i] == pair.X[i + 1])
                     {
-                        int index = pair.Second[i] < pair.Second[i + 1] ? i : i + 1;
-                        pair.First.RemoveAt(index);
-                        pair.Second.RemoveAt(index);
+                        int index = pair.Y[i] < pair.Y[i + 1] ? i : i + 1;
+                        pair.X.RemoveAt(index);
+                        pair.Y.RemoveAt(index);
                         duplicate = true;
                     }
                 }
             } while (duplicate);
         }
 
-        public void Draw(Pair<List<double>, List<double>> pair)
+        public void DrawSpec()
         {
-            chart.Series.Add($"Ser{chart.Series.Count}");
-            chart.Series[chart.Series.Count - 1].ChartType = SeriesChartType.Spline;
-            chart.Series[chart.Series.Count - 1].BorderWidth = 2;
-            chart.Series[chart.Series.Count - 1].Color = Color.Red;
+            Charts[1].Series.Add($"Ser{Charts[1].Series.Count}");
+            Charts[1].Series[Charts[1].Series.Count - 1].ChartType = signal.AmpSpecType();
+            Charts[1].Series[Charts[1].Series.Count - 1].BorderWidth = 2;
+            Charts[1].Series[Charts[1].Series.Count - 1].Color = Color.Red;
 
+            signal.SetFreqSpan(1e3);
+            var pair = signal.DrawAmpSpec();
             pair = Sort(pair);
             DelDupli(ref pair);
 
-            for (int i = 0; i < pair.First.Count; i++)
+            for (int i = 0; i < pair.X.Count; i++)
             {
-                chart.Series[chart.Series.Count - 1].Points.AddXY(pair.First[i], pair.Second[i]);
+                Charts[1].Series[Charts[1].Series.Count - 1].Points.AddXY(pair.X[i], pair.Y[i]);
+            }
+        }
+
+        public void DrawPhaseSpec()
+        {
+            Charts[2].Series.Add($"Ser{Charts[2].Series.Count}");
+            Charts[2].Series[Charts[2].Series.Count - 1].ChartType = signal.PhaseSpecType();
+            Charts[2].Series[Charts[2].Series.Count - 1].BorderWidth = 2;
+            Charts[2].Series[Charts[2].Series.Count - 1].Color = Color.Red;
+
+            signal.SetPhaseSpan(1e3);
+            var pair = signal.DrawPhaSpec();
+            pair = Sort(pair);
+            DelDupli(ref pair);
+
+            for (int i = 0; i < pair.X.Count; i++)
+            {
+                Charts[2].Series[Charts[2].Series.Count - 1].Points.AddXY(pair.X[i], pair.Y[i]);
+            }
+        }
+
+        private void SaveChartBtn_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog fileDialog = new SaveFileDialog
+            {
+                Filter = "JPEG|*.jpg|PNG|*.png|BMP|*.bmp|TIFF|*.tif|GIF|*.gif",
+                CheckPathExists = true
+            };
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //disable cursors
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].CursorX.Position = double.NaN;
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].CursorY.Position = double.NaN;
+                Charts[tabControl1.SelectedIndex].SaveImage(fileDialog.FileName, (ChartImageFormat)fileDialog.FilterIndex);
+                //enable cursors
+
+            }
+        }
+
+        private void LessPeriodsBtn_Click(object sender, EventArgs e)
+        {
+            int oldPeriod = int.Parse(PeriodsText.Text);
+            int newPeriod = oldPeriod - 1;
+            if (newPeriod < 1) newPeriod = 1;
+
+            if (oldPeriod == newPeriod) return;
+
+            PeriodsText.Text = $"{newPeriod}";
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    Charts[0].Series.Clear();
+                    DrawOsc();
+                    break;
+            }
+        }
+
+        private void MorePeriodsBtn_Click(object sender, EventArgs e)
+        {
+            int oldPeriod = int.Parse(PeriodsText.Text);
+            int newPeriod = oldPeriod + 1;
+            if (newPeriod > 100) newPeriod = 100;
+
+            if (oldPeriod == newPeriod) return;
+
+            PeriodsText.Text = $"{newPeriod}";
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    Charts[0].Series.Clear();
+                    DrawOsc();
+                    break;
             }
         }
     }

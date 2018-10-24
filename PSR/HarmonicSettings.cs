@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MainModule.Signals;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -225,23 +226,23 @@ namespace MainModule
                 }
             }
 
-            var painter = new Painter(temp);
+            var painter = new MultiToneSignal(temp,1);
 
             PreviewChart.Series.Clear();
 
             PreviewChart.Series.Add($"Ser{PreviewChart.Series.Count}");
-            PreviewChart.Series[PreviewChart.Series.Count - 1].ChartType = painter.Type;
+            PreviewChart.Series[PreviewChart.Series.Count - 1].ChartType = SeriesChartType.Spline;
             PreviewChart.Series[PreviewChart.Series.Count - 1].BorderWidth = 1;
             PreviewChart.Series[PreviewChart.Series.Count - 1].Color = Color.Blue;
 
-            var Points = painter.Draw();
+            var Points = painter.DrawOsc();
 
             //stopwatch1.Stop();
             //stopwatch2.Start();
 
-            for (int i = 0; i < Points.First.Length; i++)
+            for (int i = 0; i < Points.X.Count; i++)
             {
-                PreviewChart.Series[PreviewChart.Series.Count - 1].Points.AddXY(Points.First[i], Points.Second[i]);
+                PreviewChart.Series[PreviewChart.Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
             }
             //stopwatch2.Stop();
             //Text =$"{stopwatch1.ElapsedMilliseconds} {stopwatch2.ElapsedMilliseconds}";

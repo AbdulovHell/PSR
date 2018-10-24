@@ -30,7 +30,9 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.mod11 = new MainModule.Mod_AM();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.mod_BM1 = new MainModule.Mod_BM();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -44,8 +46,6 @@
             this.SetRadianUnitsBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.EnableCursors = new System.Windows.Forms.ToolStripMenuItem();
-            this.mod11 = new MainModule.Mod_AM();
-            this.mod_BM1 = new MainModule.Mod_BM();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -76,6 +76,16 @@
             this.tabPage1.Text = "Амплитудная модуляция";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // mod11
+            // 
+            this.mod11.AutoSize = true;
+            this.mod11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod11.Location = new System.Drawing.Point(3, 3);
+            this.mod11.Name = "mod11";
+            this.mod11.Size = new System.Drawing.Size(791, 423);
+            this.mod11.TabIndex = 0;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.mod_BM1);
@@ -86,6 +96,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Балансная модуляция";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // mod_BM1
+            // 
+            this.mod_BM1.AutoSize = true;
+            this.mod_BM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod_BM1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod_BM1.Location = new System.Drawing.Point(3, 3);
+            this.mod_BM1.Name = "mod_BM1";
+            this.mod_BM1.Size = new System.Drawing.Size(791, 423);
+            this.mod_BM1.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -204,26 +224,6 @@
             this.EnableCursors.CheckedChanged += new System.EventHandler(this.EnableCursors_CheckedChanged);
             this.EnableCursors.Click += new System.EventHandler(this.EnableCursors_Click);
             // 
-            // mod11
-            // 
-            this.mod11.AutoSize = true;
-            this.mod11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mod11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mod11.Location = new System.Drawing.Point(3, 3);
-            this.mod11.Name = "mod11";
-            this.mod11.Size = new System.Drawing.Size(791, 423);
-            this.mod11.TabIndex = 0;
-            // 
-            // mod_BM1
-            // 
-            this.mod_BM1.AutoSize = true;
-            this.mod_BM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mod_BM1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mod_BM1.Location = new System.Drawing.Point(3, 3);
-            this.mod_BM1.Name = "mod_BM1";
-            this.mod_BM1.Size = new System.Drawing.Size(791, 423);
-            this.mod_BM1.TabIndex = 0;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -236,6 +236,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Модуляции";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

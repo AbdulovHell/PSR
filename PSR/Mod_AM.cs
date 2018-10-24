@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using MainModule.Signals;
 
 namespace MainModule
 {
@@ -24,16 +25,22 @@ namespace MainModule
         private void OscAtG1_Click(object sender, EventArgs e)
         {
             if (!G1Set) return;
-            Oscilloscope osc = new Oscilloscope("ГВЧ");
-            osc.Draw(new Painter(Source));
+            var signal = new SingleToneSignal(Source);
+            Oscilloscope osc = new Oscilloscope("ГВЧ", signal);
+            osc.DrawOsc();
+            osc.DrawSpec();
+            osc.DrawPhaseSpec();
             osc.Show();
         }
 
         private void OscAtG2_Click(object sender, EventArgs e)
         {
             if (!G2Set) return;
-            Oscilloscope osc = new Oscilloscope("ГНЧ");
-            osc.Draw(new Painter(harmonics));
+            var signal = new MultiToneSignal(harmonics, ProceedInput(KEdit.Text));
+            Oscilloscope osc = new Oscilloscope("ГНЧ", signal);
+            osc.DrawOsc();
+            osc.DrawSpec();
+            osc.DrawPhaseSpec();
             osc.Show();
         }
 
@@ -66,10 +73,12 @@ namespace MainModule
         private void OscAtEnd_Click(object sender, EventArgs e)
         {
             if (!G2Set || !G1Set) return;
-            Oscilloscope osc = new Oscilloscope("Модулированный сигнал");
-            var painter = new Painter(harmonics, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text));
-            osc.Draw(painter);
-            osc.Draw(painter, Oscilloscope.FuncType.Reversed);
+            var signal = new AM(harmonics,Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text));
+            Oscilloscope osc = new Oscilloscope("Модулированный сигнал", signal);
+            osc.DrawOsc();
+            osc.DrawOsc(Oscilloscope.FuncType.Reversed);
+            osc.DrawPhaseSpec();
+            osc.DrawSpec();
             osc.Show();
         }
 
@@ -127,10 +136,10 @@ namespace MainModule
 
         private void OscBtn_Click(object sender, EventArgs e)
         {
-            Oscilloscope osc = new Oscilloscope("Спектр");
-            //osc.Draw(Spectrum());
-            osc.Draw(Spec());
-            osc.Show();
+            //Oscilloscope osc = new Oscilloscope("Спектр");
+            ////osc.Draw(Spectrum());
+            //osc.Draw(Spec());
+            //osc.Show();
         }
 
 

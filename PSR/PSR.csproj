@@ -48,6 +48,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Signals\AM.cs" />
+    <Compile Include="Signals\BM.cs" />
+    <Compile Include="Signals\CoordPair.cs" />
+    <Compile Include="Signals\ISignal.cs" />
     <Compile Include="Math\CDF.cs" />
     <Compile Include="ErrorWindow.cs">
       <SubType>Form</SubType>
@@ -86,7 +90,6 @@
     <Compile Include="Oscilloscope.Designer.cs">
       <DependentUpon>Oscilloscope.cs</DependentUpon>
     </Compile>
-    <Compile Include="Painter.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,7 +98,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Signals.cs" />
+    <Compile Include="Harmonic.cs" />
+    <Compile Include="Signals\MultiToneSignal.cs" />
+    <Compile Include="Signals\SingleToneSignal.cs" />
     <Compile Include="SourceSet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Mod_AM.resx">
       <DependentUpon>Mod_AM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Oscilloscope.resx">
+      <DependentUpon>Oscilloscope.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
