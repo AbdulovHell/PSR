@@ -46,6 +46,10 @@
             this.SetRadianUnitsBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.EnableCursors = new System.Windows.Forms.ToolStripMenuItem();
+            this.построитьВсеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сигналыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.амплитудныеСпектрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.фазовыеСпектрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -147,6 +151,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
+            this.построитьВсеToolStripMenuItem,
             this.настройкиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -224,6 +229,37 @@
             this.EnableCursors.CheckedChanged += new System.EventHandler(this.EnableCursors_CheckedChanged);
             this.EnableCursors.Click += new System.EventHandler(this.EnableCursors_Click);
             // 
+            // построитьВсеToolStripMenuItem
+            // 
+            this.построитьВсеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сигналыToolStripMenuItem,
+            this.амплитудныеСпектрыToolStripMenuItem,
+            this.фазовыеСпектрыToolStripMenuItem});
+            this.построитьВсеToolStripMenuItem.Name = "построитьВсеToolStripMenuItem";
+            this.построитьВсеToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
+            this.построитьВсеToolStripMenuItem.Text = "Построить все";
+            // 
+            // сигналыToolStripMenuItem
+            // 
+            this.сигналыToolStripMenuItem.Name = "сигналыToolStripMenuItem";
+            this.сигналыToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.сигналыToolStripMenuItem.Text = "Сигналы...";
+            this.сигналыToolStripMenuItem.Click += new System.EventHandler(this.сигналыToolStripMenuItem_Click);
+            // 
+            // амплитудныеСпектрыToolStripMenuItem
+            // 
+            this.амплитудныеСпектрыToolStripMenuItem.Name = "амплитудныеСпектрыToolStripMenuItem";
+            this.амплитудныеСпектрыToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.амплитудныеСпектрыToolStripMenuItem.Text = "Амплитудные спектры...";
+            this.амплитудныеСпектрыToolStripMenuItem.Click += new System.EventHandler(this.амплитудныеСпектрыToolStripMenuItem_Click);
+            // 
+            // фазовыеСпектрыToolStripMenuItem
+            // 
+            this.фазовыеСпектрыToolStripMenuItem.Name = "фазовыеСпектрыToolStripMenuItem";
+            this.фазовыеСпектрыToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.фазовыеСпектрыToolStripMenuItem.Text = "Фазовые спектры...";
+            this.фазовыеСпектрыToolStripMenuItem.Click += new System.EventHandler(this.фазовыеСпектрыToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -271,6 +307,10 @@
         private System.Windows.Forms.ToolStripMenuItem SetRadianUnitsBtn;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem EnableCursors;
+        private System.Windows.Forms.ToolStripMenuItem построитьВсеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сигналыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem амплитудныеСпектрыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem фазовыеСпектрыToolStripMenuItem;
     }
 }
 

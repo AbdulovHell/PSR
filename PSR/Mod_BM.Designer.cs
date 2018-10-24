@@ -45,7 +45,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.FilterKoef = new System.Windows.Forms.TrackBar();
             this.FilterKoefLbl = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FilterKoef)).BeginInit();
             this.SuspendLayout();
@@ -218,24 +217,12 @@
             this.FilterKoefLbl.Text = "1";
             this.FilterKoefLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.button1.Location = new System.Drawing.Point(514, 368);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(137, 43);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Построить все";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // Mod_BM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.FilterKoefLbl);
             this.Controls.Add(this.FilterKoef);
             this.Controls.Add(this.label5);
@@ -281,6 +268,5 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TrackBar FilterKoef;
         private System.Windows.Forms.Label FilterKoefLbl;
-        private System.Windows.Forms.Button button1;
     }
 }

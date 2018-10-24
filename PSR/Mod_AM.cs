@@ -16,32 +16,44 @@ namespace MainModule
         List<Harmonic> harmonics = new List<Harmonic>();
         Harmonic Source = new Harmonic(0);
 
+        Oscilloscope OG1, OG2, OEnd;
+
         public Mod_AM()
         {
             InitializeComponent();
             UpdateG1Info();
         }
 
-        private void OscAtG1_Click(object sender, EventArgs e)
+        void DrawG1Osc(int OscPage = 0)
         {
             if (!G1Set) return;
             var signal = new SingleToneSignal(Source);
-            Oscilloscope osc = new Oscilloscope("ГВЧ", signal);
-            osc.DrawOsc();
-            osc.DrawSpec();
-            osc.DrawPhaseSpec();
-            osc.Show();
+            OG1 = new Oscilloscope("ГВЧ", signal, OscPage);
+            OG1.DrawOsc();
+            OG1.DrawSpec();
+            OG1.DrawPhaseSpec();
+            OG1.Show();
+        }
+
+        private void OscAtG1_Click(object sender, EventArgs e)
+        {
+            DrawG1Osc();
+        }
+
+        void DrawG2Osc(int OscPage = 0)
+        {
+            if (!G2Set) return;
+            var signal = new MultiToneSignal(harmonics, ProceedInput(KEdit.Text));
+            OG2 = new Oscilloscope("ГНЧ", signal, OscPage);
+            OG2.DrawOsc();
+            OG2.DrawSpec();
+            OG2.DrawPhaseSpec();
+            OG2.Show();
         }
 
         private void OscAtG2_Click(object sender, EventArgs e)
         {
-            if (!G2Set) return;
-            var signal = new MultiToneSignal(harmonics, ProceedInput(KEdit.Text));
-            Oscilloscope osc = new Oscilloscope("ГНЧ", signal);
-            osc.DrawOsc();
-            osc.DrawSpec();
-            osc.DrawPhaseSpec();
-            osc.Show();
+            DrawG2Osc();
         }
 
         double ProceedInput(object num)
@@ -70,16 +82,47 @@ namespace MainModule
             }
         }
 
-        private void OscAtEnd_Click(object sender, EventArgs e)
+        public void BuildAll(int OscPage)
+        {
+            DrawG1Osc(OscPage);
+            DrawG2Osc(OscPage);
+            DrawEndOsc(OscPage);
+            //OscBtn_Click(sender, e);
+            Size resolution = Screen.PrimaryScreen.Bounds.Size;
+            Size wndSize = new Size(resolution.Width / 2, resolution.Height / 2);
+            if (OG1 != null)
+            {
+                OG1.Location = new Point(0, 0);
+                OG1.Size = wndSize;
+            }
+            if (OG2 != null)
+            {
+                OG2.Location = new Point(0, resolution.Height / 2);
+                OG2.Size = wndSize;
+            }
+            if (OEnd != null)
+            {
+                OEnd.Location = new Point(resolution.Width / 2, 0);
+                OEnd.Size = wndSize;
+            }
+            
+        }
+
+        void DrawEndOsc(int OscPage = 0)
         {
             if (!G2Set || !G1Set) return;
-            var signal = new AM(harmonics,Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text));
-            Oscilloscope osc = new Oscilloscope("Модулированный сигнал", signal);
-            osc.DrawOsc();
-            osc.DrawOsc(Oscilloscope.FuncType.Reversed);
-            osc.DrawPhaseSpec();
-            osc.DrawSpec();
-            osc.Show();
+            var signal = new AM(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text));
+            OEnd = new Oscilloscope("Модулированный сигнал", signal, OscPage);
+            OEnd.DrawOsc();
+            OEnd.DrawOsc(Oscilloscope.FuncType.Reversed);
+            OEnd.DrawPhaseSpec();
+            OEnd.DrawSpec();
+            OEnd.Show();
+        }
+
+        private void OscAtEnd_Click(object sender, EventArgs e)
+        {
+            DrawEndOsc();
         }
 
         double HarmonicSpec()

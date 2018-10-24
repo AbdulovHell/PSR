@@ -13,7 +13,7 @@ namespace MainModule
         List<Harmonic> harmonics = new List<Harmonic>();
         Harmonic Source = new Harmonic(0);
 
-        Oscilloscope OG1, OG2, OEnd, OSpec;
+        Oscilloscope OG1, OG2, OEnd;
 
         public Mod_BM()
         {
@@ -22,7 +22,7 @@ namespace MainModule
             FilterKoefLbl.Text = $"Kпн = {FilterKoef.Value / 10.0}";
         }
 
-        private void OscAtG1_Click(object sender, EventArgs e)
+        void DrawG1Osc( int OscPage = 0)
         {
             if (!G1Set)
             {
@@ -32,12 +32,19 @@ namespace MainModule
                 return;
             }
             var signal = new SingleToneSignal(Source);
-            OG1 = new Oscilloscope("ГВЧ", signal);
+            OG1 = new Oscilloscope("ГВЧ", signal, OscPage);
             OG1.DrawOsc();
+            OG1.DrawSpec();
+            OG1.DrawPhaseSpec();
             OG1.Show();
         }
 
-        private void OscAtG2_Click(object sender, EventArgs e)
+        private void OscAtG1_Click(object sender, EventArgs e)
+        {
+            DrawG1Osc();
+        }
+
+        void DrawG2Osc(int OscPage = 0)
         {
             if (!G2Set)
             {
@@ -46,10 +53,17 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            //var calc = new Calculator(harmonics);
-            //OG2 = new Oscilloscope("ГНЧ", calc, calc, calc);
-            //OG2.Draw(calc);
-            //OG2.Show();
+            var signal = new MultiToneSignal(harmonics, ProceedInput(KEdit.Text));
+            OG2 = new Oscilloscope("ГНЧ", signal, OscPage);
+            OG2.DrawOsc();
+            OG2.DrawSpec();
+            OG2.DrawPhaseSpec();
+            OG2.Show();
+        }
+
+        private void OscAtG2_Click(object sender, EventArgs e)
+        {
+            DrawG2Osc();
         }
 
         double ProceedInput(object num)
@@ -78,7 +92,7 @@ namespace MainModule
             }
         }
 
-        private void OscAtEnd_Click(object sender, EventArgs e)
+        void DrawEndOsc(int OscPage = 0)
         {
             if (!G2Set || !G1Set)
             {
@@ -88,16 +102,18 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            //var painter = new Calculator(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
-            //OEnd = new Oscilloscope("АМ сигнал", painter, painter, painter);
-            //OEnd.Draw(painter);
-            //OEnd.Draw(painter, Oscilloscope.FuncType.Reversed);
-            //OEnd.Show();
+            var signal = new BM(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
+            OEnd = new Oscilloscope("BМ сигнал", signal, OscPage);
+            OEnd.DrawOsc();
+            OEnd.DrawOsc(Oscilloscope.FuncType.Reversed);
+            OEnd.DrawPhaseSpec();
+            OEnd.DrawSpec();
+            OEnd.Show();
         }
 
-        double HarmonicSpec()
+        private void OscAtEnd_Click(object sender, EventArgs e)
         {
-            return 1;
+            DrawEndOsc();
         }
 
         private void G2SettingsBtn_Click(object sender, EventArgs e)
@@ -116,7 +132,6 @@ namespace MainModule
             label3.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Частота = {Source.Freq} Рад/с" : $"Частота = {Source.Freq / (2 * Math.PI)} Гц";
             label4.Text = $"Амплитуда = {Source.Amp} V";
             label5.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Начальная фаза = {Source.StaPhase} Рад" : $"Начальная фаза = {Source.StaPhase * (180 / Math.PI)} °";
-
         }
 
         private void G1SettingsBtn_Click(object sender, EventArgs e)
@@ -130,36 +145,17 @@ namespace MainModule
             }
         }
 
-        Pair<List<double>, List<double>> Spec()
-        {
-            List<double> x = new List<double>();
-            List<double> y = new List<double>();
-            x.Add(Source.Freq);
-            y.Add(Source.Amp * (FilterKoef.Value / 10.0));
-
-            for (int i = 0; i < harmonics.Count; i++)
-            {
-                x.Add(Source.Freq + harmonics[i].Freq);
-                x.Add(Source.Freq - harmonics[i].Freq);
-                double amp = (ProceedInput(KEdit.Text) * harmonics[i].Amp) / 2.0;
-                y.Add(amp);
-                y.Add(amp);
-            }
-
-            return new Pair<List<double>, List<double>>(x, y);
-        }
-
         private void FilterKoef_ValueChanged(object sender, EventArgs e)
         {
             FilterKoefLbl.Text = $"Kпн = {FilterKoef.Value / 10.0}";
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void BuildAll(int OscPage)
         {
-            OscAtG1_Click(sender, e);
-            OscAtG2_Click(sender, e);
-            OscAtEnd_Click(sender, e);
-            OscBtn_Click(sender, e);
+            DrawG1Osc(OscPage);
+            DrawG2Osc(OscPage);
+            DrawEndOsc(OscPage);
+            //OscBtn_Click(sender, e);
             Size resolution = Screen.PrimaryScreen.Bounds.Size;
             Size wndSize = new Size(resolution.Width / 2, resolution.Height / 2);
             if (OG1 != null)
@@ -177,11 +173,7 @@ namespace MainModule
                 OEnd.Location = new Point(resolution.Width / 2, 0);
                 OEnd.Size = wndSize;
             }
-            if (OSpec != null)
-            {
-                OSpec.Location = new Point(resolution.Width / 2, resolution.Height / 2);
-                OSpec.Size = wndSize;
-            }
+            
         }
 
         private void OscBtn_Click(object sender, EventArgs e)

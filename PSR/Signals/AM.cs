@@ -49,9 +49,9 @@ namespace MainModule.Signals
 
             for (int i = 0; i < harmonics.Count; i++)
             {
-                x.Add(Carrier.Freq + harmonics[i].Freq);
+                x.Add(Carrier.Freq + (K*harmonics[i].Freq)/2);
                 y.Add(harmonics[i].Amp);
-                x.Add(Carrier.Freq - harmonics[i].Freq);
+                x.Add(Carrier.Freq - (K*harmonics[i].Freq)/2);
                 y.Add(harmonics[i].Amp);
             }
 

@@ -69,5 +69,44 @@ namespace MainModule
         {
 
         }
+
+        private void сигналыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    mod11.BuildAll(0);
+                    break;
+                case 1:
+                    mod_BM1.BuildAll(0);
+                    break;
+            }
+        }
+
+        private void амплитудныеСпектрыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    mod11.BuildAll(1);
+                    break;
+                case 1:
+                    mod_BM1.BuildAll(1);
+                    break;
+            }
+        }
+
+        private void фазовыеСпектрыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    mod11.BuildAll(2);
+                    break;
+                case 1:
+                    mod_BM1.BuildAll(2);
+                    break;
+            }
+        }
     }
 }

@@ -71,12 +71,13 @@ namespace MainModule
             }
         }
 
-        public Oscilloscope(string caption, Signals.ISignal signal)
+        public Oscilloscope(string caption, Signals.ISignal signal,int tabIndex=0)
         {
             InitializeComponent();
             Text = caption;
             InitCharts();
             this.signal = signal;
+            tabControl1.SelectedIndex = tabIndex;
         }
 
         private Pair<double, int> ReduceUnits(double number)
