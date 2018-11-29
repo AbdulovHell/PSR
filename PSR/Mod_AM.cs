@@ -113,8 +113,7 @@ namespace MainModule
             if (!G2Set || !G1Set) return;
             var signal = new AM(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text));
             OEnd = new Oscilloscope("Модулированный сигнал", signal, OscPage);
-            OEnd.DrawOsc();
-            OEnd.DrawOsc(Oscilloscope.FuncType.Reversed);
+            OEnd.DrawOsc(Oscilloscope.FuncType.Modulated);
             OEnd.DrawPhaseSpec();
             OEnd.DrawSpec();
             OEnd.Show();

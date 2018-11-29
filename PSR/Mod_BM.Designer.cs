@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.OscBtn = new System.Windows.Forms.Button();
             this.G1SettingsBtn = new System.Windows.Forms.Button();
             this.G2SettingsBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,17 +47,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FilterKoef)).BeginInit();
             this.SuspendLayout();
-            // 
-            // OscBtn
-            // 
-            this.OscBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.OscBtn.Location = new System.Drawing.Point(521, 157);
-            this.OscBtn.Name = "OscBtn";
-            this.OscBtn.Size = new System.Drawing.Size(130, 85);
-            this.OscBtn.TabIndex = 1;
-            this.OscBtn.Text = "Анализатор спектра";
-            this.OscBtn.UseVisualStyleBackColor = true;
-            this.OscBtn.Click += new System.EventHandler(this.OscBtn_Click);
             // 
             // G1SettingsBtn
             // 
@@ -238,7 +226,6 @@
             this.Controls.Add(this.OscAtG2);
             this.Controls.Add(this.OscAtG1);
             this.Controls.Add(this.OscAtEnd);
-            this.Controls.Add(this.OscBtn);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Mod_BM";
             this.Size = new System.Drawing.Size(800, 450);
@@ -252,7 +239,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button OscBtn;
         private System.Windows.Forms.Button OscAtEnd;
         private System.Windows.Forms.Button OscAtG1;
         private System.Windows.Forms.Button OscAtG2;

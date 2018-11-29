@@ -261,5 +261,10 @@ namespace MainModule
             }
             ChangeCap();
         }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DrawPreview();
+        }
     }
 }

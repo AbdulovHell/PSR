@@ -14,12 +14,15 @@ namespace MainModule
         public enum FuncType
         {
             Normal,
-            Reversed
+            Modulated
         }
 
         Chart[] Charts = new Chart[3];
         Signals.ISignal signal;
+        FuncType OSCtype;
         string Units = "";
+        int[] Periods = new int[3];
+        int Xunits;
 
         void InitCharts()
         {
@@ -44,9 +47,9 @@ namespace MainModule
 
                 Charts[i].Visible = true;
             }
-            splitContainer1.Panel1.Controls.Add(Charts[0]);
-            splitContainer2.Panel1.Controls.Add(Charts[1]);
-            splitContainer3.Panel1.Controls.Add(Charts[2]);
+            tabControl1.TabPages[0].Controls.Add(Charts[0]);
+            tabControl1.TabPages[1].Controls.Add(Charts[1]);
+            tabControl1.TabPages[2].Controls.Add(Charts[2]);
         }
 
         private void Chart_MouseMove(object sender, MouseEventArgs e)
@@ -71,13 +74,38 @@ namespace MainModule
             }
         }
 
-        public Oscilloscope(string caption, Signals.ISignal signal,int tabIndex=0)
+        public Oscilloscope(string caption, Signals.ISignal signal, int tabIndex = 0)
         {
             InitializeComponent();
             Text = caption;
             InitCharts();
             this.signal = signal;
             tabControl1.SelectedIndex = tabIndex;
+
+            Periods[0] = 1;
+            Periods[1] = 1;
+            Periods[2] = 1;
+
+            RelocateBtns();
+        }
+
+        void RelocateBtns()
+        {
+            var UpLeftCorner = new Point(tabPage1.Left, tabPage1.Top);
+            IncrMaxYBtn.Location = new Point(4 + UpLeftCorner.X, 4 + UpLeftCorner.Y);
+            DecrMaxYBtn.Location = new Point(4 + UpLeftCorner.X, 25 + UpLeftCorner.Y);
+
+            var DownLeftCorner = new Point(tabPage1.Left, /*tabPage1.Top +*/ Charts[0].Size.Height);
+            DecrMinYBtn.Location = new Point(DownLeftCorner.X + 4, DownLeftCorner.Y - 0);
+            IncrMinYBtn.Location = new Point(DownLeftCorner.X + 4, DownLeftCorner.Y - 21);
+
+            DecrMinXBtn.Location = new Point(DownLeftCorner.X + 25, DownLeftCorner.Y - 0);
+            IncrMinXBtn.Location = new Point(DownLeftCorner.X + 46, DownLeftCorner.Y - 0);
+
+            var DownRightCorner = new Point(Charts[0].Size.Width, Charts[0].Size.Height);
+
+            IncrMaxXBtn.Location = new Point(DownRightCorner.X - (0 + 20), DownRightCorner.Y - 0);
+            DecrMaxXBtn.Location = new Point(DownRightCorner.X - (21 + 20), DownRightCorner.Y - 0);
         }
 
         private Pair<double, int> ReduceUnits(double number)
@@ -116,14 +144,8 @@ namespace MainModule
             return ((int)(num * Math.Pow(10, order))) / Math.Pow(10, order);
         }
 
-        public void DrawOsc(FuncType funcType = FuncType.Normal)
+        private void OscToChart()
         {
-            Charts[0].Series.Add($"Ser{Charts[0].Series.Count}");
-            Charts[0].Series[Charts[0].Series.Count - 1].ChartType = signal.OscType();
-            Charts[0].Series[Charts[0].Series.Count - 1].BorderWidth = 1;
-            Charts[0].Series[Charts[0].Series.Count - 1].Color = Color.Blue;
-
-            signal.SetPeriods(int.Parse(PeriodsText.Text));
             var Points = signal.DrawOsc();
 
             {
@@ -137,7 +159,7 @@ namespace MainModule
                     }
                 }
 
-                var Xunits = ReduceUnits(Points.X[index]).Second;
+                Xunits = ReduceUnits(Points.X[index]).Second;
                 //var Yunits = ReduceUnits(Points.Y[index]).Y;
                 switch (Xunits / 3)
                 {
@@ -168,21 +190,61 @@ namespace MainModule
                 }
             }
 
+            //Normal
+            Charts[0].Series.Add($"Ser{Charts[0].Series.Count}");
+            Charts[0].Series[Charts[0].Series.Count - 1].ChartType = signal.OscType();
+            Charts[0].Series[Charts[0].Series.Count - 1].BorderWidth = 1;
+            Charts[0].Series[Charts[0].Series.Count - 1].Color = Color.Blue;         
             for (int i = 0; i < Points.X.Count; i++)
             {
-                if (funcType == FuncType.Normal)
-                    Charts[0].Series[Charts[0].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
-                else
-                    Charts[0].Series[Charts[0].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i] * -1);
+                Charts[0].Series[Charts[0].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
             }
 
-            List<double> temp = new List<double>(Points.X);
-            temp.Sort();
-            double min = temp[0], max = temp[temp.Count - 1];
+            if (OSCtype == FuncType.Modulated)
+            {
+                Charts[0].Series.Add($"Ser{Charts[0].Series.Count}");
+                Charts[0].Series[Charts[0].Series.Count - 1].ChartType = signal.OscType();
+                Charts[0].Series[Charts[0].Series.Count - 1].BorderWidth = 1;
+                Charts[0].Series[Charts[0].Series.Count - 1].Color = Color.Blue;
+                for (int i = 0; i < Points.X.Count; i++)
+                {
+                    Charts[0].Series[Charts[0].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i] * -1);
+                }
+            }
 
-            Charts[0].ChartAreas[0].AxisX.Interval = Math.Abs(min - max) / 10;
+            List<double> tempX = new List<double>(Points.X);
+            tempX.Sort();
+            double min = tempX[0], max = tempX[tempX.Count - 1];
+
+            //Charts[0].ChartAreas[0].AxisX.Interval = Math.Abs(min - max) / 10;
             //chart.ChartAreas[0].AxisX.ScaleView.Position = -0.5;
             //chart.ChartAreas[0].AxisX.ScaleView.Size = 1;
+            Charts[0].ChartAreas[0].AxisX.Minimum = Math.Round(min, 3);
+            Charts[0].ChartAreas[0].AxisX.Maximum = Math.Round(max, 3);
+
+            List<double> mins = new List<double>();
+            for (int i = 0; i < Charts[0].Series.Count; i++)
+            {
+                mins.AddRange(Charts[0].Series[i].Points.FindMinByValue().YValues);
+            }
+            mins.Sort();
+
+            List<double> maxs = new List<double>();
+            for (int i = 0; i < Charts[0].Series.Count; i++)
+            {
+                maxs.AddRange(Charts[0].Series[i].Points.FindMaxByValue().YValues);
+            }
+            maxs.Sort();
+
+            Charts[0].ChartAreas[0].AxisY.Minimum = Math.Round(mins[0], 3);
+            Charts[0].ChartAreas[0].AxisY.Maximum = Math.Round(maxs[maxs.Count - 1], 3);
+        }
+
+        public void DrawOsc(FuncType funcType = FuncType.Normal)
+        {
+            OSCtype = funcType;
+            signal.SetPeriods(Periods[0]);
+            OscToChart();
         }
         /// <summary>
         /// Сортировка по времени
@@ -303,11 +365,19 @@ namespace MainModule
             if (oldPeriod == newPeriod) return;
 
             PeriodsText.Text = $"{newPeriod}";
+            Periods[tabControl1.SelectedIndex] = newPeriod;
+            signal.SetPeriods(Periods[tabControl1.SelectedIndex]);
+            Charts[tabControl1.SelectedIndex].Series.Clear();
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
-                    Charts[0].Series.Clear();
-                    DrawOsc();
+                    OscToChart();
+                    break;
+                case 1:
+                    DrawSpec();
+                    break;
+                case 2:
+                    DrawPhaseSpec();
                     break;
             }
         }
@@ -321,11 +391,47 @@ namespace MainModule
             if (oldPeriod == newPeriod) return;
 
             PeriodsText.Text = $"{newPeriod}";
+            Periods[tabControl1.SelectedIndex] = newPeriod;
+            signal.SetPeriods(Periods[tabControl1.SelectedIndex]);
+            Charts[tabControl1.SelectedIndex].Series.Clear();
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
-                    Charts[0].Series.Clear();
-                    DrawOsc();
+                    OscToChart();
+                    break;
+                case 1:
+                    DrawSpec();
+                    break;
+                case 2:
+                    DrawPhaseSpec();
+                    break;
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PeriodsText.Text = Periods[tabControl1.SelectedIndex].ToString();
+            PeriodsText.Enabled = tabControl1.SelectedIndex == 0;
+        }
+
+        private void Oscilloscope_ResizeEnd(object sender, EventArgs e)
+        {
+            RelocateBtns();
+        }
+
+        private void IncrMaxXBtn_Click(object sender, EventArgs e)
+        {
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum += 0.1;
+            signal.SetBorders(
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
+                );
+            Charts[tabControl1.SelectedIndex].Series.Clear();
+
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    OscToChart();
                     break;
             }
         }
