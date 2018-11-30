@@ -10,9 +10,12 @@ namespace MainModule.Signals
     {
         Harmonic harmonic;
 
-        double Periods = 1;
+        double LeftBorder=-1, RightBorder=1;
+        double Step=0.1;
         double FreqSpan = 0;
         double PhaseSpan = 0;
+
+        const int PointOnPeriod = 100;
 
         const SeriesChartType oscType = SeriesChartType.Spline;
         const SeriesChartType ampSpecType = SeriesChartType.Point;
@@ -21,36 +24,40 @@ namespace MainModule.Signals
         public SingleToneSignal(Harmonic harmonic)
         {
             this.harmonic = harmonic;
+
+            double PeriodToTime = (1 * 2 * Math.PI) / harmonic.Freq;
+            Step = PeriodToTime / PointOnPeriod;
+            LeftBorder = PeriodToTime / -2;
+            RightBorder = PeriodToTime / 2;
         }
 
         public CoordPair DrawOsc()
         {
-            int Points = (int)(Periods * 100 + 1);
-            double Time = (Periods * 2 * Math.PI) / harmonic.Freq;
-            double StartTime = -1 * Time / 2;
-
             List<double> x = new List<double>();
             List<double> y = new List<double>();
-            double step = Time / Points;
-
-            for (int i = 0; i < Points; i++)
+            
+            double CurrentPoint = LeftBorder;
+            while (CurrentPoint <= RightBorder)
             {
-                y.Add(CalcPoint(StartTime + i * step));
-                x.Add(StartTime + i * step);
+                y.Add(CalcPoint(CurrentPoint));
+                x.Add(CurrentPoint);
+                CurrentPoint += Step;
             }
-
+            
             return new CoordPair(x, y);
         }
 
         public void SetPeriods(int periods)
         {
-            Periods = periods;
+            double PeriodToTime = (periods * 2 * Math.PI) / harmonic.Freq;
+            LeftBorder = PeriodToTime / -2;
+            RightBorder = PeriodToTime / 2;
         }
 
         public void SetBorders(double left, double right)
         {
-            double Time = left * -2;
-            Periods = (harmonic.Freq * Time) / (2 * Math.PI);
+            LeftBorder = left;
+            RightBorder = right;
         }
 
         private double CalcPoint(double t, double StartPhase = 0)

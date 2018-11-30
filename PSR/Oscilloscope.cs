@@ -87,6 +87,9 @@ namespace MainModule
             Periods[2] = 1;
 
             RelocateBtns();
+            PeriodsText.Enabled = tabControl1.SelectedIndex == 0;
+            LessPeriodsBtn.Enabled = tabControl1.SelectedIndex == 0;
+            MorePeriodsBtn.Enabled = tabControl1.SelectedIndex == 0;
         }
 
         void RelocateBtns()
@@ -95,14 +98,14 @@ namespace MainModule
             IncrMaxYBtn.Location = new Point(4 + UpLeftCorner.X, 4 + UpLeftCorner.Y);
             DecrMaxYBtn.Location = new Point(4 + UpLeftCorner.X, 25 + UpLeftCorner.Y);
 
-            var DownLeftCorner = new Point(tabPage1.Left, /*tabPage1.Top +*/ Charts[0].Size.Height);
+            var DownLeftCorner = new Point(tabPage1.Left, /*tabPage1.Top +*/ Charts[tabControl1.SelectedIndex].Size.Height);
             DecrMinYBtn.Location = new Point(DownLeftCorner.X + 4, DownLeftCorner.Y - 0);
             IncrMinYBtn.Location = new Point(DownLeftCorner.X + 4, DownLeftCorner.Y - 21);
 
             DecrMinXBtn.Location = new Point(DownLeftCorner.X + 25, DownLeftCorner.Y - 0);
             IncrMinXBtn.Location = new Point(DownLeftCorner.X + 46, DownLeftCorner.Y - 0);
 
-            var DownRightCorner = new Point(Charts[0].Size.Width, Charts[0].Size.Height);
+            var DownRightCorner = new Point(Charts[tabControl1.SelectedIndex].Size.Width, Charts[tabControl1.SelectedIndex].Size.Height);
 
             IncrMaxXBtn.Location = new Point(DownRightCorner.X - (0 + 20), DownRightCorner.Y - 0);
             DecrMaxXBtn.Location = new Point(DownRightCorner.X - (21 + 20), DownRightCorner.Y - 0);
@@ -194,7 +197,7 @@ namespace MainModule
             Charts[0].Series.Add($"Ser{Charts[0].Series.Count}");
             Charts[0].Series[Charts[0].Series.Count - 1].ChartType = signal.OscType();
             Charts[0].Series[Charts[0].Series.Count - 1].BorderWidth = 1;
-            Charts[0].Series[Charts[0].Series.Count - 1].Color = Color.Blue;         
+            Charts[0].Series[Charts[0].Series.Count - 1].Color = Color.Blue;
             for (int i = 0; i < Points.X.Count; i++)
             {
                 Charts[0].Series[Charts[0].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
@@ -308,7 +311,9 @@ namespace MainModule
             Charts[1].Series[Charts[1].Series.Count - 1].ChartType = signal.AmpSpecType();
             Charts[1].Series[Charts[1].Series.Count - 1].BorderWidth = 2;
             Charts[1].Series[Charts[1].Series.Count - 1].Color = Color.Red;
-
+            Charts[1].Series[Charts[1].Series.Count - 1].MarkerSize = 8;
+            Charts[1].Series[Charts[1].Series.Count - 1].MarkerStyle = MarkerStyle.Circle;
+            //annotation line width >=2
             signal.SetFreqSpan(1e3);
             var pair = signal.DrawAmpSpec();
             pair = Sort(pair);
@@ -317,6 +322,16 @@ namespace MainModule
             for (int i = 0; i < pair.X.Count; i++)
             {
                 Charts[1].Series[Charts[1].Series.Count - 1].Points.AddXY(pair.X[i], pair.Y[i]);
+                Charts[1].Annotations.Add(new VerticalLineAnnotation()
+                {
+                    LineWidth = 2,
+                    AxisX = Charts[1].ChartAreas[0].AxisX,
+                    AxisY = Charts[1].ChartAreas[0].AxisY,
+                    IsSizeAlwaysRelative = false,
+                    Height = pair.Y[i],
+                    Y = 0,
+                    X= pair.X[i]
+                });
             }
         }
 
@@ -326,6 +341,8 @@ namespace MainModule
             Charts[2].Series[Charts[2].Series.Count - 1].ChartType = signal.PhaseSpecType();
             Charts[2].Series[Charts[2].Series.Count - 1].BorderWidth = 2;
             Charts[2].Series[Charts[2].Series.Count - 1].Color = Color.Red;
+            Charts[2].Series[Charts[2].Series.Count - 1].MarkerSize = 8;
+            Charts[2].Series[Charts[2].Series.Count - 1].MarkerStyle = MarkerStyle.Circle;
 
             signal.SetPhaseSpan(1e3);
             var pair = signal.DrawPhaSpec();
@@ -335,6 +352,16 @@ namespace MainModule
             for (int i = 0; i < pair.X.Count; i++)
             {
                 Charts[2].Series[Charts[2].Series.Count - 1].Points.AddXY(pair.X[i], pair.Y[i]);
+                Charts[2].Annotations.Add(new VerticalLineAnnotation()
+                {
+                    LineWidth = 2,
+                    AxisX = Charts[2].ChartAreas[0].AxisX,
+                    AxisY = Charts[2].ChartAreas[0].AxisY,
+                    IsSizeAlwaysRelative = false,
+                    Height = pair.Y[i],
+                    Y = 0,
+                    X = pair.X[i]
+                });
             }
         }
 
@@ -412,6 +439,8 @@ namespace MainModule
         {
             PeriodsText.Text = Periods[tabControl1.SelectedIndex].ToString();
             PeriodsText.Enabled = tabControl1.SelectedIndex == 0;
+            LessPeriodsBtn.Enabled = tabControl1.SelectedIndex == 0;
+            MorePeriodsBtn.Enabled = tabControl1.SelectedIndex == 0;
         }
 
         private void Oscilloscope_ResizeEnd(object sender, EventArgs e)
@@ -421,19 +450,98 @@ namespace MainModule
 
         private void IncrMaxXBtn_Click(object sender, EventArgs e)
         {
-            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum += 0.1;
-            signal.SetBorders(
-                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
-                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
-                );
-            Charts[tabControl1.SelectedIndex].Series.Clear();
-
+            //TODO: Обработка перехода минимальной границы через максимульную и наоборот
+            double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum += (span <= 10 ? 0.1 : 1);
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
+                    signal.SetBorders(
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
+                        );
+                    Charts[tabControl1.SelectedIndex].Series.Clear();
                     OscToChart();
                     break;
             }
+        }
+
+        private void DecrMaxXBtn_Click(object sender, EventArgs e)
+        {
+            double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum -= (span <= 10 ? 0.1 : 1);
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    signal.SetBorders(
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
+                        );
+                    Charts[tabControl1.SelectedIndex].Series.Clear();
+                    OscToChart();
+                    break;
+                case 1:
+                    
+                    break;
+            }
+        }
+
+        private void IncrMinXBtn_Click(object sender, EventArgs e)
+        {
+            double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum += (span <= 10 ? 0.1 : 1);
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    signal.SetBorders(
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
+                        );
+                    Charts[tabControl1.SelectedIndex].Series.Clear();
+                    OscToChart();
+                    break;
+            }
+        }
+
+        private void DecrMinXBtn_Click(object sender, EventArgs e)
+        {
+            double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum -= (span <= 10 ? 0.1 : 1);
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    signal.SetBorders(
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
+                        );
+                    Charts[tabControl1.SelectedIndex].Series.Clear();
+                    OscToChart();
+                    break;
+            }
+        }
+
+        private void DecrMinYBtn_Click(object sender, EventArgs e)
+        {
+            double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum -= (span <= 10 ? 0.1 : 1);
+        }
+
+        private void IncrMinYBtn_Click(object sender, EventArgs e)
+        {
+            double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum += (span <= 10 ? 0.1 : 1);
+        }
+
+        private void DecrMaxYBtn_Click(object sender, EventArgs e)
+        {
+            double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum -= (span <= 10 ? 0.1 : 1);
+        }
+
+        private void IncrMaxYBtn_Click(object sender, EventArgs e)
+        {
+            double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum += (span <= 10 ? 0.1 : 1);
         }
     }
 }

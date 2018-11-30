@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.DecrMaxXBtn = new System.Windows.Forms.Button();
             this.IncrMaxXBtn = new System.Windows.Forms.Button();
@@ -64,6 +64,16 @@
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(834, 395);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Сигнал";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -83,16 +93,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Фазовый спектр";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(834, 395);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Сигнал";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
@@ -136,6 +136,7 @@
             this.DecrMaxXBtn.TabIndex = 0;
             this.DecrMaxXBtn.Text = "◄";
             this.DecrMaxXBtn.UseVisualStyleBackColor = true;
+            this.DecrMaxXBtn.Click += new System.EventHandler(this.DecrMaxXBtn_Click);
             // 
             // IncrMaxXBtn
             // 
@@ -159,6 +160,7 @@
             this.DecrMinXBtn.TabIndex = 0;
             this.DecrMinXBtn.Text = "◄";
             this.DecrMinXBtn.UseVisualStyleBackColor = true;
+            this.DecrMinXBtn.Click += new System.EventHandler(this.DecrMinXBtn_Click);
             // 
             // IncrMinXBtn
             // 
@@ -170,6 +172,7 @@
             this.IncrMinXBtn.TabIndex = 0;
             this.IncrMinXBtn.Text = "►";
             this.IncrMinXBtn.UseVisualStyleBackColor = true;
+            this.IncrMinXBtn.Click += new System.EventHandler(this.IncrMinXBtn_Click);
             // 
             // DecrMinYBtn
             // 
@@ -181,6 +184,7 @@
             this.DecrMinYBtn.TabIndex = 0;
             this.DecrMinYBtn.Text = "▼";
             this.DecrMinYBtn.UseVisualStyleBackColor = true;
+            this.DecrMinYBtn.Click += new System.EventHandler(this.DecrMinYBtn_Click);
             // 
             // IncrMaxYBtn
             // 
@@ -192,6 +196,7 @@
             this.IncrMaxYBtn.TabIndex = 0;
             this.IncrMaxYBtn.Text = "▲";
             this.IncrMaxYBtn.UseVisualStyleBackColor = true;
+            this.IncrMaxYBtn.Click += new System.EventHandler(this.IncrMaxYBtn_Click);
             // 
             // DecrMaxYBtn
             // 
@@ -203,6 +208,7 @@
             this.DecrMaxYBtn.TabIndex = 0;
             this.DecrMaxYBtn.Text = "▼";
             this.DecrMaxYBtn.UseVisualStyleBackColor = true;
+            this.DecrMaxYBtn.Click += new System.EventHandler(this.DecrMaxYBtn_Click);
             // 
             // IncrMinYBtn
             // 
@@ -214,6 +220,7 @@
             this.IncrMinYBtn.TabIndex = 0;
             this.IncrMinYBtn.Text = "▲";
             this.IncrMinYBtn.UseVisualStyleBackColor = true;
+            this.IncrMinYBtn.Click += new System.EventHandler(this.IncrMinYBtn_Click);
             // 
             // SaveChartBtn
             // 

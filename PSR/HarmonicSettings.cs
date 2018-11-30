@@ -225,8 +225,8 @@ namespace MainModule
                             amp));
                 }
             }
-
-            var painter = new MultiToneSignal(temp,1);
+            if (temp.Count < 1) return;
+            var painter = new MultiToneSignal(temp, 1);
 
             PreviewChart.Series.Clear();
 
@@ -264,6 +264,24 @@ namespace MainModule
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            DrawPreview();
+        }
+
+        private void TriangleTemplateBtn_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Clear();
+            double[] amps = { 0.1, 0.194, 0.175, 0.147, 0.115, 0.081, 0.051, 0.027, 0.011, 0.002389 };
+            double[] freqs = { 0, 52.36, 104.72, 157.08, 209.44, 261.799, 314.159, 366.519, 418.879, 471.239 };
+            double[] phases = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            if (Form1.unitsType == Form1.UnitsType.HzGrad)
+                for (int i = 0; i < freqs.Length; i++)
+                {
+                    freqs[i] /= 2 * Math.PI;
+                    phases[i] *= 180 / Math.PI;
+                }
+            for (int i = 0; i < 10; i++)
+                dataGridView1.Rows.Add($"{i}", true, amps[i], freqs[i], phases[i]);
+
             DrawPreview();
         }
     }

@@ -140,6 +140,7 @@
             this.TriangleTemplateBtn.TabIndex = 4;
             this.TriangleTemplateBtn.Text = "Треугольный";
             this.TriangleTemplateBtn.UseVisualStyleBackColor = true;
+            this.TriangleTemplateBtn.Click += new System.EventHandler(this.TriangleTemplateBtn_Click);
             // 
             // button3
             // 
