@@ -35,6 +35,7 @@
             this.mod_BM1 = new MainModule.Mod_BM();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -50,10 +51,11 @@
             this.SetRadianUnitsBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.EnableCursors = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.mod_SM1 = new MainModule.Mod_SM();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -115,6 +117,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.mod_SM1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -132,6 +135,15 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Частотная модуляция";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(797, 429);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Фазовая модуляция";
+            this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // statusStrip1
             // 
@@ -262,14 +274,15 @@
             this.EnableCursors.CheckedChanged += new System.EventHandler(this.EnableCursors_CheckedChanged);
             this.EnableCursors.Click += new System.EventHandler(this.EnableCursors_Click);
             // 
-            // tabPage5
+            // mod_SM1
             // 
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(797, 429);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Фазовая модуляция";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.mod_SM1.AutoSize = true;
+            this.mod_SM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod_SM1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod_SM1.Location = new System.Drawing.Point(3, 3);
+            this.mod_SM1.Name = "mod_SM1";
+            this.mod_SM1.Size = new System.Drawing.Size(791, 423);
+            this.mod_SM1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -289,6 +302,8 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -323,6 +338,7 @@
         private System.Windows.Forms.ToolStripMenuItem амплитудныеСпектрыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem фазовыеСпектрыToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage5;
+        private Mod_SM mod_SM1;
     }
 }
 
