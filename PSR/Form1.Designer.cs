@@ -40,16 +40,17 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurSchemeToFileBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.построитьВсеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сигналыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.амплитудныеСпектрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.фазовыеСпектрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.еденицыИзмеренияПоУмолчаниюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SetHzRadUnitsBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.SetRadianUnitsBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.EnableCursors = new System.Windows.Forms.ToolStripMenuItem();
-            this.построитьВсеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сигналыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.амплитудныеСпектрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.фазовыеСпектрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -63,6 +64,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -118,7 +120,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(797, 429);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Модуляция 3";
+            this.tabPage3.Text = "Однополосная модуляция";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
@@ -128,7 +130,7 @@
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage4.Size = new System.Drawing.Size(797, 429);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Модуляция 4";
+            this.tabPage4.Text = "Частотная модуляция";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // statusStrip1
@@ -175,6 +177,37 @@
             this.CurSchemeToFileBtn.Size = new System.Drawing.Size(322, 22);
             this.CurSchemeToFileBtn.Text = "Сохранить схему установки в файл...";
             this.CurSchemeToFileBtn.Click += new System.EventHandler(this.CurSchemeToFileBtn_Click);
+            // 
+            // построитьВсеToolStripMenuItem
+            // 
+            this.построитьВсеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сигналыToolStripMenuItem,
+            this.амплитудныеСпектрыToolStripMenuItem,
+            this.фазовыеСпектрыToolStripMenuItem});
+            this.построитьВсеToolStripMenuItem.Name = "построитьВсеToolStripMenuItem";
+            this.построитьВсеToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
+            this.построитьВсеToolStripMenuItem.Text = "Построить все";
+            // 
+            // сигналыToolStripMenuItem
+            // 
+            this.сигналыToolStripMenuItem.Name = "сигналыToolStripMenuItem";
+            this.сигналыToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.сигналыToolStripMenuItem.Text = "Сигналы...";
+            this.сигналыToolStripMenuItem.Click += new System.EventHandler(this.сигналыToolStripMenuItem_Click);
+            // 
+            // амплитудныеСпектрыToolStripMenuItem
+            // 
+            this.амплитудныеСпектрыToolStripMenuItem.Name = "амплитудныеСпектрыToolStripMenuItem";
+            this.амплитудныеСпектрыToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.амплитудныеСпектрыToolStripMenuItem.Text = "Амплитудные спектры...";
+            this.амплитудныеСпектрыToolStripMenuItem.Click += new System.EventHandler(this.амплитудныеСпектрыToolStripMenuItem_Click);
+            // 
+            // фазовыеСпектрыToolStripMenuItem
+            // 
+            this.фазовыеСпектрыToolStripMenuItem.Name = "фазовыеСпектрыToolStripMenuItem";
+            this.фазовыеСпектрыToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.фазовыеСпектрыToolStripMenuItem.Text = "Фазовые спектры...";
+            this.фазовыеСпектрыToolStripMenuItem.Click += new System.EventHandler(this.фазовыеСпектрыToolStripMenuItem_Click);
             // 
             // настройкиToolStripMenuItem
             // 
@@ -229,36 +262,14 @@
             this.EnableCursors.CheckedChanged += new System.EventHandler(this.EnableCursors_CheckedChanged);
             this.EnableCursors.Click += new System.EventHandler(this.EnableCursors_Click);
             // 
-            // построитьВсеToolStripMenuItem
+            // tabPage5
             // 
-            this.построитьВсеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.сигналыToolStripMenuItem,
-            this.амплитудныеСпектрыToolStripMenuItem,
-            this.фазовыеСпектрыToolStripMenuItem});
-            this.построитьВсеToolStripMenuItem.Name = "построитьВсеToolStripMenuItem";
-            this.построитьВсеToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
-            this.построитьВсеToolStripMenuItem.Text = "Построить все";
-            // 
-            // сигналыToolStripMenuItem
-            // 
-            this.сигналыToolStripMenuItem.Name = "сигналыToolStripMenuItem";
-            this.сигналыToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.сигналыToolStripMenuItem.Text = "Сигналы...";
-            this.сигналыToolStripMenuItem.Click += new System.EventHandler(this.сигналыToolStripMenuItem_Click);
-            // 
-            // амплитудныеСпектрыToolStripMenuItem
-            // 
-            this.амплитудныеСпектрыToolStripMenuItem.Name = "амплитудныеСпектрыToolStripMenuItem";
-            this.амплитудныеСпектрыToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.амплитудныеСпектрыToolStripMenuItem.Text = "Амплитудные спектры...";
-            this.амплитудныеСпектрыToolStripMenuItem.Click += new System.EventHandler(this.амплитудныеСпектрыToolStripMenuItem_Click);
-            // 
-            // фазовыеСпектрыToolStripMenuItem
-            // 
-            this.фазовыеСпектрыToolStripMenuItem.Name = "фазовыеСпектрыToolStripMenuItem";
-            this.фазовыеСпектрыToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.фазовыеСпектрыToolStripMenuItem.Text = "Фазовые спектры...";
-            this.фазовыеСпектрыToolStripMenuItem.Click += new System.EventHandler(this.фазовыеСпектрыToolStripMenuItem_Click);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(797, 429);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Фазовая модуляция";
+            this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -311,6 +322,7 @@
         private System.Windows.Forms.ToolStripMenuItem сигналыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem амплитудныеСпектрыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem фазовыеСпектрыToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage5;
     }
 }
 

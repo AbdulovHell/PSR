@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -330,7 +327,7 @@ namespace MainModule
                     IsSizeAlwaysRelative = false,
                     Height = pair.Y[i],
                     Y = 0,
-                    X= pair.X[i]
+                    X = pair.X[i]
                 });
             }
         }
@@ -450,7 +447,6 @@ namespace MainModule
 
         private void IncrMaxXBtn_Click(object sender, EventArgs e)
         {
-            //TODO: Обработка перехода минимальной границы через максимульную и наоборот
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
             Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum += (span <= 10 ? 0.1 : 1);
             switch (tabControl1.SelectedIndex)
@@ -469,7 +465,9 @@ namespace MainModule
         private void DecrMaxXBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
-            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum -= (span <= 10 ? 0.1 : 1);
+            if (Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - (span <= 10 ? 0.1 : 1) > Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum)
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum -= (span <= 10 ? 0.1 : 1);
+            else return;
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
@@ -481,7 +479,7 @@ namespace MainModule
                     OscToChart();
                     break;
                 case 1:
-                    
+
                     break;
             }
         }
@@ -489,7 +487,9 @@ namespace MainModule
         private void IncrMinXBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
-            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum += (span <= 10 ? 0.1 : 1);
+            if (Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum + (span <= 10 ? 0.1 : 1) < Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum)
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum += (span <= 10 ? 0.1 : 1);
+            else return;
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
@@ -529,13 +529,19 @@ namespace MainModule
         private void IncrMinYBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
-            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum += (span <= 10 ? 0.1 : 1);
+            double ch = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum + (span <= 10 ? 0.1 : 1);
+            if (ch < Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum)
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum += ch;
+            else return;
         }
 
         private void DecrMaxYBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
-            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum -= (span <= 10 ? 0.1 : 1);
+            double ch=Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - (span <= 10 ? 0.1 : 1);
+            if (ch > Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum)
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum -= ch;
+            else return;
         }
 
         private void IncrMaxYBtn_Click(object sender, EventArgs e)
