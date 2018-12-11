@@ -16,6 +16,7 @@ namespace MainModule.Signals
         double PhaseSpan = 0;
         double Kp = 1;
         double GFreq = 1;
+        bool RightSide = true;
 
         const int PointOnPeriod = 100;
 
@@ -24,13 +25,14 @@ namespace MainModule.Signals
         const SeriesChartType phaseSpecType = SeriesChartType.Point;
 
         //Modulated balanced (Envelope)
-        public SM(List<Harmonic> harmonics, Harmonic carrier, double K, double V0, double Kp)
+        public SM(List<Harmonic> harmonics, Harmonic carrier, double K, double V0, double Kp, bool rightside)
         {
             this.harmonics = harmonics;
             Carrier = carrier;
             this.K = K;
             this.V0 = V0;
             this.Kp = Kp;
+            this.RightSide = rightside;
             GFreq = harmonics[1].Freq;
             double PeriodToTime = (1 * 2 * Math.PI) / GFreq;
             Step = PeriodToTime / PointOnPeriod;
@@ -48,10 +50,16 @@ namespace MainModule.Signals
 
             for (int i = 0; i < harmonics.Count; i++)
             {
-                x.Add(Carrier.Freq + harmonics[i].Freq);
-                y.Add((K * harmonics[i].Amp) / 2);
-                //x.Add(Carrier.Freq - harmonics[i].Freq);
-                //y.Add((K * harmonics[i].Amp) / 2);
+                if (RightSide)
+                {
+                    x.Add(Carrier.Freq + harmonics[i].Freq);
+                    y.Add((K * harmonics[i].Amp) / 2);
+                }
+                else
+                {
+                    x.Add(Carrier.Freq - harmonics[i].Freq);
+                    y.Add((K * harmonics[i].Amp) / 2);
+                }
             }
 
             return new CoordPair(x, y);
@@ -94,10 +102,16 @@ namespace MainModule.Signals
 
             for (int i = 0; i < harmonics.Count; i++)
             {
-                x.Add(Carrier.Freq + harmonics[i].Freq);
-                y.Add(Carrier.StaPhase + harmonics[i].StaPhase);
-                //x.Add(Carrier.Freq - harmonics[i].Freq);
-                //y.Add(Carrier.StaPhase - harmonics[i].StaPhase);
+                if (RightSide)
+                {
+                    x.Add(Carrier.Freq + harmonics[i].Freq);
+                    y.Add(Carrier.StaPhase + harmonics[i].StaPhase);
+                }
+                else
+                {
+                    x.Add(Carrier.Freq - harmonics[i].Freq);
+                    y.Add(Carrier.StaPhase - harmonics[i].StaPhase);
+                }
             }
 
             return new CoordPair(x, y);

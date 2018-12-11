@@ -38,14 +38,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.FilterKoef = new System.Windows.Forms.TrackBar();
+            this.FilterKoefLbl = new System.Windows.Forms.Label();
+            this.SwitchSpecBtn = new System.Windows.Forms.Button();
             this.OscAtG2 = new System.Windows.Forms.Button();
             this.OscAtG1 = new System.Windows.Forms.Button();
             this.OscAtEnd = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.FilterKoef = new System.Windows.Forms.TrackBar();
-            this.FilterKoefLbl = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FilterKoef)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // G1SettingsBtn
@@ -144,6 +145,38 @@
             this.label5.TabIndex = 12;
             this.label5.Text = "Начальная фаза = 0 Рад";
             // 
+            // FilterKoef
+            // 
+            this.FilterKoef.BackColor = System.Drawing.Color.White;
+            this.FilterKoef.Location = new System.Drawing.Point(306, 241);
+            this.FilterKoef.Name = "FilterKoef";
+            this.FilterKoef.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.FilterKoef.Size = new System.Drawing.Size(104, 45);
+            this.FilterKoef.TabIndex = 13;
+            this.FilterKoef.Value = 10;
+            this.FilterKoef.ValueChanged += new System.EventHandler(this.FilterKoef_ValueChanged);
+            // 
+            // FilterKoefLbl
+            // 
+            this.FilterKoefLbl.Location = new System.Drawing.Point(306, 270);
+            this.FilterKoefLbl.Name = "FilterKoefLbl";
+            this.FilterKoefLbl.Size = new System.Drawing.Size(104, 16);
+            this.FilterKoefLbl.TabIndex = 14;
+            this.FilterKoefLbl.Text = "1";
+            this.FilterKoefLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // SwitchSpecBtn
+            // 
+            this.SwitchSpecBtn.BackColor = System.Drawing.Color.White;
+            this.SwitchSpecBtn.Image = global::MainModule.Resources.RPs;
+            this.SwitchSpecBtn.Location = new System.Drawing.Point(316, 115);
+            this.SwitchSpecBtn.Margin = new System.Windows.Forms.Padding(0);
+            this.SwitchSpecBtn.Name = "SwitchSpecBtn";
+            this.SwitchSpecBtn.Size = new System.Drawing.Size(86, 46);
+            this.SwitchSpecBtn.TabIndex = 15;
+            this.SwitchSpecBtn.UseVisualStyleBackColor = false;
+            this.SwitchSpecBtn.Click += new System.EventHandler(this.SwitchSpecBtn_Click);
+            // 
             // OscAtG2
             // 
             this.OscAtG2.Image = global::MainModule.Resources.graph;
@@ -185,32 +218,13 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // FilterKoef
-            // 
-            this.FilterKoef.BackColor = System.Drawing.Color.White;
-            this.FilterKoef.Location = new System.Drawing.Point(306, 241);
-            this.FilterKoef.Name = "FilterKoef";
-            this.FilterKoef.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.FilterKoef.Size = new System.Drawing.Size(104, 45);
-            this.FilterKoef.TabIndex = 13;
-            this.FilterKoef.Value = 10;
-            this.FilterKoef.ValueChanged += new System.EventHandler(this.FilterKoef_ValueChanged);
-            // 
-            // FilterKoefLbl
-            // 
-            this.FilterKoefLbl.Location = new System.Drawing.Point(306, 270);
-            this.FilterKoefLbl.Name = "FilterKoefLbl";
-            this.FilterKoefLbl.Size = new System.Drawing.Size(104, 16);
-            this.FilterKoefLbl.TabIndex = 14;
-            this.FilterKoefLbl.Text = "1";
-            this.FilterKoefLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // Mod_BM
+            // Mod_SM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Controls.Add(this.SwitchSpecBtn);
             this.Controls.Add(this.FilterKoefLbl);
             this.Controls.Add(this.FilterKoef);
             this.Controls.Add(this.label5);
@@ -227,10 +241,10 @@
             this.Controls.Add(this.OscAtG1);
             this.Controls.Add(this.OscAtEnd);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "Mod_BM";
+            this.Name = "Mod_SM";
             this.Size = new System.Drawing.Size(800, 450);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FilterKoef)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,5 +268,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TrackBar FilterKoef;
         private System.Windows.Forms.Label FilterKoefLbl;
+        private System.Windows.Forms.Button SwitchSpecBtn;
     }
 }

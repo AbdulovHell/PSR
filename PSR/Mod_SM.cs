@@ -12,6 +12,7 @@ namespace MainModule
         const double spacing = 0.0000005;
         List<Harmonic> harmonics = new List<Harmonic>();
         Harmonic Source = new Harmonic(0);
+        bool RightSide = true;
 
         Oscilloscope OG1, OG2, OEnd;
 
@@ -22,7 +23,7 @@ namespace MainModule
             FilterKoefLbl.Text = $"Kпн = {FilterKoef.Value / 10.0}";
         }
 
-        void DrawG1Osc( int OscPage = 0)
+        void DrawG1Osc(int OscPage = 0)
         {
             if (!G1Set)
             {
@@ -102,7 +103,7 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            var signal = new SM(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
+            var signal = new SM(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0, RightSide);
             OEnd = new Oscilloscope("ОМ сигнал", signal, OscPage);
             OEnd.DrawOsc(Oscilloscope.FuncType.Modulated);
             OEnd.DrawPhaseSpec();
@@ -144,6 +145,12 @@ namespace MainModule
             }
         }
 
+        private void SwitchSpecBtn_Click(object sender, EventArgs e)
+        {
+            RightSide = !RightSide;
+            SwitchSpecBtn.Image = RightSide ? Resources.RPs : Resources.LPs;
+        }
+
         private void FilterKoef_ValueChanged(object sender, EventArgs e)
         {
             FilterKoefLbl.Text = $"Kпн = {FilterKoef.Value / 10.0}";
@@ -172,7 +179,7 @@ namespace MainModule
                 OEnd.Location = new Point(resolution.Width / 2, 0);
                 OEnd.Size = wndSize;
             }
-            
+
         }
 
         private void OscBtn_Click(object sender, EventArgs e)

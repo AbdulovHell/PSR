@@ -17,7 +17,7 @@ namespace MainModule
         Chart[] Charts = new Chart[3];
         Signals.ISignal signal;
         FuncType OSCtype;
-        string Units = "";
+        string[] Units = { "", "", "" };
         int[] Periods = new int[3];
         int Xunits;
 
@@ -56,17 +56,24 @@ namespace MainModule
             Chart chart = (Chart)sender;
             chart.ChartAreas[0].CursorX.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
             chart.ChartAreas[0].CursorY.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
-            chart.ChartAreas[0].AxisX.Title = chart.ChartAreas[0].CursorX.Position.ToString() + " " + Units;
+            chart.ChartAreas[0].AxisX.Title = chart.ChartAreas[0].CursorX.Position.ToString() + " " + Units[tabControl1.SelectedIndex];
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
                     chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " В";
                     break;
                 case 1:
-                    chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " дБ?";
+                    chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " дБ";
                     break;
                 case 2:
-                    chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " град";
+                    if (Form1.unitsType == Form1.UnitsType.Radian)
+                    {
+                        chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " рад";
+                    }
+                    else
+                    {
+                        chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " град";
+                    }
                     break;
             }
         }
@@ -164,22 +171,22 @@ namespace MainModule
                 switch (Xunits / 3)
                 {
                     case 0:
-                        Units = "с";
+                        Units[0] = "с";
                         break;
                     case 1:
-                        Units = "мс";
+                        Units[0] = "мс";
                         break;
                     case 2:
-                        Units = "мкс";
+                        Units[0] = "мкс";
                         break;
                     case 3:
-                        Units = "нс";
+                        Units[0] = "нс";
                         break;
                     case 4:
-                        Units = "пс";
+                        Units[0] = "пс";
                         break;
                     default:
-                        Units = "с";
+                        Units[0] = "с";
                         break;
                 }
 
@@ -311,23 +318,35 @@ namespace MainModule
             Charts[1].Series[Charts[1].Series.Count - 1].MarkerSize = 8;
             Charts[1].Series[Charts[1].Series.Count - 1].MarkerStyle = MarkerStyle.Circle;
             //annotation line width >=2
-            signal.SetFreqSpan(1e3);
-            var pair = signal.DrawAmpSpec();
-            pair = Sort(pair);
-            DelDupli(ref pair);
+            var Points = signal.DrawAmpSpec();
+            //pair = Sort(pair);
+            DelDupli(ref Points);
 
-            for (int i = 0; i < pair.X.Count; i++)
+            if (Form1.unitsType == Form1.UnitsType.Radian)
             {
-                Charts[1].Series[Charts[1].Series.Count - 1].Points.AddXY(pair.X[i], pair.Y[i]);
+                Units[1] = "рад/сек";
+            }
+            else
+            {
+                for (int i = 0; i < Points.X.Count; i++)
+                    Points.X[i] = Points.X[i] / (2.0 * Math.PI);
+                Units[1] = "Гц";
+            }
+
+
+
+            for (int i = 0; i < Points.X.Count; i++)
+            {
+                Charts[1].Series[Charts[1].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
                 Charts[1].Annotations.Add(new VerticalLineAnnotation()
                 {
                     LineWidth = 2,
                     AxisX = Charts[1].ChartAreas[0].AxisX,
                     AxisY = Charts[1].ChartAreas[0].AxisY,
                     IsSizeAlwaysRelative = false,
-                    Height = pair.Y[i],
+                    Height = Points.Y[i],
                     Y = 0,
-                    X = pair.X[i]
+                    X = Points.X[i]
                 });
             }
         }
@@ -341,23 +360,35 @@ namespace MainModule
             Charts[2].Series[Charts[2].Series.Count - 1].MarkerSize = 8;
             Charts[2].Series[Charts[2].Series.Count - 1].MarkerStyle = MarkerStyle.Circle;
 
-            signal.SetPhaseSpan(1e3);
-            var pair = signal.DrawPhaSpec();
-            pair = Sort(pair);
-            DelDupli(ref pair);
+            var Points = signal.DrawPhaSpec();
+            DelDupli(ref Points);
 
-            for (int i = 0; i < pair.X.Count; i++)
+            if (Form1.unitsType == Form1.UnitsType.Radian)
             {
-                Charts[2].Series[Charts[2].Series.Count - 1].Points.AddXY(pair.X[i], pair.Y[i]);
+                Units[2] = "рад/сек";
+            }
+            else
+            {
+                for (int i = 0; i < Points.X.Count; i++)
+                {
+                    Points.X[i] = Points.X[i] / (2.0 * Math.PI);
+                    Points.Y[i] = Points.Y[i] * (180.0 / Math.PI);
+                }
+                Units[2] = "Гц";
+            }
+
+            for (int i = 0; i < Points.X.Count; i++)
+            {
+                Charts[2].Series[Charts[2].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
                 Charts[2].Annotations.Add(new VerticalLineAnnotation()
                 {
                     LineWidth = 2,
                     AxisX = Charts[2].ChartAreas[0].AxisX,
                     AxisY = Charts[2].ChartAreas[0].AxisY,
                     IsSizeAlwaysRelative = false,
-                    Height = pair.Y[i],
+                    Height = Points.Y[i],
                     Y = 0,
-                    X = pair.X[i]
+                    X = Points.X[i]
                 });
             }
         }
@@ -538,7 +569,7 @@ namespace MainModule
         private void DecrMaxYBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
-            double ch=Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - (span <= 10 ? 0.1 : 1);
+            double ch = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - (span <= 10 ? 0.1 : 1);
             if (ch > Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum)
                 Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum -= ch;
             else return;

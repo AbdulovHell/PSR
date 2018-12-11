@@ -54,6 +54,8 @@ namespace MainModule
             PreviewChart.ChartAreas.Add("area1");
             PreviewChart.Visible = true;
             this.splitContainer1.Panel2.Controls.Add(this.PreviewChart);
+            PreviewChart.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+            PreviewChart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
         }
 
         private void HarmonicSettings_Load(object sender, EventArgs e)
@@ -240,12 +242,77 @@ namespace MainModule
             //stopwatch1.Stop();
             //stopwatch2.Start();
 
+            {
+                int index = 0;
+                for (int i = 0; i < Points.X.Count; i++)
+                {
+                    if (Points.X[i] != 0 && Points.Y[i] != 0)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
+                string Units = "";
+                int Xunits = ReduceUnits(Points.X[index]).Second;
+                //var Yunits = ReduceUnits(Points.Y[index]).Y;
+                switch (Xunits / 3)
+                {
+                    case 0:
+                        Units = "с";
+                        break;
+                    case 1:
+                        Units = "мс";
+                        break;
+                    case 2:
+                        Units = "мкс";
+                        break;
+                    case 3:
+                        Units = "нс";
+                        break;
+                    case 4:
+                        Units = "пс";
+                        break;
+                    default:
+                        Units = "с";
+                        break;
+                }
+
+                for (int i = 0; i < Points.X.Count; i++)
+                {
+                    Points.X[i] = Trim(Points.X[i] * Math.Pow(1000, Xunits / 3));
+                    //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
+                }
+            }
+
             for (int i = 0; i < Points.X.Count; i++)
             {
                 PreviewChart.Series[PreviewChart.Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
             }
             //stopwatch2.Stop();
             //Text =$"{stopwatch1.ElapsedMilliseconds} {stopwatch2.ElapsedMilliseconds}";
+        }
+
+        double Trim(double num, int order = 5)
+        {
+            return ((int)(num * Math.Pow(10, order))) / Math.Pow(10, order);
+        }
+
+        private Pair<double, int> ReduceUnits(double number)
+        {
+            int Reduces = 0;
+            bool isBelowZero = number < 0;
+            if (isBelowZero) number = Math.Abs(number);
+            int units = 0;
+            while (number < 0.1 && number != 0)
+            {
+                number *= 1000;
+                Reduces++;
+            }
+
+            units = Reduces * 3;
+
+            return new Pair<double, int>(number * (isBelowZero ? -1 : 1), units);
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)
@@ -264,6 +331,17 @@ namespace MainModule
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.ColumnIndex == 3 && e.RowIndex == 1)
+            {
+                if (dataGridView1.Rows[1].Cells[3].Value != null)
+                {
+                    double freq = ProceedInput(dataGridView1.Rows[1].Cells[3].Value);
+                    for (int i = 2; i < dataGridView1.Rows.Count-1; i++)
+                    {
+                        dataGridView1.Rows[i].Cells[3].Value = freq * (i);
+                    }
+                }
+            }
             DrawPreview();
         }
 
