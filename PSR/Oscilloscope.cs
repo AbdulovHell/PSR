@@ -19,7 +19,7 @@ namespace MainModule
         FuncType OSCtype;
         string[] Units = { "", "", "" };
         int[] Periods = new int[3];
-        int Xunits;
+        int[] PrefixIndex = new int[3];
 
         void InitCharts()
         {
@@ -115,42 +115,6 @@ namespace MainModule
             DecrMaxXBtn.Location = new Point(DownRightCorner.X - (21 + 20), DownRightCorner.Y - 0);
         }
 
-        private Pair<double, int> ReduceUnits(double number)
-        {
-            int Reduces = 0;
-            bool isBelowZero = number < 0;
-            if (isBelowZero) number = Math.Abs(number);
-            int units = 0;
-            while (number < 0.1 && number != 0)
-            {
-                number *= 1000;
-                Reduces++;
-            }
-
-            units = Reduces * 3;
-
-            return new Pair<double, int>(number * (isBelowZero ? -1 : 1), units);
-        }
-
-        private double ReduceUnits(double number, int units)
-        {
-            int Reduces = 0;
-            bool isBelowZero = number < 0;
-            if (isBelowZero) number = Math.Abs(number);
-            while (number < 0.1 && number != 0)
-            {
-                number *= 1000;
-                Reduces++;
-                if (Reduces * 3 >= units) break;
-            }
-            return number * (isBelowZero ? -1 : 1);
-        }
-
-        double Trim(double num, int order = 5)
-        {
-            return ((int)(num * Math.Pow(10, order))) / Math.Pow(10, order);
-        }
-
         private void OscToChart()
         {
             var Points = signal.DrawOsc();
@@ -166,33 +130,13 @@ namespace MainModule
                     }
                 }
 
-                Xunits = ReduceUnits(Points.X[index]).Second;
+                PrefixIndex[0] = Points.X[index].Reduce().Order;
                 //var Yunits = ReduceUnits(Points.Y[index]).Y;
-                switch (Xunits / 3)
-                {
-                    case 0:
-                        Units[0] = "с";
-                        break;
-                    case 1:
-                        Units[0] = "мс";
-                        break;
-                    case 2:
-                        Units[0] = "мкс";
-                        break;
-                    case 3:
-                        Units[0] = "нс";
-                        break;
-                    case 4:
-                        Units[0] = "пс";
-                        break;
-                    default:
-                        Units[0] = "с";
-                        break;
-                }
+                Units[0] = PrefixIndex[0].AsMetricPrefix() + "c";
 
                 for (int i = 0; i < Points.X.Count; i++)
                 {
-                    Points.X[i] = Trim(Points.X[i] * Math.Pow(1000, Xunits / 3));
+                    Points.X[i] = Points.X[i].Reorder(PrefixIndex[0]).Trim();
                     //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
                 }
             }
@@ -318,10 +262,12 @@ namespace MainModule
             Charts[1].Series[Charts[1].Series.Count - 1].MarkerSize = 8;
             Charts[1].Series[Charts[1].Series.Count - 1].MarkerStyle = MarkerStyle.Circle;
             //annotation line width >=2
+            //Получение отсчетов
             var Points = signal.DrawAmpSpec();
             //pair = Sort(pair);
             DelDupli(ref Points);
 
+            //Перевод величин и определение едениц измерения
             if (Form1.unitsType == Form1.UnitsType.Radian)
             {
                 Units[1] = "рад/сек";
@@ -333,7 +279,27 @@ namespace MainModule
                 Units[1] = "Гц";
             }
 
+            //Сокращение
+            {
+                int index = 0;
+                for (int i = 0; i < Points.X.Count; i++)
+                {
+                    if (Points.X[i] != 0 && Points.Y[i] != 0)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
 
+                PrefixIndex[1] = Points.X[index].Reduce().Order;
+                Units[1] = PrefixIndex[1].AsMetricPrefix() + Units[1];
+
+                for (int i = 0; i < Points.X.Count; i++)
+                {
+                    Points.X[i] = Points.X[i].Reorder(PrefixIndex[1]).Trim(3);
+                    //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
+                }
+            }
 
             for (int i = 0; i < Points.X.Count; i++)
             {
@@ -375,6 +341,28 @@ namespace MainModule
                     Points.Y[i] = Points.Y[i] * (180.0 / Math.PI);
                 }
                 Units[2] = "Гц";
+            }
+
+            //Сокращение
+            {
+                int index = 0;
+                for (int i = 0; i < Points.X.Count; i++)
+                {
+                    if (Points.X[i] != 0 && Points.Y[i] != 0)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
+                PrefixIndex[2] = Points.X[index].Reduce().Order;
+                Units[2] = PrefixIndex[2].AsMetricPrefix() + Units[2];
+
+                for (int i = 0; i < Points.X.Count; i++)
+                {
+                    Points.X[i] = Points.X[i].Reorder(PrefixIndex[2]).Trim(3);
+                    //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
+                }
             }
 
             for (int i = 0; i < Points.X.Count; i++)
@@ -479,13 +467,14 @@ namespace MainModule
         private void IncrMaxXBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
-            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum += (span <= 10 ? 0.1 : 1);
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum += span.GetDelta();
+
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
                     signal.SetBorders(
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, PrefixIndex[0] / 3),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, PrefixIndex[0] / 3)
                         );
                     Charts[tabControl1.SelectedIndex].Series.Clear();
                     OscToChart();
@@ -496,15 +485,15 @@ namespace MainModule
         private void DecrMaxXBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
-            if (Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - (span <= 10 ? 0.1 : 1) > Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum)
-                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum -= (span <= 10 ? 0.1 : 1);
+            if (Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - span.GetDelta() > Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum)
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum -= span.GetDelta();
             else return;
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
                     signal.SetBorders(
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, PrefixIndex[0] / 3),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, PrefixIndex[0] / 3)
                         );
                     Charts[tabControl1.SelectedIndex].Series.Clear();
                     OscToChart();
@@ -518,15 +507,15 @@ namespace MainModule
         private void IncrMinXBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
-            if (Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum + (span <= 10 ? 0.1 : 1) < Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum)
-                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum += (span <= 10 ? 0.1 : 1);
+            if (Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum + span.GetDelta() < Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum)
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum += span.GetDelta();
             else return;
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
                     signal.SetBorders(
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, PrefixIndex[0] / 3),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, PrefixIndex[0] / 3)
                         );
                     Charts[tabControl1.SelectedIndex].Series.Clear();
                     OscToChart();
@@ -537,13 +526,13 @@ namespace MainModule
         private void DecrMinXBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum;
-            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum -= (span <= 10 ? 0.1 : 1);
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum -= span.GetDelta();
             switch (tabControl1.SelectedIndex)
             {
                 case 0:
                     signal.SetBorders(
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, Xunits / 3),
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, Xunits / 3)
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, PrefixIndex[0] / 3),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, PrefixIndex[0] / 3)
                         );
                     Charts[tabControl1.SelectedIndex].Series.Clear();
                     OscToChart();
@@ -554,13 +543,13 @@ namespace MainModule
         private void DecrMinYBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
-            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum -= (span <= 10 ? 0.1 : 1);
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum -= span.GetDelta();
         }
 
         private void IncrMinYBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
-            double ch = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum + (span <= 10 ? 0.1 : 1);
+            double ch = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum + span.GetDelta();
             if (ch < Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum)
                 Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum += ch;
             else return;
@@ -569,7 +558,7 @@ namespace MainModule
         private void DecrMaxYBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
-            double ch = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - (span <= 10 ? 0.1 : 1);
+            double ch = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - span.GetDelta();
             if (ch > Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum)
                 Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum -= ch;
             else return;
@@ -578,7 +567,7 @@ namespace MainModule
         private void IncrMaxYBtn_Click(object sender, EventArgs e)
         {
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
-            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum += (span <= 10 ? 0.1 : 1);
+            Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum += span.GetDelta();
         }
     }
 }

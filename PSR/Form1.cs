@@ -2,17 +2,58 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Linq;
 
 namespace MainModule
 {
     public partial class Form1 : Form
     {
         public static UnitsType unitsType = UnitsType.HzGrad;
-        public static bool EnCursors=true;
+        public static bool EnCursors = true;
 
         public Form1()
         {
             InitializeComponent();
+
+            /*
+            double[] testnums = {
+                1200000.0,
+                1000000.0,
+                400000.0,
+                50000.0,
+                3000.0,
+                1000.0,
+                100.0,
+                33.0,
+                5.0,
+                1.0,
+                0,
+                -1200000.0,
+                -1000000.0,
+                -400000.0,
+                -50000.0,
+                -3000.0,
+                -1000.0,
+                -100.0,
+                -33.0,
+                -5.0,
+                -1.0,
+
+                0.5,
+                0.1,
+                0.05,
+                0.001,
+                0.0003,
+                0.00008,
+                0.000007,
+                0.0000004,
+                0.00000006,
+                0.000000011,
+                0.0000000002
+            };
+
+            var testres = testnums.Select(n => Helper.ReduceUnits(n)).Select(p => p.First.ToString() + " " + p.Second.AsMetricPrefix()).ToArray();
+            */
         }
 
         public enum UnitsType

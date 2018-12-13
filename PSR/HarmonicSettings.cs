@@ -253,34 +253,12 @@ namespace MainModule
                     }
                 }
 
-                string Units = "";
-                int Xunits = ReduceUnits(Points.X[index]).Second;
+                int Xunits = Points.X[index].Reduce().Order;
                 //var Yunits = ReduceUnits(Points.Y[index]).Y;
-                switch (Xunits / 3)
-                {
-                    case 0:
-                        Units = "с";
-                        break;
-                    case 1:
-                        Units = "мс";
-                        break;
-                    case 2:
-                        Units = "мкс";
-                        break;
-                    case 3:
-                        Units = "нс";
-                        break;
-                    case 4:
-                        Units = "пс";
-                        break;
-                    default:
-                        Units = "с";
-                        break;
-                }
 
                 for (int i = 0; i < Points.X.Count; i++)
                 {
-                    Points.X[i] = Trim(Points.X[i] * Math.Pow(1000, Xunits / 3));
+                    Points.X[i] = Points.X[i].Reorder(Xunits).Trim();
                     //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
                 }
             }
@@ -291,28 +269,6 @@ namespace MainModule
             }
             //stopwatch2.Stop();
             //Text =$"{stopwatch1.ElapsedMilliseconds} {stopwatch2.ElapsedMilliseconds}";
-        }
-
-        double Trim(double num, int order = 5)
-        {
-            return ((int)(num * Math.Pow(10, order))) / Math.Pow(10, order);
-        }
-
-        private Pair<double, int> ReduceUnits(double number)
-        {
-            int Reduces = 0;
-            bool isBelowZero = number < 0;
-            if (isBelowZero) number = Math.Abs(number);
-            int units = 0;
-            while (number < 0.1 && number != 0)
-            {
-                number *= 1000;
-                Reduces++;
-            }
-
-            units = Reduces * 3;
-
-            return new Pair<double, int>(number * (isBelowZero ? -1 : 1), units);
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)

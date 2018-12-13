@@ -16,4 +16,16 @@ namespace MainModule
         public T First { get; set; }
         public U Second { get; set; }
     }
+
+    public class ReducedNumber<T, U>
+    {
+        public ReducedNumber(T number, U order)
+        {
+            this.Number = number;
+            this.Order = order;
+        }
+
+        public T Number { get; set; }
+        public U Order { get; set; }
+    }
 }

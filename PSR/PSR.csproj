@@ -48,6 +48,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper.cs" />
+    <Compile Include="Mod_FM.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Mod_FM.Designer.cs">
+      <DependentUpon>Mod_FM.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mod_SM.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -55,6 +62,7 @@
       <DependentUpon>Mod_SM.cs</DependentUpon>
     </Compile>
     <Compile Include="Signals\AM.cs" />
+    <Compile Include="Signals\FM.cs" />
     <Compile Include="Signals\SM.cs" />
     <Compile Include="Signals\BM.cs" />
     <Compile Include="Signals\CoordPair.cs" />
@@ -122,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HarmonicSettings.resx">
       <DependentUpon>HarmonicSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mod_FM.resx">
+      <DependentUpon>Mod_FM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Mod_SM.resx">
       <DependentUpon>Mod_SM.cs</DependentUpon>
