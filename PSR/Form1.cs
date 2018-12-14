@@ -121,6 +121,12 @@ namespace MainModule
                 case 1:
                     mod_BM1.BuildAll(0);
                     break;
+                case 2:
+                    mod_SM1.BuildAll(0);
+                    break;
+                case 3:
+                    mod_FM1.BuildAll(0);
+                    break;
             }
         }
 

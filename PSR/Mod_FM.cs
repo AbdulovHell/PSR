@@ -104,7 +104,7 @@ namespace MainModule
             }
             var signal = new FM(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
             OEnd = new Oscilloscope("ФМ сигнал", signal, OscPage);
-            OEnd.DrawOsc(Oscilloscope.FuncType.Modulated);
+            OEnd.DrawOsc(periods:1);
             OEnd.DrawPhaseSpec();
             OEnd.DrawSpec();
             OEnd.Show();

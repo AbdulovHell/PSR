@@ -34,6 +34,8 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.mod_BM1 = new MainModule.Mod_BM();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.mod_SM1 = new MainModule.Mod_SM();
+            this.mod_FM1 = new MainModule.Mod_FM();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -51,11 +53,12 @@
             this.SetRadianUnitsBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.EnableCursors = new System.Windows.Forms.ToolStripMenuItem();
-            this.mod_SM1 = new MainModule.Mod_SM();
+            this.mod_FM2 = new MainModule.Mod_FM();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -118,6 +121,7 @@
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.mod_SM1);
+            this.tabPage3.Controls.Add(this.mod_FM1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -126,8 +130,29 @@
             this.tabPage3.Text = "Однополосная модуляция";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // mod_SM1
+            // 
+            this.mod_SM1.AutoSize = true;
+            this.mod_SM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod_SM1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod_SM1.Location = new System.Drawing.Point(3, 3);
+            this.mod_SM1.Name = "mod_SM1";
+            this.mod_SM1.Size = new System.Drawing.Size(791, 423);
+            this.mod_SM1.TabIndex = 0;
+            // 
+            // mod_FM1
+            // 
+            this.mod_FM1.AutoSize = true;
+            this.mod_FM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod_FM1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod_FM1.Location = new System.Drawing.Point(3, 3);
+            this.mod_FM1.Name = "mod_FM1";
+            this.mod_FM1.Size = new System.Drawing.Size(791, 423);
+            this.mod_FM1.TabIndex = 0;
+            // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.mod_FM2);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -274,15 +299,15 @@
             this.EnableCursors.CheckedChanged += new System.EventHandler(this.EnableCursors_CheckedChanged);
             this.EnableCursors.Click += new System.EventHandler(this.EnableCursors_Click);
             // 
-            // mod_SM1
+            // mod_FM2
             // 
-            this.mod_SM1.AutoSize = true;
-            this.mod_SM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mod_SM1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mod_SM1.Location = new System.Drawing.Point(3, 3);
-            this.mod_SM1.Name = "mod_SM1";
-            this.mod_SM1.Size = new System.Drawing.Size(791, 423);
-            this.mod_SM1.TabIndex = 0;
+            this.mod_FM2.AutoSize = true;
+            this.mod_FM2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod_FM2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod_FM2.Location = new System.Drawing.Point(3, 3);
+            this.mod_FM2.Name = "mod_FM2";
+            this.mod_FM2.Size = new System.Drawing.Size(791, 423);
+            this.mod_FM2.TabIndex = 0;
             // 
             // Form1
             // 
@@ -304,6 +329,8 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -339,6 +366,8 @@
         private System.Windows.Forms.ToolStripMenuItem фазовыеСпектрыToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage5;
         private Mod_SM mod_SM1;
+        private Mod_FM mod_FM1;
+        private Mod_FM mod_FM2;
     }
 }
 

@@ -31,7 +31,7 @@ namespace MainModule.Signals
             Carrier = carrier;
             this.K = K;
             this.V0 = V0;
-            GFreq=harmonics[1].Freq;
+            GFreq = harmonics[harmonics.Count > 1 ? 1 : 0].Freq;
             double PeriodToTime = (1 * 2 * Math.PI) / GFreq;
             Step = PeriodToTime / PointOnPeriod;
             LeftBorder = PeriodToTime / -2;
@@ -58,9 +58,9 @@ namespace MainModule.Signals
 
             for (int i = 0; i < harmonics.Count; i++)
             {
-                x.Add(Carrier.Freq + (K*harmonics[i].Freq)/2);
+                x.Add(Carrier.Freq + (K * harmonics[i].Freq) / 2);
                 y.Add(harmonics[i].Amp);
-                x.Add(Carrier.Freq - (K*harmonics[i].Freq)/2);
+                x.Add(Carrier.Freq - (K * harmonics[i].Freq) / 2);
                 y.Add(harmonics[i].Amp);
             }
 

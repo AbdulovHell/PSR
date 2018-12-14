@@ -136,7 +136,7 @@ namespace MainModule
 
                 for (int i = 0; i < Points.X.Count; i++)
                 {
-                    Points.X[i] = Points.X[i].Reorder(PrefixIndex[0]).Trim();
+                    Points.X[i] = Points.X[i].Reorder(-PrefixIndex[0]).Trim();
                     //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
                 }
             }
@@ -187,13 +187,15 @@ namespace MainModule
             }
             maxs.Sort();
 
-            Charts[0].ChartAreas[0].AxisY.Minimum = Math.Round(mins[0], 3);
-            Charts[0].ChartAreas[0].AxisY.Maximum = Math.Round(maxs[maxs.Count - 1], 3);
+            //Charts[0].ChartAreas[0].AxisY.Minimum = Math.Round(mins[0], 0);
+            //Charts[0].ChartAreas[0].AxisY.Maximum = Math.Round(maxs[maxs.Count - 1], 0);
         }
 
-        public void DrawOsc(FuncType funcType = FuncType.Normal)
+        public void DrawOsc(FuncType funcType = FuncType.Normal,int periods=1)
         {
             OSCtype = funcType;
+            Periods[0] = periods;
+            PeriodsText.Text = Periods[0].ToString();
             signal.SetPeriods(Periods[0]);
             OscToChart();
         }
@@ -296,7 +298,7 @@ namespace MainModule
 
                 for (int i = 0; i < Points.X.Count; i++)
                 {
-                    Points.X[i] = Points.X[i].Reorder(PrefixIndex[1]).Trim(3);
+                    Points.X[i] = Points.X[i].Reorder(-PrefixIndex[1]).Trim(3);
                     //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
                 }
             }
@@ -360,7 +362,7 @@ namespace MainModule
 
                 for (int i = 0; i < Points.X.Count; i++)
                 {
-                    Points.X[i] = Points.X[i].Reorder(PrefixIndex[2]).Trim(3);
+                    Points.X[i] = Points.X[i].Reorder(-PrefixIndex[2]).Trim(3);
                     //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
                 }
             }
@@ -473,8 +475,8 @@ namespace MainModule
             {
                 case 0:
                     signal.SetBorders(
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, PrefixIndex[0] / 3),
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, PrefixIndex[0] / 3)
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum.Reorder(PrefixIndex[0]),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum.Reorder(PrefixIndex[0])
                         );
                     Charts[tabControl1.SelectedIndex].Series.Clear();
                     OscToChart();
@@ -551,7 +553,7 @@ namespace MainModule
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
             double ch = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum + span.GetDelta();
             if (ch < Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum)
-                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum += ch;
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum += span.GetDelta();
             else return;
         }
 
@@ -560,7 +562,7 @@ namespace MainModule
             double span = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum;
             double ch = Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum - span.GetDelta();
             if (ch > Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Minimum)
-                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum -= ch;
+                Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisY.Maximum -= span.GetDelta();
             else return;
         }
 

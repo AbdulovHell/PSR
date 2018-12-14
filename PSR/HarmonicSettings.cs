@@ -258,7 +258,7 @@ namespace MainModule
 
                 for (int i = 0; i < Points.X.Count; i++)
                 {
-                    Points.X[i] = Points.X[i].Reorder(Xunits).Trim();
+                    Points.X[i] = Points.X[i].Reorder(-Xunits).Trim();
                     //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
                 }
             }

@@ -17,9 +17,9 @@ namespace MainModule.Signals
         double Kp = 1;
         double GFreq = 1;
 
-        const int PointOnPeriod = 100;
+        const int PointOnPeriod = 2000;
 
-        const SeriesChartType oscType = SeriesChartType.Area;
+        const SeriesChartType oscType = SeriesChartType.Spline;
         const SeriesChartType ampSpecType = SeriesChartType.Point;
         const SeriesChartType phaseSpecType = SeriesChartType.Point;
 
@@ -31,7 +31,8 @@ namespace MainModule.Signals
             this.K = K;
             this.V0 = V0;
             this.Kp = Kp;
-            GFreq = harmonics[1].Freq;
+            GFreq = harmonics[harmonics.Count > 1 ? 1 : 0].Freq;
+            //GFreq = carrier.Freq;
             double PeriodToTime = (1 * 2 * Math.PI) / GFreq;
             Step = PeriodToTime / PointOnPeriod;
             LeftBorder = PeriodToTime / -2;
@@ -72,12 +73,16 @@ namespace MainModule.Signals
             List<double> x = new List<double>();
             List<double> y = new List<double>();
 
+            double Fd = 2 * Math.PI * harmonics.MaximumNonZeroFreq();
             double CurrentPoint = LeftBorder;
             while (CurrentPoint <= RightBorder)
             {
                 x.Add(CurrentPoint);
-                double U0 = Carrier.Amp * Math.Cos(Carrier.Freq * CurrentPoint + Carrier.StaPhase);
-                y.Add(Kp * U0 + ((K * CalcPoint(CurrentPoint)) / V0) * U0);
+                double om = Carrier.Freq + K * CalcPoint(CurrentPoint) * Fd;
+                double Y = Carrier.Amp * Math.Cos(om + Carrier.StaPhase);
+                //=Carrier.Amp * Math.Cos(Carrier.Freq * CurrentPoint + Carrier.StaPhase);
+                //y.Add(Kp * U0 + ((K * CalcPoint(CurrentPoint)) / V0) * U0);
+                y.Add(Y);
                 CurrentPoint += Step;
             }
 

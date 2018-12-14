@@ -67,7 +67,7 @@ namespace MainModule
             bool isBelowZero = number < 0;
             if (isBelowZero) number = Math.Abs(number);
 
-            if (number != 0)
+            if (number != 0 && !double.IsInfinity(number))
                 if (number >= 1000)
                 {
                     while (number >= 1000)
@@ -90,12 +90,22 @@ namespace MainModule
 
         static public double Reorder(this double number, int Order)
         {
-            return number * Math.Pow(1000, Order * -1);
+            return number * Math.Pow(1000, Order);
         }
 
         static public double Trim(this double num, int order = 5)
         {
             return ((int)(num * Math.Pow(10, order))) / Math.Pow(10, order);
+        }
+
+        static public double MinimalNonZeroFreq(this List<Harmonic> harmonics)
+        {
+            return harmonics.Where(h => h.Freq != 0).Select(h => h.Freq).Min();
+        }
+
+        static public double MaximumNonZeroFreq(this List<Harmonic> harmonics)
+        {
+            return harmonics.Where(h => h.Freq != 0).Select(h => h.Freq).Max();
         }
     }
 }
