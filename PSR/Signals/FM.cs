@@ -78,7 +78,7 @@ namespace MainModule.Signals
             while (CurrentPoint <= RightBorder)
             {
                 x.Add(CurrentPoint);
-                double om = Carrier.Freq + K * CalcPoint(CurrentPoint) * Fd;
+                double om = Carrier.Freq + K * CalcPoint(CurrentPoint);
                 double Y = Carrier.Amp * Math.Cos(om + Carrier.StaPhase);
                 //=Carrier.Amp * Math.Cos(Carrier.Freq * CurrentPoint + Carrier.StaPhase);
                 //y.Add(Kp * U0 + ((K * CalcPoint(CurrentPoint)) / V0) * U0);

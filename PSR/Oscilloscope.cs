@@ -494,8 +494,8 @@ namespace MainModule
             {
                 case 0:
                     signal.SetBorders(
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, PrefixIndex[0] / 3),
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, PrefixIndex[0] / 3)
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum.Reorder(PrefixIndex[0]),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum.Reorder(PrefixIndex[0])
                         );
                     Charts[tabControl1.SelectedIndex].Series.Clear();
                     OscToChart();
@@ -516,8 +516,8 @@ namespace MainModule
             {
                 case 0:
                     signal.SetBorders(
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, PrefixIndex[0] / 3),
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, PrefixIndex[0] / 3)
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum.Reorder(PrefixIndex[0]),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum.Reorder(PrefixIndex[0])
                         );
                     Charts[tabControl1.SelectedIndex].Series.Clear();
                     OscToChart();
@@ -533,8 +533,8 @@ namespace MainModule
             {
                 case 0:
                     signal.SetBorders(
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum / Math.Pow(1000, PrefixIndex[0] / 3),
-                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum / Math.Pow(1000, PrefixIndex[0] / 3)
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Minimum.Reorder(PrefixIndex[0]),
+                        Charts[tabControl1.SelectedIndex].ChartAreas[0].AxisX.Maximum.Reorder(PrefixIndex[0])
                         );
                     Charts[tabControl1.SelectedIndex].Series.Clear();
                     OscToChart();
