@@ -111,7 +111,7 @@ namespace MainModule
         void DrawEndOsc(int OscPage = 0)
         {
             if (!G2Set || !G1Set) return;
-            var signal = new AM(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text));
+            var signal = new AM(harmonics, Source, ProceedInput(KEdit.Text));
             OEnd = new Oscilloscope("Модулированный сигнал", signal, OscPage);
             OEnd.DrawOsc(Oscilloscope.FuncType.Modulated);
             OEnd.DrawPhaseSpec();
@@ -143,7 +143,7 @@ namespace MainModule
         private void UpdateG1Info()
         {
             label3.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Частота = {Source.Freq} Рад/с" : $"Частота = {Source.Freq / (2 * Math.PI)} Гц";
-            label4.Text = $"Амплитуда = {Source.Amp} V";
+            label4.Text = $"Амплитуда = {Source.Amp} В";
             label5.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Начальная фаза = {Source.StaPhase} Рад" : $"Начальная фаза = {Source.StaPhase * (180 / Math.PI)} °";
         }
 

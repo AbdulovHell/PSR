@@ -102,7 +102,7 @@ namespace MainModule
                 errorWindow.ShowDialog();
                 return;
             }
-            var signal = new FM(harmonics, Source, ProceedInput(KEdit.Text), ProceedInput(V0Edit.Text), FilterKoef.Value / 10.0);
+            var signal = new FM(harmonics, Source, ProceedInput(KEdit.Text), FilterKoef.Value / 10.0);
             OEnd = new Oscilloscope("ФМ сигнал", signal, OscPage);
             OEnd.DrawOsc(periods:1);
             OEnd.DrawPhaseSpec();
@@ -129,7 +129,7 @@ namespace MainModule
         private void UpdateG1Info()
         {
             label3.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Частота = {Source.Freq} Рад/с" : $"Частота = {Source.Freq / (2 * Math.PI)} Гц";
-            label4.Text = $"Амплитуда = {Source.Amp} V";
+            label4.Text = $"Амплитуда = {Source.Amp} В";
             label5.Text = Form1.unitsType == Form1.UnitsType.Radian ? $"Начальная фаза = {Source.StaPhase} Рад" : $"Начальная фаза = {Source.StaPhase * (180 / Math.PI)} °";
         }
 

@@ -28,14 +28,7 @@ namespace MainModule.Signals
             this.harmonics = harmonics;
             this.K = K;
 
-            //var tempList = harmonics.Where(h => h.Freq != 0).ToList();
-            //GFreq = 0;
-            //for (int i = 0; i < tempList.Count; i++)
-            //{
-            //    GFreq += tempList[i].Freq;
-            //}
-            //GFreq /= tempList.Count;
-            GFreq = harmonics.Count>1?harmonics[1].Freq: harmonics[0].Freq;
+            GFreq = harmonics.MinimalNonZeroFreq();
 
             double PeriodToTime = (1 * 2 * Math.PI) / GFreq;
             Step = PeriodToTime / PointOnPeriod;
@@ -84,26 +77,13 @@ namespace MainModule.Signals
 
         public CoordPair DrawAmpSpec()
         {
-            //int Points = 100 + 1 - harmonics.Count;
-            //double StartTime = GFreq - FreqSpan / 2;
-
             List<double> x = new List<double>();
             List<double> y = new List<double>();
-            //double step = FreqSpan / Points;
-
-            //for (int i = 0; i < Points - 1; i++)
-            //{
-            //    y.Add(0);
-            //    x.Add(StartTime + i * step);
-            //}
-
-            //x.Add(harmonic.Freq);
-            //y.Add(harmonic.Amp);
-
+            
             for(int i = 0; i < harmonics.Count; i++)
             {
                 x.Add(harmonics[i].Freq);
-                y.Add((/*K**/harmonics[i].Amp)/2);
+                y.Add((K*harmonics[i].Amp));
             }
 
             return new CoordPair(x, y);

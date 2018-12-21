@@ -30,12 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.mod11 = new MainModule.Mod_AM();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.mod_BM1 = new MainModule.Mod_BM();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.mod_SM1 = new MainModule.Mod_SM();
-            this.mod_FM1 = new MainModule.Mod_FM();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -53,6 +49,10 @@
             this.SetRadianUnitsBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.EnableCursors = new System.Windows.Forms.ToolStripMenuItem();
+            this.mod11 = new MainModule.Mod_AM();
+            this.mod_BM1 = new MainModule.Mod_BM();
+            this.mod_SM1 = new MainModule.Mod_SM();
+            this.mod_FM1 = new MainModule.Mod_FM();
             this.mod_FM2 = new MainModule.Mod_FM();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -87,16 +87,6 @@
             this.tabPage1.Text = "Амплитудная модуляция";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // mod11
-            // 
-            this.mod11.AutoSize = true;
-            this.mod11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mod11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mod11.Location = new System.Drawing.Point(3, 3);
-            this.mod11.Name = "mod11";
-            this.mod11.Size = new System.Drawing.Size(791, 423);
-            this.mod11.TabIndex = 0;
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.mod_BM1);
@@ -107,16 +97,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Балансная модуляция";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // mod_BM1
-            // 
-            this.mod_BM1.AutoSize = true;
-            this.mod_BM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mod_BM1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mod_BM1.Location = new System.Drawing.Point(3, 3);
-            this.mod_BM1.Name = "mod_BM1";
-            this.mod_BM1.Size = new System.Drawing.Size(791, 423);
-            this.mod_BM1.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -129,26 +109,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Однополосная модуляция";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // mod_SM1
-            // 
-            this.mod_SM1.AutoSize = true;
-            this.mod_SM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mod_SM1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mod_SM1.Location = new System.Drawing.Point(3, 3);
-            this.mod_SM1.Name = "mod_SM1";
-            this.mod_SM1.Size = new System.Drawing.Size(791, 423);
-            this.mod_SM1.TabIndex = 0;
-            // 
-            // mod_FM1
-            // 
-            this.mod_FM1.AutoSize = true;
-            this.mod_FM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mod_FM1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mod_FM1.Location = new System.Drawing.Point(3, 3);
-            this.mod_FM1.Name = "mod_FM1";
-            this.mod_FM1.Size = new System.Drawing.Size(791, 423);
-            this.mod_FM1.TabIndex = 0;
             // 
             // tabPage4
             // 
@@ -177,6 +137,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 481);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(805, 22);
+            this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -299,6 +260,46 @@
             this.EnableCursors.CheckedChanged += new System.EventHandler(this.EnableCursors_CheckedChanged);
             this.EnableCursors.Click += new System.EventHandler(this.EnableCursors_Click);
             // 
+            // mod11
+            // 
+            this.mod11.AutoSize = true;
+            this.mod11.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod11.Location = new System.Drawing.Point(3, 3);
+            this.mod11.Name = "mod11";
+            this.mod11.Size = new System.Drawing.Size(791, 423);
+            this.mod11.TabIndex = 0;
+            // 
+            // mod_BM1
+            // 
+            this.mod_BM1.AutoSize = true;
+            this.mod_BM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod_BM1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod_BM1.Location = new System.Drawing.Point(3, 3);
+            this.mod_BM1.Name = "mod_BM1";
+            this.mod_BM1.Size = new System.Drawing.Size(791, 423);
+            this.mod_BM1.TabIndex = 0;
+            // 
+            // mod_SM1
+            // 
+            this.mod_SM1.AutoSize = true;
+            this.mod_SM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod_SM1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod_SM1.Location = new System.Drawing.Point(3, 3);
+            this.mod_SM1.Name = "mod_SM1";
+            this.mod_SM1.Size = new System.Drawing.Size(791, 423);
+            this.mod_SM1.TabIndex = 0;
+            // 
+            // mod_FM1
+            // 
+            this.mod_FM1.AutoSize = true;
+            this.mod_FM1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mod_FM1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mod_FM1.Location = new System.Drawing.Point(3, 3);
+            this.mod_FM1.Name = "mod_FM1";
+            this.mod_FM1.Size = new System.Drawing.Size(791, 423);
+            this.mod_FM1.TabIndex = 0;
+            // 
             // mod_FM2
             // 
             this.mod_FM2.AutoSize = true;
@@ -319,6 +320,7 @@
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Модуляции";
             this.Load += new System.EventHandler(this.Form1_Load);

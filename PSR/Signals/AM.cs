@@ -11,7 +11,6 @@ namespace MainModule.Signals
         List<Harmonic> harmonics;
         Harmonic Carrier;
         double K = 1;
-        double V0 = 1;
         double LeftBorder = -1, RightBorder = 1;
         double Step = 0.1;
         double FreqSpan = 0;
@@ -25,13 +24,12 @@ namespace MainModule.Signals
         const SeriesChartType phaseSpecType = SeriesChartType.Point;
 
         //Modulated (Envelope)
-        public AM(List<Harmonic> harmonics, Harmonic carrier, double K, double V0)
+        public AM(List<Harmonic> harmonics, Harmonic carrier, double K)
         {
             this.harmonics = harmonics;
             Carrier = carrier;
             this.K = K;
-            this.V0 = V0;
-            GFreq = harmonics[harmonics.Count > 1 ? 1 : 0].Freq;
+            GFreq = harmonics.MinimalNonZeroFreq();
             double PeriodToTime = (1 * 2 * Math.PI) / GFreq;
             Step = PeriodToTime / PointOnPeriod;
             LeftBorder = PeriodToTime / -2;
@@ -58,10 +56,10 @@ namespace MainModule.Signals
 
             for (int i = 0; i < harmonics.Count; i++)
             {
-                x.Add(Carrier.Freq + (K * harmonics[i].Freq) / 2);
-                y.Add(harmonics[i].Amp);
-                x.Add(Carrier.Freq - (K * harmonics[i].Freq) / 2);
-                y.Add(harmonics[i].Amp);
+                x.Add(Carrier.Freq + harmonics[i].Freq);
+                y.Add((K * harmonics[i].Amp)/2);
+                x.Add(Carrier.Freq - harmonics[i].Freq);
+                y.Add((K * harmonics[i].Amp) / 2);
             }
 
             return new CoordPair(x, y);
@@ -75,7 +73,7 @@ namespace MainModule.Signals
             double CurrentPoint = LeftBorder;
             while (CurrentPoint <= RightBorder)
             {
-                y.Add(V0 + K * CalcPoint(CurrentPoint));
+                y.Add(Carrier.Amp + K * CalcPoint(CurrentPoint));
                 x.Add(CurrentPoint);
                 CurrentPoint += Step;
             }

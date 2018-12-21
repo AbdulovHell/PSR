@@ -266,7 +266,7 @@ namespace MainModule
             //annotation line width >=2
             //Получение отсчетов
             var Points = signal.DrawAmpSpec();
-            //pair = Sort(pair);
+            Points = Sort(Points);
             DelDupli(ref Points);
 
             //Перевод величин и определение едениц измерения

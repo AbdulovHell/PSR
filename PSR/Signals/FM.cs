@@ -9,7 +9,6 @@ namespace MainModule.Signals
         List<Harmonic> harmonics;
         Harmonic Carrier;
         double K = 1;
-        double V0 = 1;
         double LeftBorder = -1, RightBorder = 1;
         double Step = 0.1;
         double FreqSpan = 0;
@@ -24,14 +23,13 @@ namespace MainModule.Signals
         const SeriesChartType phaseSpecType = SeriesChartType.Point;
 
         //Modulated balanced (Envelope)
-        public FM(List<Harmonic> harmonics, Harmonic carrier, double K, double V0, double Kp)
+        public FM(List<Harmonic> harmonics, Harmonic carrier, double K, double Kp)
         {
             this.harmonics = harmonics;
             Carrier = carrier;
             this.K = K;
-            this.V0 = V0;
             this.Kp = Kp;
-            GFreq = harmonics[harmonics.Count > 1 ? 1 : 0].Freq;
+            GFreq = harmonics.MinimalNonZeroFreq();
             //GFreq = carrier.Freq;
             double PeriodToTime = (1 * 2 * Math.PI) / GFreq;
             Step = PeriodToTime / PointOnPeriod;

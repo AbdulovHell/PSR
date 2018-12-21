@@ -68,19 +68,9 @@ namespace MainModule.Signals
         //линия V0 на F0
         public CoordPair DrawAmpSpec()
         {
-            //int Points = 100 + 1;
-            //double StartTime = harmonic.Freq - FreqSpan / 2;
-
             List<double> x = new List<double>();
             List<double> y = new List<double>();
-            //double step = FreqSpan / Points;
-
-            //for (int i = 0; i < Points - 1; i++)
-            //{
-            //    y.Add(0);
-            //    x.Add(StartTime + i * step);
-            //}
-
+            
             x.Add(harmonic.Freq);
             y.Add(harmonic.Amp);
 
@@ -94,18 +84,8 @@ namespace MainModule.Signals
 
         public CoordPair DrawPhaSpec()
         {
-            //int Points = 100 + 1;
-            //double StartTime = harmonic.Freq - PhaseSpan / 2;
-
             List<double> x = new List<double>();
             List<double> y = new List<double>();
-            //double step = PhaseSpan / Points;
-
-            //for (int i = 0; i < Points - 1; i++)
-            //{
-            //    y.Add(0);
-            //    x.Add(StartTime + i * step);
-            //}
 
             x.Add(harmonic.Freq);
             y.Add(harmonic.StaPhase);

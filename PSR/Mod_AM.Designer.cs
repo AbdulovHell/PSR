@@ -30,8 +30,6 @@
         {
             this.G1SettingsBtn = new System.Windows.Forms.Button();
             this.G2SettingsBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.V0Edit = new System.Windows.Forms.TextBox();
             this.KEdit = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.OscAtG2 = new System.Windows.Forms.Button();
@@ -66,23 +64,6 @@
             this.G2SettingsBtn.Text = "ГНЧ";
             this.G2SettingsBtn.UseVisualStyleBackColor = true;
             this.G2SettingsBtn.Click += new System.EventHandler(this.G2SettingsBtn_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(186, 195);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "V0, В";
-            // 
-            // V0Edit
-            // 
-            this.V0Edit.Location = new System.Drawing.Point(225, 192);
-            this.V0Edit.Name = "V0Edit";
-            this.V0Edit.Size = new System.Drawing.Size(44, 20);
-            this.V0Edit.TabIndex = 8;
-            this.V0Edit.Text = "1";
             // 
             // KEdit
             // 
@@ -170,7 +151,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(136, 20);
             this.label4.TabIndex = 12;
-            this.label4.Text = "Амплитуда = 0 V";
+            this.label4.Text = "Амплитуда = 0 В";
             // 
             // label5
             // 
@@ -194,8 +175,6 @@
             this.Controls.Add(this.HarmonicCountsLbl);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.KEdit);
-            this.Controls.Add(this.V0Edit);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.G2SettingsBtn);
             this.Controls.Add(this.G1SettingsBtn);
             this.Controls.Add(this.OscAtG2);
@@ -218,8 +197,6 @@
         private System.Windows.Forms.Button OscAtG2;
         private System.Windows.Forms.Button G1SettingsBtn;
         private System.Windows.Forms.Button G2SettingsBtn;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox V0Edit;
         private System.Windows.Forms.TextBox KEdit;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label HarmonicCountsLbl;
