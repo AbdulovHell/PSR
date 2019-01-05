@@ -14,7 +14,7 @@ namespace MainModule
         public Form1()
         {
             InitializeComponent();
-
+            toolStripStatusLabel1.Text = "";
             /*
             double[] testnums = {
                 1200000.0,
@@ -54,6 +54,18 @@ namespace MainModule
 
             var testres = testnums.Select(n => Helper.ReduceUnits(n)).Select(p => p.First.ToString() + " " + p.Second.AsMetricPrefix()).ToArray();
             */
+        }
+
+        public void SetLastError(string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<string>(SetLastError), text);
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = text;
+            }
         }
 
         public enum UnitsType

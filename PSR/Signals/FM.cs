@@ -42,15 +42,34 @@ namespace MainModule.Signals
             List<double> x = new List<double>();
             List<double> y = new List<double>();
 
-            x.Add(Carrier.Freq);
-            y.Add(Carrier.Amp * Kp);
+            //x.Add(Carrier.Freq);
+            //y.Add(Carrier.Amp * Kp);
 
+            //for (int i = 0; i < harmonics.Count; i++)
+            //{
+            //    x.Add(Carrier.Freq + harmonics[i].Freq);
+            //    y.Add((K * harmonics[i].Amp) / 2);
+            //    x.Add(Carrier.Freq - harmonics[i].Freq);
+            //    y.Add((K * harmonics[i].Amp) / 2);
+            //}
+
+            double[] S = new double[2048];
+            double[] indexes = new double[harmonics.Count];
+            double[] Fs = new double[harmonics.Count];
             for (int i = 0; i < harmonics.Count; i++)
             {
-                x.Add(Carrier.Freq + harmonics[i].Freq);
-                y.Add((K * harmonics[i].Amp) / 2);
-                x.Add(Carrier.Freq - harmonics[i].Freq);
-                y.Add((K * harmonics[i].Amp) / 2);
+                //double d = Math.Abs(Carrier.Freq - harmonics[i].Freq);
+                //indexes[i] = d / harmonics[i].Freq;
+                indexes[i] = i + 1;
+                Fs[i] = harmonics[i].Freq;
+            }
+            indexes[indexes.Length - 1] = 0;
+            Mods.Chm(S, indexes, Fs, Carrier.Freq);
+
+            for (int i = 0; i < S.Length; i++)
+            {
+                x.Add(i);
+                y.Add(S[i]);
             }
 
             return new CoordPair(x, y);

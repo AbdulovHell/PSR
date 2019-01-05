@@ -26,9 +26,8 @@ namespace MainModule
         {
             if (!G1Set)
             {
-                ErrorWindow errorWindow = new ErrorWindow();
-                errorWindow.AddError("Настройки ГВЧ не заданы");
-                errorWindow.ShowDialog();
+                var p = Parent as Form1;
+                p.SetLastError("Настройки ГВЧ не заданы");
                 return;
             }
             var signal = new SingleToneSignal(Source);
@@ -48,9 +47,8 @@ namespace MainModule
         {
             if (!G2Set)
             {
-                ErrorWindow errorWindow = new ErrorWindow();
-                errorWindow.AddError("Настройки ГНЧ не заданы");
-                errorWindow.ShowDialog();
+                var p = Parent as Form1;
+                p.SetLastError("Настройки ГНЧ не заданы");
                 return;
             }
             var signal = new MultiToneSignal(harmonics, ProceedInput(KEdit.Text));
@@ -96,17 +94,16 @@ namespace MainModule
         {
             if (!G2Set || !G1Set)
             {
-                ErrorWindow errorWindow = new ErrorWindow();
-                if (!G1Set) errorWindow.AddError("Настройки ГНЧ не заданы");
-                if (!G2Set) errorWindow.AddError("Настройки ГВЧ не заданы");
-                errorWindow.ShowDialog();
+                var p = Parent as Form1;
+                if (!G1Set) p.SetLastError("Настройки ГВЧ не заданы");
+                if (!G2Set) p.SetLastError("Настройки ГНЧ не заданы");
                 return;
             }
             var signal = new FM(harmonics, Source, ProceedInput(KEdit.Text), FilterKoef.Value / 10.0);
             OEnd = new Oscilloscope("ФМ сигнал", signal, OscPage);
             OEnd.DrawOsc(periods:1);
             OEnd.DrawPhaseSpec();
-            OEnd.DrawSpec();
+            OEnd.DrawSpec(true);
             OEnd.Show();
         }
 

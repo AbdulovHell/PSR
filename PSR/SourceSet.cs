@@ -63,9 +63,8 @@ namespace MainModule
             double Phase = ProceedInput(PhaseEd.Text);
             if (Freq <= 0e1 || Freq > 1e9)
             {
-                ErrorWindow errorWindow = new ErrorWindow();
-                errorWindow.AddError("Ошибка задания частоты, она должна находится в пределах 0 < Freq <= 1e9");
-                errorWindow.ShowDialog();
+                var p = Parent as Form1;
+                p.SetLastError("Ошибка задания частоты, она должна находится в пределах 0 < Freq <= 1e9");
                 return false;
             }
             else

@@ -20,6 +20,8 @@ namespace MainModule
         string[] Units = { "", "", "" };
         int[] Periods = new int[3];
         int[] PrefixIndex = new int[3];
+        double[] Xoffset = { 0, 0, 0 }, Yoffset = { 0, 0, 0 };
+        bool[] DragCursors = { true, true, true };
 
         void InitCharts()
         {
@@ -28,6 +30,7 @@ namespace MainModule
                 Charts[i] = new Chart();
                 Charts[i].Dock = DockStyle.Fill;
                 Charts[i].MouseMove += Chart_MouseMove;
+                Charts[i].Click += Oscilloscope_Click;
                 Charts[i].Cursor = Cursors.Cross;
                 Charts[i].ChartAreas.Add("area1");
 
@@ -43,39 +46,72 @@ namespace MainModule
                 Charts[i].ChartAreas[0].CursorY.AutoScroll = true;
 
                 Charts[i].Visible = true;
+
+                Charts[i].Annotations.Add(new CalloutAnnotation()
+                {
+                    AxisX = Charts[i].ChartAreas[0].AxisX,
+                    AxisY = Charts[i].ChartAreas[0].AxisY,
+                    IsSizeAlwaysRelative = false
+                });   //x
+                Charts[i].Annotations.Add(new CalloutAnnotation()
+                {
+                    AxisX = Charts[i].ChartAreas[0].AxisX,
+                    AxisY = Charts[i].ChartAreas[0].AxisY,
+                    IsSizeAlwaysRelative = false
+                });   //y
+
+                Charts[i].ChartAreas[0].AxisX.TitleFont = new Font("Arial", 10, FontStyle.Regular);
+                Charts[i].ChartAreas[0].AxisY.TitleFont = new Font("Arial", 10, FontStyle.Regular);
             }
+
+            Charts[0].ChartAreas[0].AxisY.Title = "U, В";
+            Charts[1].ChartAreas[0].AxisY.Title = "U, В";
+            if (Form1.unitsType == Form1.UnitsType.Radian)
+            {
+                Charts[2].ChartAreas[0].AxisY.Title = "φ, рад";
+            }
+            else
+            {
+                Charts[2].ChartAreas[0].AxisY.Title = "φ, град";
+            }
+
             tabControl1.TabPages[0].Controls.Add(Charts[0]);
             tabControl1.TabPages[1].Controls.Add(Charts[1]);
             tabControl1.TabPages[2].Controls.Add(Charts[2]);
+        }
+
+        private void Oscilloscope_Click(object sender, EventArgs e)
+        {
+            DragCursors[tabControl1.SelectedIndex] =!DragCursors[tabControl1.SelectedIndex];
+            if (DragCursors[tabControl1.SelectedIndex]) {
+                Charts[tabControl1.SelectedIndex].MouseMove += Chart_MouseMove;
+            }
+            else
+            {
+                Charts[tabControl1.SelectedIndex].MouseMove -= Chart_MouseMove;
+            }
         }
 
         private void Chart_MouseMove(object sender, MouseEventArgs e)
         {
             if (!Form1.EnCursors) return;
             if (sender.GetType().ToString() != "System.Windows.Forms.DataVisualization.Charting.Chart") return;
-            Chart chart = (Chart)sender;
+            Chart chart = sender as Chart;
             chart.ChartAreas[0].CursorX.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
             chart.ChartAreas[0].CursorY.SetCursorPixelPosition(new PointF(e.X, e.Y), true);
-            chart.ChartAreas[0].AxisX.Title = chart.ChartAreas[0].CursorX.Position.ToString() + " " + Units[tabControl1.SelectedIndex];
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-                    chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " В";
-                    break;
-                case 1:
-                    chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " дБ";
-                    break;
-                case 2:
-                    if (Form1.unitsType == Form1.UnitsType.Radian)
-                    {
-                        chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " рад";
-                    }
-                    else
-                    {
-                        chart.ChartAreas[0].AxisY.Title = chart.ChartAreas[0].CursorY.Position.ToString() + " град";
-                    }
-                    break;
-            }
+
+            CalloutAnnotation Xannotation = chart.Annotations[0] as CalloutAnnotation;
+            CalloutAnnotation Yannotation = chart.Annotations[1] as CalloutAnnotation;
+            Xannotation.Text = chart.ChartAreas[0].CursorX.Position.ToString();
+            Yannotation.Text = chart.ChartAreas[0].CursorY.Position.ToString();
+
+            Xannotation.X = chart.ChartAreas[0].CursorX.Position;
+            Xannotation.Y = Yoffset[tabControl1.SelectedIndex];
+
+            Yannotation.X = Xoffset[tabControl1.SelectedIndex];
+            Yannotation.Y = chart.ChartAreas[0].CursorY.Position;
+
+            //Text = $"{e.X} {e.Y}";
         }
 
         public Oscilloscope(string caption, Signals.ISignal signal, int tabIndex = 0)
@@ -132,7 +168,7 @@ namespace MainModule
 
                 PrefixIndex[0] = Points.X[index].Reduce().Order;
                 //var Yunits = ReduceUnits(Points.Y[index]).Y;
-                Units[0] = PrefixIndex[0].AsMetricPrefix() + "c";
+                Charts[0].ChartAreas[0].AxisX.Title = "t, " + PrefixIndex[0].AsMetricPrefix() + "c";
 
                 for (int i = 0; i < Points.X.Count; i++)
                 {
@@ -191,7 +227,7 @@ namespace MainModule
             //Charts[0].ChartAreas[0].AxisY.Maximum = Math.Round(maxs[maxs.Count - 1], 0);
         }
 
-        public void DrawOsc(FuncType funcType = FuncType.Normal,int periods=1)
+        public void DrawOsc(FuncType funcType = FuncType.Normal, int periods = 1)
         {
             OSCtype = funcType;
             Periods[0] = periods;
@@ -255,7 +291,7 @@ namespace MainModule
             } while (duplicate);
         }
 
-        public void DrawSpec()
+        public void DrawSpec(bool chm = false)
         {
             Charts[1].Series.Add($"Ser{Charts[1].Series.Count}");
             Charts[1].Series[Charts[1].Series.Count - 1].ChartType = signal.AmpSpecType();
@@ -265,57 +301,77 @@ namespace MainModule
             Charts[1].Series[Charts[1].Series.Count - 1].MarkerStyle = MarkerStyle.Circle;
             //annotation line width >=2
             //Получение отсчетов
-            var Points = signal.DrawAmpSpec();
-            Points = Sort(Points);
-            DelDupli(ref Points);
-
-            //Перевод величин и определение едениц измерения
-            if (Form1.unitsType == Form1.UnitsType.Radian)
+            if (chm)
             {
-                Units[1] = "рад/сек";
+                var Points=signal.DrawAmpSpec();
+
+                Charts[1].ChartAreas[0].AxisX.Title = (Form1.unitsType == Form1.UnitsType.Radian ? "ω, рад/с" : "f, Гц");
+
+                for (int i = 0; i < Points.X.Count; i++)
+                {
+                    Charts[1].Series[Charts[1].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
+                }
+
+                Charts[1].Series[Charts[1].Series.Count - 1].ChartType = SeriesChartType.Spline;
+                Charts[1].Series[Charts[1].Series.Count - 1].BorderWidth = 1;
+                Charts[1].Series[Charts[1].Series.Count - 1].MarkerStyle = MarkerStyle.None;
             }
             else
             {
-                for (int i = 0; i < Points.X.Count; i++)
-                    Points.X[i] = Points.X[i] / (2.0 * Math.PI);
-                Units[1] = "Гц";
-            }
+                var Points = signal.DrawAmpSpec();
+                Points = Sort(Points);
+                DelDupli(ref Points);
 
-            //Сокращение
-            {
-                int index = 0;
-                for (int i = 0; i < Points.X.Count; i++)
+                //Перевод величин и определение едениц измерения
+                if (Form1.unitsType == Form1.UnitsType.Radian)
                 {
-                    if (Points.X[i] != 0 && Points.Y[i] != 0)
+                    Units[1] = "рад/сек";
+                }
+                else
+                {
+                    for (int i = 0; i < Points.X.Count; i++)
+                        Points.X[i] = Points.X[i] / (2.0 * Math.PI);
+                    Units[1] = "Гц";
+                }
+
+                //Сокращение
+                {
+                    int index = 0;
+                    for (int i = 0; i < Points.X.Count; i++)
                     {
-                        index = i;
-                        break;
+                        if (Points.X[i] != 0 && Points.Y[i] != 0)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+
+                    PrefixIndex[1] = Points.X[index].Reduce().Order;
+                    Units[1] = PrefixIndex[1].AsMetricPrefix() + Units[1];
+
+                    for (int i = 0; i < Points.X.Count; i++)
+                    {
+                        Points.X[i] = Points.X[i].Reorder(-PrefixIndex[1]).Trim(3);
+                        //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
                     }
                 }
 
-                PrefixIndex[1] = Points.X[index].Reduce().Order;
-                Units[1] = PrefixIndex[1].AsMetricPrefix() + Units[1];
+                Charts[1].ChartAreas[0].AxisX.Title = (Form1.unitsType == Form1.UnitsType.Radian ? "ω, " : "f, ") + Units[1];
 
                 for (int i = 0; i < Points.X.Count; i++)
                 {
-                    Points.X[i] = Points.X[i].Reorder(-PrefixIndex[1]).Trim(3);
-                    //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
+                    Charts[1].Series[Charts[1].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
+                    Charts[1].Annotations.Add(new VerticalLineAnnotation()
+                    {
+                        LineWidth = 2,
+                        AxisX = Charts[1].ChartAreas[0].AxisX,
+                        AxisY = Charts[1].ChartAreas[0].AxisY,
+                        IsSizeAlwaysRelative = false,
+                        Height = Points.Y[i],
+                        Y = 0,
+                        X = Points.X[i]
+                    });
                 }
-            }
-
-            for (int i = 0; i < Points.X.Count; i++)
-            {
-                Charts[1].Series[Charts[1].Series.Count - 1].Points.AddXY(Points.X[i], Points.Y[i]);
-                Charts[1].Annotations.Add(new VerticalLineAnnotation()
-                {
-                    LineWidth = 2,
-                    AxisX = Charts[1].ChartAreas[0].AxisX,
-                    AxisY = Charts[1].ChartAreas[0].AxisY,
-                    IsSizeAlwaysRelative = false,
-                    Height = Points.Y[i],
-                    Y = 0,
-                    X = Points.X[i]
-                });
             }
         }
 
@@ -366,6 +422,8 @@ namespace MainModule
                     //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
                 }
             }
+
+            Charts[2].ChartAreas[0].AxisX.Title = (Form1.unitsType == Form1.UnitsType.Radian ? "ω, " : "f, ") + Units[2];
 
             for (int i = 0; i < Points.X.Count; i++)
             {

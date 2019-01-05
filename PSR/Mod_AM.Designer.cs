@@ -32,14 +32,14 @@
             this.G2SettingsBtn = new System.Windows.Forms.Button();
             this.KEdit = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.OscAtG2 = new System.Windows.Forms.Button();
-            this.OscAtG1 = new System.Windows.Forms.Button();
-            this.OscAtEnd = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.HarmonicCountsLbl = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.OscAtG2 = new System.Windows.Forms.Button();
+            this.OscAtG1 = new System.Windows.Forms.Button();
+            this.OscAtEnd = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,7 +67,7 @@
             // 
             // KEdit
             // 
-            this.KEdit.Location = new System.Drawing.Point(225, 255);
+            this.KEdit.Location = new System.Drawing.Point(225, 286);
             this.KEdit.Name = "KEdit";
             this.KEdit.Size = new System.Drawing.Size(44, 20);
             this.KEdit.TabIndex = 9;
@@ -76,52 +76,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(205, 258);
+            this.label2.Location = new System.Drawing.Point(205, 289);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 13);
             this.label2.TabIndex = 10;
             this.label2.Text = "K";
-            // 
-            // OscAtG2
-            // 
-            this.OscAtG2.Image = global::MainModule.Resources.graph;
-            this.OscAtG2.Location = new System.Drawing.Point(327, 297);
-            this.OscAtG2.Name = "OscAtG2";
-            this.OscAtG2.Size = new System.Drawing.Size(23, 23);
-            this.OscAtG2.TabIndex = 4;
-            this.OscAtG2.UseVisualStyleBackColor = true;
-            this.OscAtG2.Click += new System.EventHandler(this.OscAtG2_Click);
-            // 
-            // OscAtG1
-            // 
-            this.OscAtG1.Image = global::MainModule.Resources.graph;
-            this.OscAtG1.Location = new System.Drawing.Point(327, 123);
-            this.OscAtG1.Name = "OscAtG1";
-            this.OscAtG1.Size = new System.Drawing.Size(23, 23);
-            this.OscAtG1.TabIndex = 3;
-            this.OscAtG1.UseVisualStyleBackColor = true;
-            this.OscAtG1.Click += new System.EventHandler(this.OscAtG1_Click);
-            // 
-            // OscAtEnd
-            // 
-            this.OscAtEnd.Image = global::MainModule.Resources.graph;
-            this.OscAtEnd.Location = new System.Drawing.Point(383, 157);
-            this.OscAtEnd.Name = "OscAtEnd";
-            this.OscAtEnd.Size = new System.Drawing.Size(23, 23);
-            this.OscAtEnd.TabIndex = 2;
-            this.OscAtEnd.UseVisualStyleBackColor = true;
-            this.OscAtEnd.Click += new System.EventHandler(this.OscAtEnd_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = global::MainModule.Resources.AM1;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(800, 450);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // HarmonicCountsLbl
             // 
@@ -162,6 +121,47 @@
             this.label5.Size = new System.Drawing.Size(199, 20);
             this.label5.TabIndex = 12;
             this.label5.Text = "Начальная фаза = 0 Рад";
+            // 
+            // OscAtG2
+            // 
+            this.OscAtG2.Image = global::MainModule.Resources.graph;
+            this.OscAtG2.Location = new System.Drawing.Point(327, 255);
+            this.OscAtG2.Name = "OscAtG2";
+            this.OscAtG2.Size = new System.Drawing.Size(23, 23);
+            this.OscAtG2.TabIndex = 4;
+            this.OscAtG2.UseVisualStyleBackColor = true;
+            this.OscAtG2.Click += new System.EventHandler(this.OscAtG2_Click);
+            // 
+            // OscAtG1
+            // 
+            this.OscAtG1.Image = global::MainModule.Resources.graph;
+            this.OscAtG1.Location = new System.Drawing.Point(327, 123);
+            this.OscAtG1.Name = "OscAtG1";
+            this.OscAtG1.Size = new System.Drawing.Size(23, 23);
+            this.OscAtG1.TabIndex = 3;
+            this.OscAtG1.UseVisualStyleBackColor = true;
+            this.OscAtG1.Click += new System.EventHandler(this.OscAtG1_Click);
+            // 
+            // OscAtEnd
+            // 
+            this.OscAtEnd.Image = global::MainModule.Resources.graph;
+            this.OscAtEnd.Location = new System.Drawing.Point(383, 157);
+            this.OscAtEnd.Name = "OscAtEnd";
+            this.OscAtEnd.Size = new System.Drawing.Size(23, 23);
+            this.OscAtEnd.TabIndex = 2;
+            this.OscAtEnd.UseVisualStyleBackColor = true;
+            this.OscAtEnd.Click += new System.EventHandler(this.OscAtEnd_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = global::MainModule.Resources.AM1;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(800, 450);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // Mod_AM
             // 

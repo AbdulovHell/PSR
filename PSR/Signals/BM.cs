@@ -73,9 +73,11 @@ namespace MainModule.Signals
             double CurrentPoint = LeftBorder;
             while (CurrentPoint <= RightBorder)
             {
+                //double U0 = Carrier.Amp * Math.Cos(Carrier.Freq * CurrentPoint + Carrier.StaPhase);
+                //double V = Kp * U0 + ((K * CalcPoint(CurrentPoint)) / Carrier.Amp) * U0;
+                double V = Math.Abs(Kp*Carrier.Amp + K*CalcPoint(CurrentPoint));
                 x.Add(CurrentPoint);
-                double U0 = Carrier.Amp * Math.Cos(Carrier.Freq * CurrentPoint + Carrier.StaPhase);
-                y.Add(Kp * U0 + ((K * CalcPoint(CurrentPoint)) / Carrier.Amp) * U0);
+                y.Add(V);
                 CurrentPoint += Step;
             }
 

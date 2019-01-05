@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper.cs" />
+    <Compile Include="Math\Bessel.cs" />
+    <Compile Include="Math\Mods.cs" />
     <Compile Include="Mod_FM.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -68,12 +70,6 @@
     <Compile Include="Signals\CoordPair.cs" />
     <Compile Include="Signals\ISignal.cs" />
     <Compile Include="Math\CDF.cs" />
-    <Compile Include="ErrorWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ErrorWindow.Designer.cs">
-      <DependentUpon>ErrorWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,9 +118,6 @@
     <Compile Include="SourceSet.Designer.cs">
       <DependentUpon>SourceSet.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ErrorWindow.resx">
-      <DependentUpon>ErrorWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
