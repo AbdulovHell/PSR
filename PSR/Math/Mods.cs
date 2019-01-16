@@ -2,9 +2,9 @@
 {
     public class Mods
     {
-        static double ampl = 1, f_min = 0, f_max = 0;
-        static double S_max = 0, S_min = 0;
-        static double f_min_view = 0, f_max_view = 0;
+        public static double ampl = 1, f_min = 0, f_max = 0;
+        public static double S_max = 0, S_min = 0;
+        public static double f_min_view = 0, f_max_view = 0;
 
         //Переменные для рекурсии
         static double[] iS, iF, iindex;
@@ -131,6 +131,8 @@
                 S_min = 0;
                 S_max = 0.01;
             }
+
+            //string test = $"{S_max}";
         }
     }
 }

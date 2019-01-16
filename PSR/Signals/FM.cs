@@ -15,6 +15,11 @@ namespace MainModule.Signals
         double PhaseSpan = 0;
         double GFreq = 1;
 
+        double Fmin = -1;
+        double Fmax = 1;
+        double Fmin_view = -1;
+        double Fmax_view = 1;
+
         const int PointOnPeriod = 2000;
 
         const SeriesChartType oscType = SeriesChartType.Spline;
@@ -64,10 +69,20 @@ namespace MainModule.Signals
             indexes[indexes.Length - 1] = 0;
             Mods.Chm(S, indexes, Fs, Carrier.Freq);
 
+            Fmin = Mods.f_min;
+            Fmax = Mods.f_max;
+            Fmin_view = Mods.f_min_view;
+            Fmax_view = Mods.f_max_view;
+
+            double Step = (Fmax - Fmin) / S.Length;
+
+            double CurrentPoint = Fmin;
+
             for (int i = 0; i < S.Length; i++)
             {
-                x.Add(i);
+                x.Add(CurrentPoint);
                 y.Add(S[i]);
+                CurrentPoint += Step;
             }
 
             return new CoordPair(x, y);
@@ -148,6 +163,11 @@ namespace MainModule.Signals
         public void SetPhaseSpan(double hz)
         {
             PhaseSpan = hz;
+        }
+
+        public Pair<double, double> SpecBorders()
+        {
+            return new Pair<double, double>(Fmin_view, Fmax_view);
         }
     }
 }

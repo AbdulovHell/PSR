@@ -51,6 +51,12 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Math\Bessel.cs" />
     <Compile Include="Math\Mods.cs" />
+    <Compile Include="Mod_PM.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Mod_PM.Designer.cs">
+      <DependentUpon>Mod_PM.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mod_FM.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -64,6 +70,7 @@
       <DependentUpon>Mod_SM.cs</DependentUpon>
     </Compile>
     <Compile Include="Signals\AM.cs" />
+    <Compile Include="Signals\PM.cs" />
     <Compile Include="Signals\FM.cs" />
     <Compile Include="Signals\SM.cs" />
     <Compile Include="Signals\BM.cs" />
@@ -123,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HarmonicSettings.resx">
       <DependentUpon>HarmonicSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mod_PM.resx">
+      <DependentUpon>Mod_PM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Mod_FM.resx">
       <DependentUpon>Mod_FM.cs</DependentUpon>

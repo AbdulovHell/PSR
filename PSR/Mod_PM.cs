@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace MainModule
 {
-    public partial class Mod_FM : UserControl
+    public partial class Mod_PM : UserControl
     {
         bool G1Set = false, G2Set = false;
         const double spacing = 0.0000005;
@@ -15,7 +15,7 @@ namespace MainModule
 
         Oscilloscope OG1, OG2, OEnd;
 
-        public Mod_FM()
+        public Mod_PM()
         {
             InitializeComponent();
             UpdateG1Info();
@@ -98,8 +98,8 @@ namespace MainModule
                 if (!G2Set) p.SetLastError("Настройки ГНЧ не заданы");
                 return;
             }
-            var signal = new FM(harmonics, Source, ProceedInput(KEdit.Text));
-            OEnd = new Oscilloscope("ЧМ сигнал", signal, OscPage);
+            var signal = new PM(harmonics, Source, ProceedInput(KEdit.Text));
+            OEnd = new Oscilloscope("ФМ сигнал", signal, OscPage);
             OEnd.DrawOsc(periods:1);
             OEnd.DrawPhaseSpec();
             OEnd.DrawSpec(true);

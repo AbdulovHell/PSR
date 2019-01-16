@@ -101,5 +101,10 @@ namespace MainModule.Signals
         SeriesChartType ISignal.OscType() => oscType;
         SeriesChartType ISignal.AmpSpecType() => ampSpecType;
         SeriesChartType ISignal.PhaseSpecType() => phaseSpecType;
+
+        public Pair<double, double> SpecBorders()
+        {
+            return new Pair<double, double>(0, 0);
+        }
     }
 }

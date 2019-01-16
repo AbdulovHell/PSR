@@ -307,7 +307,41 @@ namespace MainModule
             {
                 var Points = signal.DrawAmpSpec();
 
-                Charts[1].ChartAreas[0].AxisX.Title = (Form1.unitsType == Form1.UnitsType.Radian ? "ω, рад/с" : "f, Гц");
+                //Перевод величин и определение едениц измерения
+                if (Form1.unitsType == Form1.UnitsType.Radian)
+                {
+                    Units[1] = "рад/сек";
+                }
+                else
+                {
+                    for (int i = 0; i < Points.X.Count; i++)
+                        Points.X[i] = Points.X[i] / (2.0 * Math.PI);
+                    Units[1] = "Гц";
+                }
+
+                //Сокращение
+                {
+                    int index = 0;
+                    for (int i = 0; i < Points.X.Count; i++)
+                    {
+                        if (Points.X[i] != 0 && Points.Y[i] != 0)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+
+                    PrefixIndex[1] = Points.X[index].Reduce().Order;
+                    Units[1] = PrefixIndex[1].AsMetricPrefix() + Units[1];
+
+                    for (int i = 0; i < Points.X.Count; i++)
+                    {
+                        Points.X[i] = Points.X[i].Reorder(-PrefixIndex[1]).Trim(3);
+                        //Points.Y[i] *= Math.Pow(1000, Yunits / 3);
+                    }
+                }
+
+                Charts[1].ChartAreas[0].AxisX.Title = (Form1.unitsType == Form1.UnitsType.Radian ? "ω, " : "f, ") + Units[1];
 
                 for (int i = 0; i < Points.X.Count; i++)
                 {
@@ -317,6 +351,10 @@ namespace MainModule
                 Charts[1].Series[Charts[1].Series.Count - 1].ChartType = SeriesChartType.Spline;
                 Charts[1].Series[Charts[1].Series.Count - 1].BorderWidth = 1;
                 Charts[1].Series[Charts[1].Series.Count - 1].MarkerStyle = MarkerStyle.None;
+
+                var borders = signal.SpecBorders();
+                Charts[1].ChartAreas[0].AxisX.Minimum = (Form1.unitsType == Form1.UnitsType.Radian ? borders.First : borders.First / (2.0 * Math.PI));
+                Charts[1].ChartAreas[0].AxisX.Maximum = (Form1.unitsType == Form1.UnitsType.Radian ? borders.Second : borders.Second / (2.0 * Math.PI));
             }
             else
             {

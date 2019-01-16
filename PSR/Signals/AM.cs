@@ -126,5 +126,10 @@ namespace MainModule.Signals
         {
             PhaseSpan = hz;
         }
+
+        public Pair<double, double> SpecBorders()
+        {
+            return new Pair<double, double>(0, 0);
+        }
     }
 }

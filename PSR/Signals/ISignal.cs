@@ -29,6 +29,8 @@ namespace MainModule.Signals
         /// <returns></returns>
         CoordPair DrawAmpSpec();
 
+        Pair<double, double> SpecBorders();
+
         void SetFreqSpan(double hz);
 
         CoordPair DrawPhaSpec();
