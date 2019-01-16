@@ -70,7 +70,7 @@
             // 
             // KEdit
             // 
-            this.KEdit.Location = new System.Drawing.Point(142, 291);
+            this.KEdit.Location = new System.Drawing.Point(148, 290);
             this.KEdit.Name = "KEdit";
             this.KEdit.Size = new System.Drawing.Size(44, 20);
             this.KEdit.TabIndex = 9;
@@ -79,7 +79,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(122, 294);
+            this.label2.Location = new System.Drawing.Point(128, 293);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 13);
             this.label2.TabIndex = 10;

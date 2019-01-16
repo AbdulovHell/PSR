@@ -170,9 +170,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\test.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\AM1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +189,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\RPs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PM.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

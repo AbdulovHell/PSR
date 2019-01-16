@@ -40,16 +40,13 @@
             this.OscAtG1 = new System.Windows.Forms.Button();
             this.OscAtEnd = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.FilterKoef = new System.Windows.Forms.TrackBar();
-            this.FilterKoefLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FilterKoef)).BeginInit();
             this.SuspendLayout();
             // 
             // G1SettingsBtn
             // 
             this.G1SettingsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.G1SettingsBtn.Location = new System.Drawing.Point(157, 34);
+            this.G1SettingsBtn.Location = new System.Drawing.Point(240, 34);
             this.G1SettingsBtn.Name = "G1SettingsBtn";
             this.G1SettingsBtn.Size = new System.Drawing.Size(135, 74);
             this.G1SettingsBtn.TabIndex = 5;
@@ -60,7 +57,7 @@
             // G2SettingsBtn
             // 
             this.G2SettingsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.G2SettingsBtn.Location = new System.Drawing.Point(157, 337);
+            this.G2SettingsBtn.Location = new System.Drawing.Point(240, 337);
             this.G2SettingsBtn.Name = "G2SettingsBtn";
             this.G2SettingsBtn.Size = new System.Drawing.Size(135, 74);
             this.G2SettingsBtn.TabIndex = 6;
@@ -70,7 +67,7 @@
             // 
             // KEdit
             // 
-            this.KEdit.Location = new System.Drawing.Point(143, 292);
+            this.KEdit.Location = new System.Drawing.Point(225, 286);
             this.KEdit.Name = "KEdit";
             this.KEdit.Size = new System.Drawing.Size(44, 20);
             this.KEdit.TabIndex = 9;
@@ -79,7 +76,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(123, 295);
+            this.label2.Location = new System.Drawing.Point(205, 289);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 13);
             this.label2.TabIndex = 10;
@@ -89,7 +86,7 @@
             // 
             this.HarmonicCountsLbl.AutoSize = true;
             this.HarmonicCountsLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.HarmonicCountsLbl.Location = new System.Drawing.Point(298, 363);
+            this.HarmonicCountsLbl.Location = new System.Drawing.Point(381, 363);
             this.HarmonicCountsLbl.Name = "HarmonicCountsLbl";
             this.HarmonicCountsLbl.Size = new System.Drawing.Size(55, 24);
             this.HarmonicCountsLbl.TabIndex = 11;
@@ -99,7 +96,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label3.Location = new System.Drawing.Point(302, 42);
+            this.label3.Location = new System.Drawing.Point(385, 42);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(146, 20);
             this.label3.TabIndex = 12;
@@ -109,7 +106,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label4.Location = new System.Drawing.Point(302, 63);
+            this.label4.Location = new System.Drawing.Point(385, 63);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(136, 20);
             this.label4.TabIndex = 12;
@@ -119,7 +116,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label5.Location = new System.Drawing.Point(302, 83);
+            this.label5.Location = new System.Drawing.Point(385, 83);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(199, 20);
             this.label5.TabIndex = 12;
@@ -128,7 +125,7 @@
             // OscAtG2
             // 
             this.OscAtG2.Image = global::MainModule.Resources.graph;
-            this.OscAtG2.Location = new System.Drawing.Point(245, 263);
+            this.OscAtG2.Location = new System.Drawing.Point(327, 255);
             this.OscAtG2.Name = "OscAtG2";
             this.OscAtG2.Size = new System.Drawing.Size(23, 23);
             this.OscAtG2.TabIndex = 4;
@@ -138,7 +135,7 @@
             // OscAtG1
             // 
             this.OscAtG1.Image = global::MainModule.Resources.graph;
-            this.OscAtG1.Location = new System.Drawing.Point(245, 123);
+            this.OscAtG1.Location = new System.Drawing.Point(327, 123);
             this.OscAtG1.Name = "OscAtG1";
             this.OscAtG1.Size = new System.Drawing.Size(23, 23);
             this.OscAtG1.TabIndex = 3;
@@ -148,7 +145,7 @@
             // OscAtEnd
             // 
             this.OscAtEnd.Image = global::MainModule.Resources.graph;
-            this.OscAtEnd.Location = new System.Drawing.Point(439, 157);
+            this.OscAtEnd.Location = new System.Drawing.Point(383, 157);
             this.OscAtEnd.Name = "OscAtEnd";
             this.OscAtEnd.Size = new System.Drawing.Size(23, 23);
             this.OscAtEnd.TabIndex = 2;
@@ -158,7 +155,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = global::MainModule.Resources.BM1;
+            this.pictureBox1.Image = global::MainModule.Resources.FM;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(800, 450);
@@ -166,34 +163,12 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // FilterKoef
-            // 
-            this.FilterKoef.BackColor = System.Drawing.Color.White;
-            this.FilterKoef.Location = new System.Drawing.Point(306, 241);
-            this.FilterKoef.Name = "FilterKoef";
-            this.FilterKoef.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.FilterKoef.Size = new System.Drawing.Size(104, 45);
-            this.FilterKoef.TabIndex = 13;
-            this.FilterKoef.Value = 10;
-            this.FilterKoef.ValueChanged += new System.EventHandler(this.FilterKoef_ValueChanged);
-            // 
-            // FilterKoefLbl
-            // 
-            this.FilterKoefLbl.Location = new System.Drawing.Point(306, 270);
-            this.FilterKoefLbl.Name = "FilterKoefLbl";
-            this.FilterKoefLbl.Size = new System.Drawing.Size(104, 16);
-            this.FilterKoefLbl.TabIndex = 14;
-            this.FilterKoefLbl.Text = "1";
-            this.FilterKoefLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // Mod_FM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.FilterKoefLbl);
-            this.Controls.Add(this.FilterKoef);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -209,7 +184,6 @@
             this.Name = "Mod_FM";
             this.Size = new System.Drawing.Size(800, 450);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.FilterKoef)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,7 +203,5 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TrackBar FilterKoef;
-        private System.Windows.Forms.Label FilterKoefLbl;
     }
 }

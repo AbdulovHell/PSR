@@ -19,7 +19,6 @@ namespace MainModule
         {
             InitializeComponent();
             UpdateG1Info();
-            FilterKoefLbl.Text = $"Kпн = {FilterKoef.Value / 10.0}";
         }
 
         void DrawG1Osc( int OscPage = 0)
@@ -99,7 +98,7 @@ namespace MainModule
                 if (!G2Set) p.SetLastError("Настройки ГНЧ не заданы");
                 return;
             }
-            var signal = new FM(harmonics, Source, ProceedInput(KEdit.Text), FilterKoef.Value / 10.0);
+            var signal = new FM(harmonics, Source, ProceedInput(KEdit.Text));
             OEnd = new Oscilloscope("ФМ сигнал", signal, OscPage);
             OEnd.DrawOsc(periods:1);
             OEnd.DrawPhaseSpec();
@@ -139,11 +138,6 @@ namespace MainModule
                 UpdateG1Info();
                 if (Source.Freq != 0) G1Set = true;
             }
-        }
-
-        private void FilterKoef_ValueChanged(object sender, EventArgs e)
-        {
-            FilterKoefLbl.Text = $"Kпн = {FilterKoef.Value / 10.0}";
         }
 
         public void BuildAll(int OscPage)

@@ -13,7 +13,6 @@ namespace MainModule.Signals
         double Step = 0.1;
         double FreqSpan = 0;
         double PhaseSpan = 0;
-        double Kp = 1;
         double GFreq = 1;
 
         const int PointOnPeriod = 2000;
@@ -23,12 +22,11 @@ namespace MainModule.Signals
         const SeriesChartType phaseSpecType = SeriesChartType.Point;
 
         //Modulated balanced (Envelope)
-        public FM(List<Harmonic> harmonics, Harmonic carrier, double K, double Kp)
+        public FM(List<Harmonic> harmonics, Harmonic carrier, double K)
         {
             this.harmonics = harmonics;
             Carrier = carrier;
             this.K = K;
-            this.Kp = Kp;
             GFreq = harmonics.MinimalNonZeroFreq();
             //GFreq = carrier.Freq;
             double PeriodToTime = (1 * 2 * Math.PI) / GFreq;

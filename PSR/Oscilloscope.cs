@@ -22,6 +22,7 @@ namespace MainModule
         int[] PrefixIndex = new int[3];
         double[] Xoffset = { 0, 0, 0 }, Yoffset = { 0, 0, 0 };
         bool[] DragCursors = { true, true, true };
+        double[] XPosition = { 0, 0, 0 }, YPosition = { 0, 0, 0 };
 
         void InitCharts()
         {
@@ -82,8 +83,9 @@ namespace MainModule
 
         private void Oscilloscope_Click(object sender, EventArgs e)
         {
-            DragCursors[tabControl1.SelectedIndex] =!DragCursors[tabControl1.SelectedIndex];
-            if (DragCursors[tabControl1.SelectedIndex]) {
+            DragCursors[tabControl1.SelectedIndex] = !DragCursors[tabControl1.SelectedIndex];
+            if (DragCursors[tabControl1.SelectedIndex])
+            {
                 Charts[tabControl1.SelectedIndex].MouseMove += Chart_MouseMove;
             }
             else
@@ -106,9 +108,9 @@ namespace MainModule
             Yannotation.Text = chart.ChartAreas[0].CursorY.Position.ToString();
 
             Xannotation.X = chart.ChartAreas[0].CursorX.Position;
-            Xannotation.Y = Yoffset[tabControl1.SelectedIndex];
+            Xannotation.Y = /*Yoffset[tabControl1.SelectedIndex]*//*chart.ChartAreas[0].AxisY.Minimum + (chart.ChartAreas[0].AxisY.Maximum - chart.ChartAreas[0].AxisY.Minimum) / 2.0*/chart.ChartAreas[0].AxisY.Minimum;
 
-            Yannotation.X = Xoffset[tabControl1.SelectedIndex];
+            Yannotation.X = /*Xoffset[tabControl1.SelectedIndex]*//*chart.ChartAreas[0].AxisX.Minimum + (chart.ChartAreas[0].AxisX.Maximum - chart.ChartAreas[0].AxisX.Minimum) / 2.0*/chart.ChartAreas[0].AxisX.Minimum;
             Yannotation.Y = chart.ChartAreas[0].CursorY.Position;
 
             //Text = $"{e.X} {e.Y}";
@@ -303,7 +305,7 @@ namespace MainModule
             //Получение отсчетов
             if (chm)
             {
-                var Points=signal.DrawAmpSpec();
+                var Points = signal.DrawAmpSpec();
 
                 Charts[1].ChartAreas[0].AxisX.Title = (Form1.unitsType == Form1.UnitsType.Radian ? "ω, рад/с" : "f, Гц");
 
