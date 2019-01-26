@@ -20,7 +20,7 @@ namespace MainModule.Signals
         double Fmin_view = -1;
         double Fmax_view = 1;
 
-        const int PointOnPeriod = 2000;
+        const int PointOnPeriod = 1000;
 
         const SeriesChartType oscType = SeriesChartType.Spline;
         const SeriesChartType ampSpecType = SeriesChartType.Point;
