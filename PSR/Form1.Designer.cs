@@ -372,7 +372,6 @@
         private System.Windows.Forms.ToolStripMenuItem фазовыеСпектрыToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage5;
         private Mod_SM mod_SM1;
-        private Mod_FM mod_FM1;
         private Mod_FM mod_FM2;
         private Mod_PM mod_PM1;
     }

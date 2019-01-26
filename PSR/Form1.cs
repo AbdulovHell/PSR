@@ -137,7 +137,10 @@ namespace MainModule
                     mod_SM1.BuildAll(0);
                     break;
                 case 3:
-                    mod_FM1.BuildAll(0);
+                    mod_FM2.BuildAll(0);
+                    break;
+                case 4:
+                    mod_PM1.BuildAll(0);
                     break;
             }
         }
@@ -156,7 +159,10 @@ namespace MainModule
                     mod_SM1.BuildAll(1);
                     break;
                 case 3:
-                    mod_FM1.BuildAll(1);
+                    mod_FM2.BuildAll(1);
+                    break;
+                case 4:
+                    mod_PM1.BuildAll(1);
                     break;
             }
         }
@@ -175,7 +181,10 @@ namespace MainModule
                     mod_SM1.BuildAll(2);
                     break;
                 case 3:
-                    mod_FM1.BuildAll(2);
+                    mod_FM2.BuildAll(2);
+                    break;
+                case 4:
+                    mod_PM1.BuildAll(2);
                     break;
             }
         }
