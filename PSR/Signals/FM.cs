@@ -103,17 +103,17 @@ namespace MainModule.Signals
             List<double> x = new List<double>();
             List<double> y = new List<double>();
 
-            double Fd = 2 * Math.PI * harmonics.MaximumNonZeroFreq();
-            double CurrentPoint = LeftBorder;
-            while (CurrentPoint <= RightBorder)
+            //double Fd = 2 * Math.PI * harmonics.MaximumNonZeroFreq();
+            double t = LeftBorder;
+            while (t <= RightBorder)
             {
-                x.Add(CurrentPoint);
-                double om = Carrier.Freq + K * CalcPoint(CurrentPoint);
-                double Y = Carrier.Amp * Math.Cos(om + Carrier.StaPhase);
+                x.Add(t);
+                double om = Carrier.Freq + K * CalcPoint(t);
+                double u = Carrier.Amp * Math.Cos(om + Carrier.StaPhase);
                 //=Carrier.Amp * Math.Cos(Carrier.Freq * CurrentPoint + Carrier.StaPhase);
                 //y.Add(Kp * U0 + ((K * CalcPoint(CurrentPoint)) / V0) * U0);
-                y.Add(Y);
-                CurrentPoint += Step;
+                y.Add(u);
+                t += Step;
             }
 
             return new CoordPair(x, y);
