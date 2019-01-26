@@ -33,7 +33,6 @@ namespace MainModule.Signals
             Carrier = carrier;
             this.K = K;
             GFreq = harmonics.MinimalNonZeroFreq();
-            //GFreq = carrier.Freq;
             double PeriodToTime = (1 * 2 * Math.PI) / GFreq;
             Step = PeriodToTime / PointOnPeriod;
             LeftBorder = PeriodToTime / -2;
@@ -45,24 +44,11 @@ namespace MainModule.Signals
             List<double> x = new List<double>();
             List<double> y = new List<double>();
 
-            //x.Add(Carrier.Freq);
-            //y.Add(Carrier.Amp * Kp);
-
-            //for (int i = 0; i < harmonics.Count; i++)
-            //{
-            //    x.Add(Carrier.Freq + harmonics[i].Freq);
-            //    y.Add((K * harmonics[i].Amp) / 2);
-            //    x.Add(Carrier.Freq - harmonics[i].Freq);
-            //    y.Add((K * harmonics[i].Amp) / 2);
-            //}
-
             double[] S = new double[2048];
             double[] indexes = new double[harmonics.Count];
             double[] Fs = new double[harmonics.Count];
             for (int i = 0; i < harmonics.Count; i++)
             {
-                //double d = Math.Abs(Carrier.Freq - harmonics[i].Freq);
-                //indexes[i] = d / harmonics[i].Freq;
                 indexes[i] = i + 1;
                 Fs[i] = harmonics[i].Freq;
             }
@@ -103,15 +89,12 @@ namespace MainModule.Signals
             List<double> x = new List<double>();
             List<double> y = new List<double>();
 
-            //double Fd = 2 * Math.PI * harmonics.MaximumNonZeroFreq();
             double t = LeftBorder;
             while (t <= RightBorder)
             {
                 x.Add(t);
                 double om = Carrier.Freq + K * CalcPoint(t);
                 double u = Carrier.Amp * Math.Cos(om + Carrier.StaPhase);
-                //=Carrier.Amp * Math.Cos(Carrier.Freq * CurrentPoint + Carrier.StaPhase);
-                //y.Add(Kp * U0 + ((K * CalcPoint(CurrentPoint)) / V0) * U0);
                 y.Add(u);
                 t += Step;
             }
