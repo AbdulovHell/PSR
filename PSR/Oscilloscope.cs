@@ -38,11 +38,11 @@ namespace MainModule
                 Charts[i].ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
                 Charts[i].ChartAreas[0].AxisY.IntervalAutoMode = IntervalAutoMode.VariableCount;
 
-                Charts[i].ChartAreas[0].CursorX.Interval = 0.00001;
+                Charts[i].ChartAreas[0].CursorX.Interval = 0.001;
                 if (Form1.EnCursors) Charts[i].ChartAreas[0].CursorX.IsUserEnabled = true;
                 Charts[i].ChartAreas[0].CursorX.AutoScroll = true;
 
-                Charts[i].ChartAreas[0].CursorY.Interval = 0.00001;
+                Charts[i].ChartAreas[0].CursorY.Interval = 0.001;
                 if (Form1.EnCursors) Charts[i].ChartAreas[0].CursorY.IsUserEnabled = true;
                 Charts[i].ChartAreas[0].CursorY.AutoScroll = true;
 
@@ -321,6 +321,7 @@ namespace MainModule
 
                 //Сокращение
                 {
+                    //ищем первую попавшуюся точку, не равную 0
                     int index = 0;
                     for (int i = 0; i < Points.X.Count; i++)
                     {
@@ -341,6 +342,7 @@ namespace MainModule
                     }
                 }
 
+                //Charts[1].ChartAreas[0].AxisX.Interval = 5;
                 Charts[1].ChartAreas[0].AxisX.Title = (Form1.unitsType == Form1.UnitsType.Radian ? "ω, " : "f, ") + Units[1];
 
                 for (int i = 0; i < Points.X.Count; i++)
@@ -353,8 +355,8 @@ namespace MainModule
                 Charts[1].Series[Charts[1].Series.Count - 1].MarkerStyle = MarkerStyle.None;
 
                 var borders = signal.SpecBorders();
-                Charts[1].ChartAreas[0].AxisX.Minimum = (Form1.unitsType == Form1.UnitsType.Radian ? borders.First : borders.First / (2.0 * Math.PI));
-                Charts[1].ChartAreas[0].AxisX.Maximum = (Form1.unitsType == Form1.UnitsType.Radian ? borders.Second : borders.Second / (2.0 * Math.PI));
+                Charts[1].ChartAreas[0].AxisX.Minimum = Math.Round(Form1.unitsType == Form1.UnitsType.Radian ? borders.First : borders.First / (2.0 * Math.PI));
+                Charts[1].ChartAreas[0].AxisX.Maximum = Math.Round(Form1.unitsType == Form1.UnitsType.Radian ? borders.Second : borders.Second / (2.0 * Math.PI));
             }
             else
             {

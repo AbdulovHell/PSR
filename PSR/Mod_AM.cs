@@ -26,7 +26,12 @@ namespace MainModule
 
         void DrawG1Osc(int OscPage = 0)
         {
-            if (!G1Set) return;
+            if (!G1Set)
+            {
+                var p = Parent.Parent.Parent as Form1;
+                p.SetLastError("Настройки ГВЧ не заданы");
+                return;
+            }
             var signal = new SingleToneSignal(Source);
             OG1 = new Oscilloscope("ГВЧ", signal, OscPage);
             OG1.DrawOsc();
@@ -42,7 +47,12 @@ namespace MainModule
 
         void DrawG2Osc(int OscPage = 0)
         {
-            if (!G2Set) return;
+            if (!G2Set)
+            {
+                var p = Parent.Parent.Parent as Form1;
+                p.SetLastError("Настройки ГНЧ не заданы");
+                return;
+            }
             var signal = new MultiToneSignal(harmonics, ProceedInput(KEdit.Text));
             OG2 = new Oscilloscope("ГНЧ", signal, OscPage);
             OG2.DrawOsc();
@@ -110,7 +120,13 @@ namespace MainModule
 
         void DrawEndOsc(int OscPage = 0)
         {
-            if (!G2Set || !G1Set) return;
+            if (!G2Set || !G1Set)
+            {
+                var p = Parent.Parent.Parent as Form1;
+                if (!G1Set) p.SetLastError("Настройки ГВЧ не заданы");
+                if (!G2Set) p.SetLastError("Настройки ГНЧ не заданы");
+                return;
+            }
             var signal = new AM(harmonics, Source, ProceedInput(KEdit.Text));
             OEnd = new Oscilloscope("АМ", signal, OscPage);
             OEnd.DrawOsc(Oscilloscope.FuncType.Modulated);

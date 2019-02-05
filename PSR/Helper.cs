@@ -60,6 +60,12 @@ namespace MainModule
             else return 1;
         }
 
+        /// <summary>
+        /// Сокращает число, возвращая его в виде Number*10^Order .
+        /// Order кратно трем.
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         static public ReducedNumber<double, int> Reduce(this double number)
         {
             int Reduces = 0;
@@ -93,6 +99,12 @@ namespace MainModule
             return number * Math.Pow(1000, Order);
         }
 
+        /// <summary>
+        /// Обрезает число до требуемого количества знаков после запятой
+        /// </summary>
+        /// <param name="num"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
         static public double Trim(this double num, int order = 5)
         {
             return ((int)(num * Math.Pow(10, order))) / Math.Pow(10, order);

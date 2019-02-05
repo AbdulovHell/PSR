@@ -26,7 +26,7 @@ namespace MainModule
         {
             if (!G1Set)
             {
-                var p = Parent as Form1;
+                var p = Parent.Parent.Parent as Form1;
                 p.SetLastError("Настройки ГВЧ не заданы");
                 return;
             }
@@ -47,7 +47,7 @@ namespace MainModule
         {
             if (!G2Set)
             {
-                var p = Parent as Form1;
+                var p = Parent.Parent.Parent as Form1;
                 p.SetLastError("Настройки ГНЧ не заданы");
                 return;
             }
@@ -94,7 +94,7 @@ namespace MainModule
         {
             if (!G2Set || !G1Set)
             {
-                var p = Parent as Form1;
+                var p = Parent.Parent.Parent as Form1;
                 if (!G1Set) p.SetLastError("Настройки ГВЧ не заданы");
                 if (!G2Set) p.SetLastError("Настройки ГНЧ не заданы");
                 return;
